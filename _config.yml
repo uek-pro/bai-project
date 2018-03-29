@@ -1,1 +1,6 @@
 theme: jekyll-theme-midnight
+title: Projekt
+description: Opis aplikacji
+
+footer-links:
+  github: uek-pro/bai-project
