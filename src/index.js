@@ -1,8 +1,9 @@
 import style from "./main.scss";
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+import authentication from './components/authentication/authentication'
+
+// loads the Icon plugin
+UIkit.use(Icons);
 
 
-console.log(`I'm so bored...`)
-
-const arr = [1, 2, 3];
-const iAmJavascriptES6 = () => console.log(...arr);
-window.iAmJavascriptES6 = iAmJavascriptES6;
