@@ -4,26 +4,35 @@ import firebase from 'firebase';
 // Initialize Firebase
 firebase.initializeApp(firebase_config);
 
-const provider = new firebase.auth.GoogleAuthProvider();
+const chooseSocialMediaProvider = (media) => {
 
-const logIn = () => {
+    switch (media) {
+        case 'google': return new firebase.auth.GoogleAuthProvider();
+        case 'github': return new firebase.auth.GithubAuthProvider();
+        case 'twitter':
+        case 'facebook':
+        default:
+            break;
+        return null;
+    }
+};
+
+const logIn = (media) => {
+    const provider = chooseSocialMediaProvider(media);
+    if (provider === null) return false;
+    
     firebase.auth().signInWithPopup(provider).then(function (result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
-        // The signed-in user info.
         var user = result.user;
-        // ...
+        // console.log('user: ', user);
+        console.log('token: ', token);
     }).catch(function (error) {
-        // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        // The email of the user's account used.
         var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        // ...
     });
-}
+};
 
 const logOut = () => {
     firebase.auth().signOut().then(function () {
@@ -31,13 +40,13 @@ const logOut = () => {
     }).catch(function (error) {
         // An error happened.
     });
-}
+};
 
 const checkAuth = () => {
     var user = firebase.auth().currentUser;
     return user ? true : false;
     // return user || false;
-}
+};
 
 const notifyAuthStateChanged = (callback) => firebase.auth().onAuthStateChanged(callback);
 // firebase.auth().onAuthStateChanged(function (user) {
