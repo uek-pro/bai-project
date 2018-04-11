@@ -12,7 +12,6 @@ const logIn = () => {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        console.log(user);
         // ...
     }).catch(function (error) {
         // Handle Errors here.
@@ -22,7 +21,6 @@ const logIn = () => {
         var email = error.email;
         // The firebase.auth.AuthCredential type that was used.
         var credential = error.credential;
-        console.log(error);
         // ...
     });
 }
@@ -37,16 +35,17 @@ const logOut = () => {
 
 const checkAuth = () => {
     var user = firebase.auth().currentUser;
-    console.log(user);
-    return (user ? true : false);
+    return user ? true : false;
+    // return user || false;
 }
 
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        console.log('Google - Zalogowany');
-    } else {
-        console.log('Google - Nie zalogowany');
-    }
-});
+const notifyAuthStateChanged = (callback) => firebase.auth().onAuthStateChanged(callback);
+// firebase.auth().onAuthStateChanged(function (user) {
+//     if (user) {
+//         console.log('Google - Zalogowany');
+//     } else {
+//         console.log('Google - Nie zalogowany');
+//     }
+// });
 
-export { logIn, logOut, checkAuth };
+export { logIn, logOut, checkAuth, notifyAuthStateChanged };
