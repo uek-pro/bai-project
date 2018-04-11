@@ -9,12 +9,11 @@ const chooseSocialMediaProvider = (media) => {
     switch (media) {
         case 'google': return new firebase.auth.GoogleAuthProvider();
         case 'github': return new firebase.auth.GithubAuthProvider();
-        case 'twitter':
-        case 'facebook':
+        case 'facebook': return new firebase.auth.FacebookAuthProvider();
         default:
             break;
-        return null;
     }
+    return null;
 };
 
 const logIn = (media) => {

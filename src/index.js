@@ -1,7 +1,6 @@
 import style from "./main.scss";
 import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
-import authentication from './components/authentication/authentication'
 
 import { logIn, logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/social_media/common_auth';
 
@@ -11,6 +10,8 @@ UIkit.use(Icons);
 
 document.querySelector('#googleLogIn').addEventListener('click', () => logIn('google'));
 document.querySelector('#githubLogIn').addEventListener('click', () => logIn('github'));
+document.querySelector('#facebookLogIn').addEventListener('click', () => logIn('facebook'));
+
 document.querySelector('#logOut').addEventListener('click', logOut);
 document.querySelector('#checkAuth').addEventListener('click', () => {
     UIkit.notification(checkAuth() ? 'Logged in' : 'Signed off');
