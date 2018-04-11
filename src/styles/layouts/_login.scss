@@ -1,0 +1,30 @@
+.uk-close:focus {
+  transition: .5s ease all;
+  border-color: #99baca;
+  outline: 0;
+  background: #f5fbfe;
+  color: #666;
+}
+
+.container-login {
+  width: 100%;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #f2f2f2;
+}
+
+.wrap-login {
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 77px 55px 33px 55px;
+}
