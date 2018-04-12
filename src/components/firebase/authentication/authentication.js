@@ -18,9 +18,11 @@ import firebase_config from '../firebase_config'
           let email_id = user.email;
           let email_verified = user.emailVerified;
 
-          // if(email_verified){
-          //     document.querySelector('verification_field').style.display = 'none'
-          // }      nie wiem czemu to nie dziala, ze jak zweryfikujesz profil to ukrywa ci buton do wyslania werfikacyjnego maila
+           if (email_verified){
+               let verification_button = document.getElementById('verification_field');
+               verification_button.style.display = 'none'
+
+           }      
 
           document.getElementById('user_para').innerHTML = `Welcome ${email_id} <br> Verified? ${email_verified}`
       }
