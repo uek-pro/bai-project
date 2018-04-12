@@ -9,6 +9,7 @@
     <title>Practice Control</title>
 </head>
 <body>
+    <!-- login form -->
     <div class="container-login">
     <div class="wrap-login">
     <form id="login_form">
@@ -34,7 +35,7 @@
             <span class="txt1">
                 Don’t have an account?
             </span>
-            <a class="txt2" id="signUp" href="#" >
+            <a class="txt2" href="#register_form" >
                 Sign Up
             </a>
         </div>
@@ -43,11 +44,39 @@
         <h3>Welcome User</h3>
         <p id="user_para"> Welcome to firebase web login exampe. u are logged in!</p>
         <button id='logout_field' class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Wyloguj</button>
+        <button id='verification_field' class="uk-button uk-margin uk-button-primary uk-width-1-1" type="button" data-uk-button>Send verification mail</button>
     </div>
 </div>
-
-
 </div>
+    <!-- //register form -->
+    <div class="container-login">
+            <div class="wrap-login">
+    <form id="register_form">
+            <div class="uk-margin">
+                <div class="uk-inline">
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <input id='email_register_field' class="uk-input uk-close" type="text" placeholder="New E-mail">
+                </div>
+            </div>
+    
+        
+            <div class="uk-margin">
+                <div class="uk-inline">
+                    <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                    <input id="register_password_field"  class="uk-input uk-close " type="password" placeholder="New Password">
+                </div>
+            </div>
+            
+            
+            <div class="uk-margin">
+                <button id="signUp" class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Create new account</button>
+            </div>
+        </form>
+</div>
+</div>
+
+
+
 
 
 <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>

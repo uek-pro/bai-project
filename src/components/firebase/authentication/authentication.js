@@ -8,6 +8,7 @@ import firebase_config from '../firebase_config'
     if (user) {
       document.getElementById("user_div").style.display = 'block';
       document.getElementById("login_form").style.display = 'none';
+      document.getElementById("register_form").style.display = 'none';
 
 
       //dodanie informacji o zalogowanym uzytkowniku taki check przyda sie mysle
@@ -16,6 +17,11 @@ import firebase_config from '../firebase_config'
       if(user !=null){
           let email_id = user.email;
           let email_verified = user.emailVerified;
+
+          // if(email_verified){
+          //     document.querySelector('verification_field').style.display = 'none'
+          // }      nie wiem czemu to nie dziala, ze jak zweryfikujesz profil to ukrywa ci buton do wyslania werfikacyjnego maila
+
           document.getElementById('user_para').innerHTML = `Welcome ${email_id} <br> Verified? ${email_verified}`
       }
     } else {
@@ -43,20 +49,36 @@ import firebase_config from '../firebase_config'
 
 
   //create new account via email password
-const create_account = () =>{
-  //dodam tu modal i pobiore pola z modala w formularzu
-  let userEmail = document.getElementById('email_field').value;
-  let userPass = document.getElementById('password_field').value
+const create_account = () => {
 
-  firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function(error) {
+  let userEmail = document.getElementById('email_register_field').value;
+  let userPass = document.getElementById('register_password_field').value
+
+  firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function(error) {
     // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
+    let errorCode = error.code;
+    let errorMessage = error.message;
     window.alert("Error: " + errorMessage)
   });
 
 }
 
-  export { login, logout, create_account } ;
+//wysylanie maila potwierdzajacego
+const send_verification = () => {
+  console.log("wyslano")
+  let user = firebase.auth().currentUser;
+
+    user.sendEmailVerification().then(function() {
+
+      window.alert("Verification sent")
+    }).catch(function(error) {
+     let emailError = error.message;
+    console.log("Error" + emailError)
+    });
+}
+
+
+
+  export { login, logout, create_account, send_verification } ;
 
 
