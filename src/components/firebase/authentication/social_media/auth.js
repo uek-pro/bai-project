@@ -1,8 +1,4 @@
-import firebase_config from '../../firebase_config';
 import firebase from 'firebase';
-
-// Initialize Firebase
-firebase.initializeApp(firebase_config);
 
 const chooseSocialMediaProvider = (media) => {
 
@@ -33,27 +29,4 @@ const logIn = (media) => {
     });
 };
 
-const logOut = () => {
-    firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-    }).catch(function (error) {
-        // An error happened.
-    });
-};
-
-const checkAuth = () => {
-    var user = firebase.auth().currentUser;
-    return user ? true : false;
-    // return user || false;
-};
-
-const notifyAuthStateChanged = (callback) => firebase.auth().onAuthStateChanged(callback);
-// firebase.auth().onAuthStateChanged(function (user) {
-//     if (user) {
-//         console.log('Google - Zalogowany');
-//     } else {
-//         console.log('Google - Nie zalogowany');
-//     }
-// });
-
-export { logIn, logOut, checkAuth, notifyAuthStateChanged };
+export default logIn;
