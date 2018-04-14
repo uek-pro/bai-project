@@ -11,14 +11,14 @@ import { logOut, checkAuth, notifyAuthStateChanged} from './components/firebase/
 firebase.initializeApp(firebaseConfig);
 
 
-document.querySelector('#googleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
-document.querySelector('#githubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
-document.querySelector('#facebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
+// document.querySelector('#googleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
+// document.querySelector('#githubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
+// document.querySelector('#facebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
-document.querySelector('#logOut').addEventListener('click', logOut);
-document.querySelector('#checkAuth').addEventListener('click', () => {
-    console.log(checkAuth() ? 'Logged in' : 'Signed off');
-});
+// document.querySelector('#logOut').addEventListener('click', logOut);
+// document.querySelector('#checkAuth').addEventListener('click', () => {
+//     console.log(checkAuth() ? 'Logged in' : 'Signed off');
+// });
 
 /*
     TODO: implement

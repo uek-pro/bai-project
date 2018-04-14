@@ -6,21 +6,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+	<link rel="stylesheet" href="src/styles/jquery.mobile-1.4.5.min.css">
+	<script src="src/lib/jquery-2.1.4.min.js"></script>
+	<script src="src/lib/jquery.mobile-1.4.5.min.js"></script>
+
     <title>Practice Control</title>
 </head>
 
 <body>
 
-    <p>Log in via social media.</p>
+    <div id="logonPage" data-role="page">
+		<div data-role="content">
+			<h1>Logowanie (Strona główna)</h1>
+			<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">"Zarejestruj się"</a>
+			<a href="#mainPage" data-role="button" data-icon="forward" data-inline="true">"Zaloguj się"</a>
+			<p>TODO: logon form</p>
+		</div>
+	</div>
 
-    <button id="googleLogIn">Zaloguj poprzez Google</button>
-    <button id="facebookLogIn">Zaloguj poprzez Facebook</button>
-    <button id="githubLogIn">Zaloguj poprzez GitHub</button>
+	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
+		<div data-role="header">
+			<h1>Rejestracja</h1>
+		</div>
+		<div data-role="content">
+			<p>TODO: register form</p>
+		</div>
+	</div>
 
-    <p>Functions test</p>
+	<div id="mainPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Lista zwyczajów</h1>
+			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
+			<a href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+		</div>
 
-    <button id="logOut">Wyloguj się z aplikacji</button>
-    <button id="checkAuth">Sprawdź czy użytkownik jest zalogowany</button>
+		<div data-role="content">
+
+			<p>TODO: implement habits listview</p>
+
+			<!-- TODO: implements subpages: list, summary, settings -->
+			<div id="listTab">
+				<p>Lista</p>
+			</div>
+
+			<div id="summaryTab">
+				<p>Podsumowanie</p>
+			</div>
+
+			<div id="settingsTab">
+				<p>Ustawienia</p>
+			</div>
+
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#" data-icon="bullets">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#" data-icon="gear">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="suggestPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Sugerowane zadania</h1>
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+			<a href="#" data-icon="refresh" data-iconpos="notext">Odśwież</a>
+		</div>
+
+		<div data-role="content">
+
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<p>TODO: implement habits types</p>
+				</div>
+				<div class="ui-block-b">
+					<p>TODO: implement habits categories</p>
+				</div>
+			</fieldset>
+			<p>TODO: implement suggest habits listview</p>
+		</div>
+	</div>
+
+	<div id="manageHabitPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Dodaj zwyczaj</h1>
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+		</div>
+
+		<div data-role="content">
+			<p>TODO: implement habit add / edit form</p>
+		</div>
+	</div>
+
+	<div id="habitRealizationPage" data-role="page">
+		<div data-role="content">
+			<p>TODO: implement habit realization form</p>
+		</div>
+	</div>
 
 </body>
 
