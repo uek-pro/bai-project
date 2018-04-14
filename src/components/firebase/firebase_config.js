@@ -1,9 +1,8 @@
-// Initialize Firebase
 export default {
-    apiKey: "AIzaSyAfkPmfrZkSVTCdoZ-iDViyk1jf1x1tEAI",
-    authDomain: "habittracker-8387b.firebaseapp.com",
-    databaseURL: "https://habittracker-8387b.firebaseio.com",
-    projectId: "habittracker-8387b",
-    storageBucket: "habittracker-8387b.appspot.com",
-    messagingSenderId: "1038038755358"
+    apiKey: "AIzaSyDegpZHnxLGjBt21vzo2Gvfl_e9I670tv4",
+    authDomain: "habitlogger-b5990.firebaseapp.com",
+    databaseURL: "https://habitlogger-b5990.firebaseio.com",
+    projectId: "habitlogger-b5990",
+    storageBucket: "",
+    messagingSenderId: "276150810360"
 };
