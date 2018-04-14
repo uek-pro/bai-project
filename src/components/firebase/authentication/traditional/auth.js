@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 
 const logIn = (userEmail, userPass) => {
-   
+
     
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         
