@@ -5,87 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.min.css">
 
     <title>Practice Control</title>
 </head>
 
 <body>
-    <div class="uk-container-fluid">
-        <div class="uk-card uk-card-body">
-            <h3 class="uk-card-title">Log in via social media.</h3>
 
-            <a id="googleLogIn" class="uk-icon-button" uk-icon="google" uk-tooltip="Zaloguj poprzez Google"></a>
-            <a id="facebookLogIn" class="uk-icon-button" uk-icon="facebook" uk-tooltip="Zaloguj poprzez Facebook"></a>
-            <a id="githubLogIn" class="uk-icon-button" uk-icon="github" uk-tooltip="Zaloguj poprzez GitHub"></a>
-            
-            <p>Functions test</p>
+    <p>Log in via social media.</p>
 
-            <a id="logOut" class="uk-icon-button" uk-icon="sign-out" uk-tooltip="Wyloguj się z aplikacji"></a>
-            <a id="checkAuth" class="uk-icon-button" uk-icon="info" uk-tooltip="Sprawdź czy użytkownik jest zalogowany"></a>
-        </div>
-    </div>
-    
-    <!-- login form -->
-    <div class="container-login">
-        <div class="wrap-login">
-            <form id="login_form">
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input id='email_field' class="uk-input uk-close" type="text" placeholder="E-mail">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                        <input id='password_field' class="uk-input uk-close" type="password" placeholder="Password">
-                    </div>
-                </div>
+    <button id="googleLogIn">Zaloguj poprzez Google</button>
+    <button id="facebookLogIn">Zaloguj poprzez Facebook</button>
+    <button id="githubLogIn">Zaloguj poprzez GitHub</button>
 
-                <div class="uk-margin">
-                    <button id='login_field' class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Login</button>
-                </div>
-                <div class="text-center">
-                    <span class="txt1">
-                        Don’t have an account?
-                    </span>
-                    <a class="txt2" href="#register_form">
-                        Sign Up
-                    </a>
-                </div>
-            </form>
-            <div id="user_div" class="loggedin-div">
-                <h3>Welcome User</h3>
-                <p id="user_para"> Welcome to firebase web login exampe. u are logged in!</p>
-                <button id='logout_field' class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Wyloguj</button>
-                <button id='verification_field' class="uk-button uk-margin uk-button-primary uk-width-1-1" type="button" data-uk-button>Send verification mail</button>
-            </div>
-        </div>
-    </div>
+    <p>Functions test</p>
 
-    <!-- //register form -->
-    <div class="container-login">
-        <div class="wrap-login">
-            <form id="register_form">
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input id='email_register_field' class="uk-input uk-close" type="text" placeholder="New E-mail">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                        <input id="register_password_field" class="uk-input uk-close " type="password" placeholder="New Password">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <button id="signUp" class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Create new account</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <button id="logOut">Wyloguj się z aplikacji</button>
+    <button id="checkAuth">Sprawdź czy użytkownik jest zalogowany</button>
+
 </body>
 
 </html>
