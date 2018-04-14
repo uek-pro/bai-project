@@ -15,6 +15,8 @@
 
 <body>
 
+	<!-- LOGOWANIE (STRONA GŁÓWNA) -->
+
 	<div id="logonPage" data-role="page">
 		<div data-role="content">
 			<h1>Practice Control</h1>
@@ -33,6 +35,8 @@
 			</form>
 		</div>
 	</div>
+
+	<!-- REJESTRACJA [OKNO MODALNE] -->
 
 	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
 		<div data-role="header">
@@ -53,7 +57,9 @@
 		</div>
 	</div>
 
-	<div id="mainPage" data-role="page">
+	<!-- STRONA Z LISTĄ ZADAŃ [PODSTRONA] -->
+
+	<div id="habitsListPage" data-role="page">
 		<div data-role="header" data-position="inline">
 			<h1>Lista zwyczajów</h1>
 			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
@@ -64,38 +70,98 @@
 
 			<p>TODO: implement habits listview</p>
 
-			<!-- TODO: implements subpages: list, summary, settings -->
-			<div id="listTab">
-				<p>Lista</p>
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets" class="ui-btn-active">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear">Ustawienia</a>
+					</li>
+				</ul>
 			</div>
+		</div>
+	</div>
 
-			<div id="summaryTab">
-				<p>Podsumowanie</p>
-			</div>
+	<!-- STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA] -->
 
-			<div id="settingsTab">
-				<p>Ustawienia</p>
-			</div>
+	<div id="summaryPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Podsumowanie</h1>
+		</div>
 
-			<a id="btnLogOut" href="#logonPage" data-role="button" data-icon="power" data-inline="true">Wyloguj (tymczasowo)</a>
+		<div data-role="content">
+
+			<p>TODO: Podsumowanie</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
 			<div data-role="navbar">
 				<ul>
 					<li>
-						<a href="#" data-icon="bullets">Zwyczaje</a>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets">Zwyczaje</a>
 					</li>
 					<li>
-						<a href="#" data-icon="calendar">Podsumowanie</a>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar" class="ui-btn-active">Podsumowanie</a>
 					</li>
 					<li>
-						<a href="#" data-icon="gear">Ustawienia</a>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear">Ustawienia</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</div>
+
+	<!-- STRONA USTAWIEŃ [PODSTRONA] -->
+
+	<div id="settingsPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Ustawienia</h1>
+			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
+		</div>
+
+		<div data-role="content">
+
+			<p>TODO: Ustawienia</p>
+
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear" class="ui-btn-active">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// SKRYPT OBSŁUGI PODSRON
+		$("a[data-podstrona=true]").each(function () {
+			const anchor = $(this);
+			anchor.bind("click", function () {
+				$.mobile.changePage(anchor.attr("href"), {
+					transition: "none",
+					changeHash: false
+				});
+				return false;
+			});
+		});
+	</script>
+
+	<!-- STRONA Z SUGEROWANYMI ZADANIAMI -->
 
 	<div id="suggestPage" data-role="page">
 		<div data-role="header" data-position="inline">
@@ -118,6 +184,8 @@
 		</div>
 	</div>
 
+	<!-- STRONA DODAWANIA / EDYTOWANIA ZADANIA -->
+
 	<div id="manageHabitPage" data-role="page">
 		<div data-role="header" data-position="inline">
 			<h1>Dodaj zwyczaj</h1>
@@ -128,6 +196,10 @@
 			<p>TODO: implement habit add / edit form</p>
 		</div>
 	</div>
+
+	<!-- TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+
+	<!-- STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
 
 	<div id="habitRealizationPage" data-role="page">
 		<div data-role="content">

@@ -11,10 +11,6 @@ import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase
 firebase.initializeApp(firebaseConfig);
 
 
-document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
-document.querySelector('#btnGitHubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
-document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
-
 let userEmail = document.getElementById('email-login-1');
 let userPass = document.getElementById('password-login-1');
 
@@ -25,13 +21,16 @@ document.querySelector('#login_field').addEventListener('click', () => logIn(use
 document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
 
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
-
+document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
+document.querySelector('#btnGitHubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
+document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
 notifyAuthStateChanged(function (user) {
     if (user) {
-        window.location.hash = 'mainPage';
+        window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
     } else {
+        window.location.hash = '';
         console.log('Signed off.');
     }
 });
