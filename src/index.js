@@ -27,9 +27,12 @@ firebase.initializeApp(firebaseConfig);
     sendVerification()
 */
 
-// document.querySelector('#login_field').addEventListener('click', logIn);
+
+
+
+ document.querySelector('#login_field').addEventListener('click', logIn);
 // document.querySelector('#logout_field').addEventListener('click', logOut);
-// document.querySelector('#signUp').addEventListener('click', createAccount);
+ document.querySelector('#createAccountBtn').addEventListener('click', createAccount);
 // document.querySelector('#verification_field').addEventListener('click', sendVerification);
 
 notifyAuthStateChanged(function (user) {

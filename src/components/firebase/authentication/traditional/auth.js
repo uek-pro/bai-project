@@ -1,9 +1,11 @@
 import firebase from 'firebase';
 
 const logIn = (userEmail, userPass) => {
-
+   
+    
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
-        // Handle Errors here.
+        let userEmail = document.getElementById('email-login-1').value;
+        let userPass = document.getElementById('password-login-1').value
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log("Error: " + errorMessage);
@@ -14,7 +16,8 @@ const logIn = (userEmail, userPass) => {
 const createAccount = (userEmail, userPass) => {
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
-        // Handle Errors here.
+        let userEmail = document.getElementById('email-register').value;
+        let userPass = document.getElementById('password-register1').value
         let errorCode = error.code;
         let errorMessage = error.message;
         console.log("Error: " + errorMessage);
