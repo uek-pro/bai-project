@@ -18,8 +18,9 @@ const createAccount = (userEmail, userPass) => {
         let errorCode = error.code;
         let errorMessage = error.message;
         console.log("Error: " + errorMessage);
+        return false;
     });
-
+    // sendVerification(); NOTE: zakomentowane, żeby nie spamować ;)
 }
 
 // wysylanie maila potwierdzajacego
@@ -35,4 +36,4 @@ const sendVerification = () => {
     });
 }
 
-export { logIn, createAccount, sendVerification };
+export { logIn, createAccount };
