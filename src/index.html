@@ -13,6 +13,29 @@
 	<title>Practice Control</title>
 </head>
 
+<style>
+	body {
+		text-align: center;
+
+	}
+
+	ul {
+		display: block;
+	}
+
+	.controls {
+
+		float: right;
+
+	}
+
+	#stats p {
+
+		color: red;
+		padding: 10px;
+	}
+</style>
+
 <body>
 
 	<!-- LOGOWANIE (STRONA GŁÓWNA) -->
@@ -68,9 +91,57 @@
 		</div>
 
 		<div data-role="content">
+			<h3>Witaj w practise control!</h3>
+			<p>Z tą aplikacją możesz osiągnać wiele!</p>
+			<h3>Twoja lista nawyków</h3>
+			<ul id="stats" data-role="listview" data-filter="true" data-filter-placeholder="Filter your habits list" data-inset="true">
+				<!-- Tutaj wpadaja habitsy -->
+			</ul>
+			<br>
+			<button id="clearHabits" onclick="return confirm('Are you sure?')" data-theme="b">Clear your list</button>
+		</div>
 
-			<p>TODO: implement habits listview</p>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets" class="ui-btn-active">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
+	<!-- Strona do edycji habita -->
+	<div id="edit" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Lista zwyczajów</h1>
+			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
+			<a href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+		</div>
+		<div data-role="content">
+			<h3>Edit your habit</h3>
+			<form id="editForm" action="index_submit" method="get" accept-charset="utf-8">
+				<label for="editTitle"></label>
+				<input type="text" id="editTitle" />
+
+				<label for="editDate"></label>
+				<input type="text" data-role="date" class="date" id="editDate" data-inline="true" />
+
+				<label for="editDescription"></label>
+				<input type="text" data-role="date" class="date" id="editDescription" data-inline="true" />
+
+				<label for="editCategory"></label>
+				<input type="text" data-role="date" class="date" id="editCategory" data-inline="true" />
+
+				<button id="submitEdit" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
+			</form>
 		</div>
 		<div data-role="footer" data-position="fixed">
 			<div data-role="navbar">
@@ -88,6 +159,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<!-- STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA] -->
 
@@ -185,7 +257,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA DODAWANIA / EDYTOWANIA ZADANIA -->
+	<!-- STRONA DODAWANIA ZADANIA -->
 
 	<div id="manageHabitPage" data-role="page">
 		<div data-role="header" data-position="inline">
@@ -194,29 +266,30 @@
 		</div>
 
 		<div data-role="content">
-			<form class="form-container">
-				<label for="habit-task-name">Nazwa zwyczaju</label>
-				<input type="text" data-clear-btn="false" name="email-1" id="habit-name" value="">
-				<label for="habit-task-name">Treść</label>
-				<input type="text" data-clear-btn="false" name="email-1" id="habit-description" value="">
-				<div class="ui-field-contain">
-<!-- nie dziala filtrowanie tekstu lol -->
-					<select id="filtertext" data-native-menu="false" class="filterable-select">
+			<form id="addForm" action="index_submit" method="get" accept-charset="utf-8">
+				<label for="addTitle">Tytuł</label>
+				<input type="text" id="addTitle" />
 
-						<option>Wybierz kategorie</option>
+				<label for="addDescription">Treść</label>
+				<input type="text" id="addDescription" />
 
-						<option value="orange" data-filtertext="Florida">Nauka</option>
-
-						<option value="apple">Alkohool</option>
-
-						<option value="peach">Peach</option>
-
-						<option value="lemon">Lemon</option>
+				<label for="filter-menu">Wybierz kategorie...</label>
+		
+				<select id="filter-menu" data-native-menu="true" class="filterable-select">
+				
+					<option value="SFO">San Francisco</option>
+				
+					<option value="LAX">Los Angeles</option>
+				
+					<option value="YVR">Vancouver</option>
+				
+					<option value="YYZ">Toronto</option>
 					</select>
-				</div>
-				<div class="form-buttons">
-					<a href="" id="habit-submit-btn" data-role="button" data-icon="check" data-inline="true">Zatwierdz</a>
-				</div>
+
+				<label for="addDate">Data</label>
+				<input type="text" data-role="date" class="date" id="addDate" data-inline="true" />
+
+				<button id="submitAdd" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
 			</form>
 		</div>
 	</div>
@@ -231,6 +304,242 @@
 		</div>
 	</div>
 
+	<script>
+
+	
+
+		$(document).one('pageinit', function () {
+			
+			showHabits();
+
+			//add handler
+			$('#submitAdd').on('tap', addHabit);
+
+			//edit handleer
+			$('#submitEdit').on('tap', editRun);
+
+			//delete run
+			$('#stats').on('tap', '#deleteLink', deleteRun);
+
+			//setcurrent
+			$('#stats').on('tap', '#editLink', function (event) {
+				//event.preventDefault();
+
+				/* Store data in localstorage */
+				localStorage.setItem('currentDate', $(this).data('date'));
+				localStorage.setItem('currentTitle', $(this).data('title'));
+				localStorage.setItem('currentDescription', $(this).data('description'));
+				localStorage.setItem('currentCategory', $(this).data('category'));
+
+				//set form value
+				$('#editDate').val(localStorage.getItem('currentDate'));
+				$('#editTitle').val(localStorage.getItem('currentTitle'));
+				$('#editDescription').val(localStorage.getItem('currentDescription'));
+				$('#editCategory').val(localStorage.getItem('currentCategory'));
+				
+
+			});
+
+			//setcurrent
+			$('#clearHabits').on('tap', function (event) {
+				//event.preventDefault();
+
+				localStorage.removeItem('habits');
+
+
+				$('#stats').html('<p>Nie masz nic na liście!</p>');
+
+				//redirect
+
+				return false;
+
+			});
+
+
+
+			/*
+			 * show habits
+			 */
+			function showHabits() {
+
+				var habits = getRunsObject();
+
+				if (habits != '' && habits != null) {
+
+					for (var i = 0; i < habits.length; i++) {
+						$('#stats').append('<li class="ui-body-inherit ui-li-static"><strong>Data: </strong>' + habits[i]["date"] +
+							'<br/><strong>Tytuł: </strong>' + habits[i]["title"] +
+							'<br/><strong>Opis: </strong>' + habits[i]["description"] +
+							'<br/><strong>Kategoria: </strong>' + habits[i]["filter-menu"] +
+							'<div class="controls">' +
+							'<a href="#edit" id="editLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + habits[i]["description"] + habits[i]["filter-menu"] +
+							'">Edit</a> | <a href="#" id="deleteLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + habits[i]["description"] + habits[i]["filter-menu"] +
+							'" onClick="return confirm(\' Are you sure?\')">Delete</a>' +
+							'</div></li>')
+					};
+
+				} else {
+					$('#stats').html('<p>Nie masz na liście nawyków!</p>');
+
+				}
+
+			}
+
+
+			/*
+			 * Add a habit
+			 */
+			function addHabit() {
+				//get the values
+				var title = $('#addTitle').val();
+				var date = $('#addDate').val();
+				var description = $('#addDescription').val();
+				var category = $('#filter-menu').val()
+
+
+				//create habit boject
+				var habit = {
+					description: description,
+					category: category,
+					date: date,
+					title: title
+				}
+
+				//get current habit
+				var habits = getRunsObject();
+
+				//add habit to habits array
+				habits.push(habit);
+				alert('Nawyk dodany');
+
+				//stringify
+				localStorage.setItem('habits', JSON.stringify(habit));
+
+				//redirect
+				window.location.hash = 'habitsListPage';
+
+				return false;
+
+			}
+
+			/*
+			 * edit a habit
+			 */
+			function editRun() {
+
+				//get current values
+				currentDate = localStorage.getItem('currentDate');
+				currentTitle = localStorage.getItem('currentTitle');
+				currentDescription = localStorage.getItem('currentDescription');
+				currentCategory = localStorage.getItem('currentCategory');
+
+				//get current habit
+				var habits = getRunsObject();
+
+				for (var i = 0; i < habits.length; i++) {
+					if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory ) {
+
+						habits.splice(i, 1);
+					}
+					localStorage.setItem('habits', JSON.stringify(habits));
+				};
+
+				//get the values
+				var title = $('#editTitle').val();
+				var date = $('#editDate').val();
+				var description = $('#editDescription').val();
+				var category = $('#editCategory').val()
+
+
+				//create habit boject
+				var habit_update = {
+					description: description,
+					category: category,
+					date: date,
+					title: title
+				}
+
+
+				//add habit to habits array
+				habits.push(habit_update);
+				alert('Habit updated');
+
+				//stringify
+				localStorage.setItem('habits', JSON.stringify(habits));
+
+				//redirect
+				window.location.hash = 'habitsListPage';
+
+				return false;
+
+			}
+
+			/*
+			 * delete a run
+			 */
+			function deleteRun() {
+
+				/* Store data in localstorage */
+				localStorage.setItem('currentDate', $(this).data('date'));
+				localStorage.setItem('currentTitle', $(this).data('title'));
+				localStorage.setItem('currentDescription', $(this).data('description'));
+				localStorage.setItem('currentCategory', $(this).data('category'));
+
+
+				//get current values
+				currentDate = localStorage.getItem('currentDate');
+				currentTitle = localStorage.getItem('currentTitle');
+				currentDescription = localStorage.getItem('currentDescription');
+				currentCategory = localStorage.getItem('currentCategory');
+
+				//get current run
+				var habits = getRunsObject();
+
+				for (var i = 0; i < habits.length; i++) {
+					if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle) {
+
+						habits.splice(i, 1);
+					}
+					localStorage.setItem('habits', JSON.stringify(habits));
+				};
+
+
+				alert('Habit deleted');
+
+
+				//redirect
+				window.location.hash = 'habitsListPage';
+
+				return false;
+
+			}
+
+			/*
+			 *
+			 */
+			function getRunsObject() {
+
+				//set habits array
+				var habits = new Array();
+				//get current array from localstorage
+				var currentHabits = localStorage.getItem('habit');
+
+				if (currentHabits != null) {
+
+					var habits = JSON.parse(currentHabits);
+
+				}
+
+				//return habits object
+				return habits.sort(function (a, b) {
+					return new Date(b.date) - new Date(b.date)
+				});
+
+			}
+
+		});
+		
+	</script>
 </body>
 
 </html>
