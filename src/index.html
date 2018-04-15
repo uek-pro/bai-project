@@ -318,8 +318,8 @@
 			//edit handleer
 			$('#submitEdit').on('tap', editRun);
 
-			//delete run
-			$('#stats').on('tap', '#deleteLink', deleteRun);
+			//delete habit
+			$('#stats').on('tap', '#deleteLink', deleteHabit);
 
 			//setcurrent
 			$('#stats').on('tap', '#editLink', function (event) {
@@ -413,7 +413,7 @@
 				alert('Nawyk dodany');
 
 				//stringify
-				localStorage.setItem('habits', JSON.stringify(habit));
+				localStorage.setItem('habits', JSON.stringify(habits));
 
 				//redirect
 				window.location.hash = 'habitsListPage';
@@ -475,9 +475,9 @@
 			}
 
 			/*
-			 * delete a run
+			 * delete a habit
 			 */
-			function deleteRun() {
+			function deleteHabit() {
 
 				/* Store data in localstorage */
 				localStorage.setItem('currentDate', $(this).data('date'));
@@ -492,12 +492,11 @@
 				currentDescription = localStorage.getItem('currentDescription');
 				currentCategory = localStorage.getItem('currentCategory');
 
-				//get current run
+				//get current habit
 				var habits = getRunsObject();
 
 				for (var i = 0; i < habits.length; i++) {
-					if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle) {
-
+					if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory ) {
 						habits.splice(i, 1);
 					}
 					localStorage.setItem('habits', JSON.stringify(habits));
@@ -522,7 +521,7 @@
 				//set habits array
 				var habits = new Array();
 				//get current array from localstorage
-				var currentHabits = localStorage.getItem('habit');
+				var currentHabits = localStorage.getItem('habits');
 
 				if (currentHabits != null) {
 
