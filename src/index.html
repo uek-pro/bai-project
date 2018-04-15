@@ -20,8 +20,8 @@
 	<div id="logonPage" data-role="page">
 		<div data-role="content">
 			<h1>Practice Control</h1>
-			<form class="form-container-login">
-					<img src="./img/LOGO_final.svg" height="300" width="350" alt="Kiwi standing on oval">
+			<form class="form-container">
+				<img src="./img/LOGO_final.svg" height="200" width="300" alt="Kiwi standing on oval">
 				<label for="email-1">Email</label>
 				<input type="email" data-clear-btn="false" name="email-1" id="email-login-1" value="">
 				<label for="password-1">Password</label>
@@ -194,7 +194,30 @@
 		</div>
 
 		<div data-role="content">
-			<p>TODO: implement habit add / edit form</p>
+			<form class="form-container">
+				<label for="habit-task-name">Nazwa zwyczaju</label>
+				<input type="text" data-clear-btn="false" name="email-1" id="habit-name" value="">
+				<label for="habit-task-name">Treść</label>
+				<input type="text" data-clear-btn="false" name="email-1" id="habit-description" value="">
+				<div class="ui-field-contain">
+<!-- nie dziala filtrowanie tekstu lol -->
+					<select id="filtertext" data-native-menu="false" class="filterable-select">
+
+						<option>Wybierz kategorie</option>
+
+						<option value="orange" data-filtertext="Florida">Nauka</option>
+
+						<option value="apple">Alkohool</option>
+
+						<option value="peach">Peach</option>
+
+						<option value="lemon">Lemon</option>
+					</select>
+				</div>
+				<div class="form-buttons">
+					<a href="" id="habit-submit-btn" data-role="button" data-icon="check" data-inline="true">Zatwierdz</a>
+				</div>
+			</form>
 		</div>
 	</div>
 

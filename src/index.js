@@ -6,7 +6,6 @@ import firebaseConfig from './components/firebase/firebase_config.js';
 import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
