@@ -1,48 +1,35 @@
 import style from "./main.scss";
-import UIkit from 'uikit';
-import Icons from 'uikit/dist/js/uikit-icons';
 
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';
 
-import { logIn, createAccount, sendVerification } from './components/firebase/authentication/traditional/auth.js';
+import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
-import { logOut, checkAuth, notifyAuthStateChanged} from './components/firebase/authentication/common_auth.js';
-
-// components can be called from the imported UIkit reference
-// loads the Icon plugin
-UIkit.use(Icons);
-
+import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 
-document.querySelector('#googleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
-document.querySelector('#githubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
-document.querySelector('#facebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
+let userEmail = document.getElementById('email-login-1');
+let userPass = document.getElementById('password-login-1');
 
-document.querySelector('#logOut').addEventListener('click', logOut);
-document.querySelector('#checkAuth').addEventListener('click', () => {
-    UIkit.notification(checkAuth() ? 'Logged in' : 'Signed off');
-});
+let userRegisterEmail = document.getElementById('email-register');
+let userRegisterPass = document.getElementById('password-register1');
 
-/*
-    TODO: implement
-    logIn(userEmail, userPass)
-    createAccount(userEmail, userPass)
-    sendVerification()
-*/
+document.querySelector('#login_field').addEventListener('click', () => logIn(userEmail.value, userPass.value));
+document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
 
-// document.querySelector('#login_field').addEventListener('click', logIn);
-// document.querySelector('#logout_field').addEventListener('click', logOut);
-// document.querySelector('#signUp').addEventListener('click', createAccount);
-// document.querySelector('#verification_field').addEventListener('click', sendVerification);
+document.querySelector('#btnLogOut').addEventListener('click', logOut);
+document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
+document.querySelector('#btnGitHubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
+document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
 notifyAuthStateChanged(function (user) {
     if (user) {
-        console.log(user);
-        UIkit.notification(`Logged in. Greetings ${user.displayName}!`);
+        window.location.hash = 'habitsListPage';
+        console.log(`Logged in. Greetings ${user.displayName}!`);
     } else {
-        UIkit.notification('Signed off.');
+        window.location.hash = '';
+        console.log('Signed off.');
     }
 });

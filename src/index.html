@@ -2,90 +2,436 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.min.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Practice Control</title>
+	<link rel="stylesheet" href="src/styles/jquery.mobile-1.4.5.min.css">
+	<script src="src/lib/jquery-2.1.4.min.js"></script>
+	<script src="src/lib/jquery.mobile-1.4.5.min.js"></script>
+
+	<title>Practice Control</title>
 </head>
 
+<style>
+	body {
+		text-align: center;
+	}
+
+	ul {
+		display: block;
+	}
+
+	.controls {
+		float: right;
+	}
+
+	#stats p {
+		color: red;
+		padding: 10px;
+	}
+</style>
+
 <body>
-    <div class="uk-container-fluid">
-        <div class="uk-card uk-card-body">
-            <h3 class="uk-card-title">Log in via social media.</h3>
 
-            <a id="googleLogIn" class="uk-icon-button" uk-icon="google" uk-tooltip="Zaloguj poprzez Google"></a>
-            <a id="facebookLogIn" class="uk-icon-button" uk-icon="facebook" uk-tooltip="Zaloguj poprzez Facebook"></a>
-            <a id="githubLogIn" class="uk-icon-button" uk-icon="github" uk-tooltip="Zaloguj poprzez GitHub"></a>
-            
-            <p>Functions test</p>
+	<!-- LOGOWANIE (STRONA GŁÓWNA) -->
 
-            <a id="logOut" class="uk-icon-button" uk-icon="sign-out" uk-tooltip="Wyloguj się z aplikacji"></a>
-            <a id="checkAuth" class="uk-icon-button" uk-icon="info" uk-tooltip="Sprawdź czy użytkownik jest zalogowany"></a>
-        </div>
-    </div>
-    
-    <!-- login form -->
-    <div class="container-login">
-        <div class="wrap-login">
-            <form id="login_form">
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input id='email_field' class="uk-input uk-close" type="text" placeholder="E-mail">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                        <input id='password_field' class="uk-input uk-close" type="password" placeholder="Password">
-                    </div>
-                </div>
+	<div id="logonPage" data-role="page">
+		<div data-role="content">
+			<form class="form-container">
+				<h1>
+					<img src="./img/logo.svg" height="225" width="360" alt="Practice Control">
+				</h1>
+				<label for="email-1">Email</label>
+				<input type="email" data-clear-btn="false" name="email-1" id="email-login-1" value="">
+				<label for="password-1">Password</label>
+				<input type="password" data-clear-btn="false" name="password-1" id="password-login-1" value="" autocomplete="off">
+				<div class="form-buttons">
+					<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
+					<a href="" id="login_field" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
+				</div>
+				<a href="" id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
+				<a href="" id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
+				<a href="" id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
+			</form>
+		</div>
+	</div>
 
-                <div class="uk-margin">
-                    <button id='login_field' class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Login</button>
-                </div>
-                <div class="text-center">
-                    <span class="txt1">
-                        Don’t have an account?
-                    </span>
-                    <a class="txt2" href="#register_form">
-                        Sign Up
-                    </a>
-                </div>
-            </form>
-            <div id="user_div" class="loggedin-div">
-                <h3>Welcome User</h3>
-                <p id="user_para"> Welcome to firebase web login exampe. u are logged in!</p>
-                <button id='logout_field' class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Wyloguj</button>
-                <button id='verification_field' class="uk-button uk-margin uk-button-primary uk-width-1-1" type="button" data-uk-button>Send verification mail</button>
-            </div>
-        </div>
-    </div>
+	<!-- REJESTRACJA [OKNO MODALNE] -->
 
-    <!-- //register form -->
-    <div class="container-login">
-        <div class="wrap-login">
-            <form id="register_form">
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: user"></span>
-                        <input id='email_register_field' class="uk-input uk-close" type="text" placeholder="New E-mail">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                        <input id="register_password_field" class="uk-input uk-close " type="password" placeholder="New Password">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <button id="signUp" class="uk-button uk-button-primary uk-width-1-1" type="button" data-uk-button>Create new account</button>
-                </div>
-            </form>
-        </div>
-    </div>
+	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
+		<div data-role="header">
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+			<h1>Rejestracja</h1>
+		</div>
+		<div data-role="content">
+			<form class="form-container-register">
+				<label for="email-1-register">Email</label>
+				<input type="email" data-clear-btn="false" name="email-1" id="email-register" value="">
+				<label for="password-1">Password</label>
+				<input type="password" data-clear-btn="false" name="password-1" id="password-register1" value="" autocomplete="off">
+
+				<div class="register-buttons">
+					<a href="#createaccount" id="createAccountBtn" data-role="button" data-icon="mail" data-inline="true">Create new account</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- STRONA Z LISTĄ ZADAŃ [PODSTRONA] -->
+
+	<div id="habitsListPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Lista zwyczajów</h1>
+			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
+			<a href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+		</div>
+
+		<div data-role="content">
+			<ul id="stats" data-role="listview" data-filter="true" data-filter-placeholder="Filter your habits list" data-inset="true">
+				<!-- Tutaj wpadaja habitsy -->
+			</ul>
+			<br>
+			<button id="clearHabits" onclick="return confirm('Are you sure?')" data-theme="b">Clear your list</button>
+		</div>
+
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets" class="ui-btn-active">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA] -->
+
+	<div id="summaryPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Podsumowanie</h1>
+		</div>
+
+		<div data-role="content">
+
+			<p>TODO: Podsumowanie</p>
+
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar" class="ui-btn-active">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- STRONA USTAWIEŃ [PODSTRONA] -->
+
+	<div id="settingsPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Ustawienia</h1>
+			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
+		</div>
+
+		<div data-role="content">
+
+			<p>TODO: Ustawienia</p>
+
+		</div>
+		<div data-role="footer" data-position="fixed">
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#habitsListPage" data-podstrona="true" data-icon="bullets">Zwyczaje</a>
+					</li>
+					<li>
+						<a href="#summaryPage" data-podstrona="true" data-icon="calendar">Podsumowanie</a>
+					</li>
+					<li>
+						<a href="#settingsPage" data-podstrona="true" data-icon="gear" class="ui-btn-active">Ustawienia</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// SKRYPT OBSŁUGI PODSRON
+		$("a[data-podstrona=true]").each(function () {
+			const anchor = $(this);
+			anchor.bind("click", function () {
+				$.mobile.changePage(anchor.attr("href"), {
+					transition: "none",
+					changeHash: false
+				});
+				return false;
+			});
+		});
+	</script>
+
+	<!-- STRONA Z SUGEROWANYMI ZADANIAMI -->
+
+	<div id="suggestPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Sugerowane zadania</h1>
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+			<a href="#" data-icon="refresh" data-iconpos="notext">Odśwież</a>
+		</div>
+
+		<div data-role="content">
+
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<p>TODO: implement habits types</p>
+				</div>
+				<div class="ui-block-b">
+					<p>TODO: implement habits categories</p>
+				</div>
+			</fieldset>
+			<p>TODO: implement suggest habits listview</p>
+		</div>
+	</div>
+
+	<!-- STRONA DODAWANIA ZADANIA -->
+
+	<div id="manageHabitPage" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Dodaj zwyczaj</h1>
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+		</div>
+
+		<div data-role="content">
+			<form id="addForm">
+				<label for="addTitle">Tytuł</label>
+				<input type="text" id="addTitle" />
+
+				<label for="addDescription">Treść</label>
+				<input type="text" id="addDescription" />
+
+				<label for="chooseHabitType">Wybierz typ zadania</label>
+
+				<select id="chooseHabitType" data-native-menu="false" class="filterable-select">
+					<option value="0">Tak / Nie</option>
+					<option value="1">Z odpowiedzią</option>
+					<option value="2">Informacja</option>
+					<option value="3">Mini-słownik</option>
+				</select>
+
+				<!-- <label for="addDate">Data</label>
+				<input type="text" data-role="date" class="date" id="addDate" data-inline="true" /> -->
+
+				<button id="submitAdd" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- STRONA EDYCJI ZADANIA -->
+	<!-- NOTE: danbraj: tu można wykorzystać formularz z dodawania zwyczaju -->
+	<div id="edit" data-role="page">
+		<div data-role="header" data-position="inline">
+			<h1>Edytuj zwyczaj</h1>
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+		</div>
+		<div data-role="content">
+			<h3>Edit your habit</h3>
+			<form id="editForm">
+				<label for="editTitle"></label>
+				<input type="text" id="editTitle" />
+
+				<!-- <label for="editDate"></label>
+				<input type="text" data-role="date" class="date" id="editDate" data-inline="true" /> -->
+
+				<label for="editDescription"></label>
+				<input type="text" data-role="date" class="date" id="editDescription" data-inline="true" />
+
+				<label for="editHabitType"></label>
+				<input type="text" data-role="date" class="date" id="editHabitType" data-inline="true" />
+
+				<button id="submitEdit" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
+			</form>
+		</div>
+	</div>
+
+	<!-- TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+
+	<!-- STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
+
+	<div id="habitRealizationPage" data-role="page">
+		<div data-role="content">
+			<p>TODO: implement habit realization form</p>
+		</div>
+	</div>
+
+	<script>
+		/*
+		showHabits();
+
+		$('#submitAdd').on('tap', addHabit);
+		$('#submitEdit').on('tap', editRun);
+		$('#stats').on('tap', '#deleteLink', deleteHabit);
+
+		$('#stats').on('tap', '#editLink', function (event) {
+
+			localStorage.setItem('currentDate', $(this).data('date'));
+			localStorage.setItem('currentTitle', $(this).data('title'));
+			localStorage.setItem('currentDescription', $(this).data('description'));
+			localStorage.setItem('currentCategory', $(this).data('category'));
+
+			$('#editDate').val(localStorage.getItem('currentDate'));
+			$('#editTitle').val(localStorage.getItem('currentTitle'));
+			$('#editDescription').val(localStorage.getItem('currentDescription'));
+			$('#editHabitType').val(localStorage.getItem('currentCategory'));
+		});
+
+		$('#clearHabits').on('tap', function (event) {
+
+			localStorage.removeItem('habits');
+			$('#stats').html('<p>Nie masz nic na liście!</p>');
+			return false;
+		});
+
+		function showHabits() {
+
+			var habits = getRunsObject();
+
+			if (habits != '' && habits != null) {
+
+				for (var i = 0; i < habits.length; i++) {
+					$('#stats').append('<li class="ui-body-inherit ui-li-static"><strong>Data: </strong>' + habits[i]["date"] +
+						'<br/><strong>Tytuł: </strong>' + habits[i]["title"] +
+						'<br/><strong>Opis: </strong>' + habits[i]["description"] +
+						'<br/><strong>Kategoria: </strong>' + habits[i]["category"] +
+						'<div class="controls">' +
+						'<a href="#edit" id="editLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + '" data-description="' + habits[i]["description"] + '" data-category="' + habits[i]["category"] +
+						'">Edit</a> | <a href="#" id="deleteLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + '" data-description="' + habits[i]["description"] + '" data-category="' + habits[i]["category"] +
+						'" onClick="return confirm(\' Are you sure?\')">Delete</a>' +
+						'</div></li>')
+				};
+
+			} else {
+				$('#stats').html('<p>Nie masz na liście nawyków!</p>');
+			}
+		}
+
+		function addHabit() {
+
+			var title = $('#addTitle').val();
+			var date = $('#addDate').val();
+			var description = $('#addDescription').val();
+			var category = $('#chooseHabitType').val()
+
+			var habit = {
+				description: description,
+				category: category,
+				date: date,
+				title: title
+			}
+
+			var habits = getRunsObject();
+
+			habits.push(habit);
+			alert('Nawyk dodany');
+
+			localStorage.setItem('habits', JSON.stringify(habits));
+
+			window.location.hash = 'habitsListPage';
+			return false;
+		}
+
+		function editRun() {
+
+			currentDate = localStorage.getItem('currentDate');
+			currentTitle = localStorage.getItem('currentTitle');
+			currentDescription = localStorage.getItem('currentDescription');
+			currentCategory = localStorage.getItem('currentCategory');
+
+			var habits = getRunsObject();
+
+			for (var i = 0; i < habits.length; i++) {
+				if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory) {
+
+					habits.splice(i, 1);
+				}
+				localStorage.setItem('habits', JSON.stringify(habits));
+			};
+
+			var title = $('#editTitle').val();
+			var date = $('#editDate').val();
+			var description = $('#editDescription').val();
+			var category = $('#editHabitType').val()
+
+			var habit_update = {
+				description: description,
+				category: category,
+				date: date,
+				title: title
+			}
+
+			habits.push(habit_update);
+			alert('Habit updated');
+
+			localStorage.setItem('habits', JSON.stringify(habits));
+
+			window.location.hash = 'habitsListPage';
+			return false;
+		}
+
+		function deleteHabit() {
+
+			localStorage.setItem('currentDate', $(this).data('date'));
+			localStorage.setItem('currentTitle', $(this).data('title'));
+			localStorage.setItem('currentDescription', $(this).data('description'));
+			localStorage.setItem('currentCategory', $(this).data('category'));
+
+			currentDate = localStorage.getItem('currentDate');
+			currentTitle = localStorage.getItem('currentTitle');
+			currentDescription = localStorage.getItem('currentDescription');
+			currentCategory = localStorage.getItem('currentCategory');
+
+			var habits = getRunsObject();
+
+			for (var i = 0; i < habits.length; i++) {
+				if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory) {
+					habits.splice(i, 1);
+				}
+				localStorage.setItem('habits', JSON.stringify(habits));
+			};
+
+			alert('Habit deleted');
+			window.location.hash = 'habitsListPage';
+			return false;
+		}
+
+		function getRunsObject() {
+
+			var habits = new Array();
+			var currentHabits = localStorage.getItem('habits');
+			if (currentHabits != null) {
+				var habits = JSON.parse(currentHabits);
+			}
+
+			return habits.sort(function (a, b) {
+				return new Date(b.date) - new Date(b.date)
+			});
+		}
+		*/
+	</script>
 </body>
 
 </html>

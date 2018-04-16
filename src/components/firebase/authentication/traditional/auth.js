@@ -2,8 +2,9 @@ import firebase from 'firebase';
 
 const logIn = (userEmail, userPass) => {
 
+    
     firebase.auth().signInWithEmailAndPassword(userEmail, userPass).catch(function (error) {
-        // Handle Errors here.
+        
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log("Error: " + errorMessage);
@@ -14,12 +15,12 @@ const logIn = (userEmail, userPass) => {
 const createAccount = (userEmail, userPass) => {
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
-        // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
         console.log("Error: " + errorMessage);
+        return false;
     });
-
+    // sendVerification(); NOTE: zakomentowane, żeby nie spamować ;)
 }
 
 // wysylanie maila potwierdzajacego
@@ -35,4 +36,4 @@ const sendVerification = () => {
     });
 }
 
-export { logIn, createAccount, sendVerification };
+export { logIn, createAccount };
