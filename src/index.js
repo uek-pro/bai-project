@@ -16,6 +16,8 @@ let userPass = document.getElementById('password-login-1');
 let userRegisterEmail = document.getElementById('email-register');
 let userRegisterPass = document.getElementById('password-register1');
 
+const hSuggestedHabits = document.getElementById('suggested-habits');
+
 document.querySelector('#login_field').addEventListener('click', () => logIn(userEmail.value, userPass.value));
 document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
 
@@ -35,9 +37,12 @@ notifyAuthStateChanged(function (user) {
 
         firebase.database().ref('suggestions').once('value').then(function (snapshot) {
 
-            console.log(
-                snapshot.val()
-            );
+            for (let i = 0; i < snapshot.val().length; i++) {
+                const sh = snapshot.val()[i];
+                $(hSuggestedHabits).append(
+                    `<p>T${sh.type} - <strong>${sh.name}</strong> ${sh.desc}, ${sh.category}</p>`
+                );
+            };
         });
 
     } else {
