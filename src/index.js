@@ -28,6 +28,18 @@ notifyAuthStateChanged(function (user) {
     if (user) {
         window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
+
+        // firebase.database().ref(`users/${user.uid}`).set({ // firebase.auth().currentUser.uid;
+        //     test: true
+        // });
+
+        firebase.database().ref('suggestions').once('value').then(function (snapshot) {
+
+            console.log(
+                snapshot.val()
+            );
+        });
+
     } else {
         window.location.hash = '';
         console.log('Signed off.');
