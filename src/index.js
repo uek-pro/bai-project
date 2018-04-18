@@ -31,9 +31,9 @@ notifyAuthStateChanged(function (user) {
         window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
-        // firebase.database().ref(`users/${user.uid}`).set({ // firebase.auth().currentUser.uid;
-        //     test: true
-        // });
+        firebase.database().ref(`users/${user.uid}`).set({ // firebase.auth().currentUser.uid;
+            lastLogged: +new Date()
+        });
 
         firebase.database().ref('suggestions').once('value').then(function (snapshot) {
 
