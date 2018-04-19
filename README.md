@@ -32,10 +32,11 @@ Gałęzie projektu
 
 * **[master](/uek-pro/bai-project/tree/master)** - Główna gałąź aplikacji. **Commity dodawane wyłącznie poprzez pull request** (wytłumaczone poniżej).
 * **[gh-pages](/uek-pro/bai-project/tree/gh-pages)** - Gałąź z dokumentacją. Commity dodawane dowolnie.
-* **b-_numer\_issue_** - Gałęzie dodające nowe funkcjonalności lub rozwiązujące problemy o identyfikatorze issue podanym w nazwie gałęzi.
-* **_dowolna\_nazwa_** - Dodatkowe gałęzie wspomagające tworzenie aplikacji. Gałęzie można tworzyć dowoli i jest to nawet wskazane.
+* **b-*numer\_issue*** - Gałęzie dodające nowe funkcjonalności lub rozwiązujące problemy o ientyfikatorze issue podanym w nazwie gałęzi.
+* ***dowolna\_nazwa*** - Dodatkowe gałęzie wspomagające tworzenie aplikacji.
 
-> **Nie usuwamy branchy**, które zostały już zmergowane. 
+1. **Nie usuwamy branchy**, które zostały już zmergowane. 
+1. Gałęzie można tworzyć dowoli i jest to nawet wskazane.
 
 Dla mniej wtajemniczonych
 
@@ -52,7 +53,12 @@ Niezależnie od tego czy problem został rozwiązany czy jest to dopiero począt
 
 ---
 
-Z czasem gdy na branchu master projekt bardziej się posunie niż mamy go u siebie lokalnie, wymagana jest synchronizacja (`git pull origin master`).
+Z czasem gdy na branchu master projekt bardziej się posunie niż mamy go u siebie lokalnie, wymagana jest synchronizacja 
+
+```bash
+git fetch
+git pull origin master
+```
 
 ## Prototyp aplikacji
 
@@ -75,3 +81,5 @@ Z czasem gdy na branchu master projekt bardziej się posunie niż mamy go u sieb
 ## Autorzy
 
 ## Raport prac
+
+![Practice Control](/uek-pro/bai-project/blob/master/src/img/logo.svg)
