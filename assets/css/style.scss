@@ -1,0 +1,23 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+// my overrides styles :)
+$content-width: 900px;
+
+#header nav,
+.wrapper,
+section {
+    max-width: $content-width;
+}
+
+#header nav li a {
+    border-color: #004a86;
+    background-color: #006ac0;
+
+    &:hover {
+        border-color: #003560;
+        background-color: #005499;
+    }
+}
