@@ -12,29 +12,31 @@ import { addHabit } from "./components/firebase/appdata/habits_manager";
 firebase.initializeApp(firebaseConfig);
 
 
+// PAGE: LOGOWANIE (STRONA GŁÓWNA)
 let userEmail = document.getElementById('email-login-1');
 let userPass = document.getElementById('password-login-1');
-
-let userRegisterEmail = document.getElementById('email-register');
-let userRegisterPass = document.getElementById('password-register1');
-
-const hSuggestedHabits = document.getElementById('suggested-habits');
-
 document.querySelector('#login_field').addEventListener('click', () => logIn(userEmail.value, userPass.value));
-document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
 
-document.querySelector('#btnLogOut').addEventListener('click', logOut);
 document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
 document.querySelector('#btnGitHubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
 document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
-
-// PAGE: LOGOWANIE (STRONA GŁÓWNA)
 // PAGE: REJESTRACJA [OKNO MODALNE]
+let userRegisterEmail = document.getElementById('email-register');
+let userRegisterPass = document.getElementById('password-register1');
+document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
+
 // PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
+const hHabitsList = document.getElementById('habitsList');
+
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
+
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
+document.querySelector('#btnLogOut').addEventListener('click', logOut);
+
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
+const hSuggestedHabits = document.getElementById('suggested-habits');
+
 // PAGE: STRONA DODAWANIA ZADANIA
 const mhTitle = document.getElementById('manageHabit-title');
 const mhDescription = document.getElementById('manageHabit-description');
@@ -85,26 +87,23 @@ notifyAuthStateChanged(function (user) {
         firebase.database().ref(`users/${user.uid}/practices`).on('value', function (snapshot) {
 
             const habits = snapshot.val();
-            const keys = Object.keys(habits);
-            console.log('Lista zwyczajów', habits);
+            if (habits != null) {
+                const keys = Object.keys(habits);
+                console.log('Lista zwyczajów', habits);
 
-            const hHabitsList = document.getElementById('habitsList');
-            $(hHabitsList).empty();
-            for (let i = 0; i < keys.length; i++) {
-                const el = habits[keys[i]];
-                console.log(i, el);
+                $(hHabitsList).empty();
+                for (let i = 0; i < keys.length; i++) {
+                    const el = habits[keys[i]];
+                    console.log(i, el);
 
-                $(hHabitsList).append(
-                    `<li class="ui-body-inherit ui-li-static">
-                        <p><strong>Data:</strong> ${el.date}</p>
-                        <p><strong>Tytuł:</strong> ${el.name}</p>
-                        <p><strong>Opis:</strong> ${el.desc}</p>
-                        <p><strong>Type:</strong> ${el.type}</p>
-                        <div class="controls">
-                            <a href="#">Edit</a> | <a href="#">Delete</a>
-                        </div>
-                    </li>`
-                );
+                    $(hHabitsList).append(
+                        `<li><a href="#">
+                            <h2>${el.name}</h2>
+                            <p>(${el.type}) ${el.desc} - ${el.date}</p>
+                        </a><a href="#">Delete</a></li>`
+                    );
+                }
+                $(hHabitsList).listview('refresh');
             }
         });
 
@@ -120,6 +119,8 @@ notifyAuthStateChanged(function (user) {
         });
 
     } else {
+        $(hHabitsList).empty();
+        $(hSuggestedHabits).empty();
         window.location.hash = '';
         console.log('Signed off.');
     }
