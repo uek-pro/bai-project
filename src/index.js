@@ -3,6 +3,7 @@ import style from "./main.scss";
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';
 import chart from 'chart.js';
+import chartAnnotation from 'chartjs-plugin-annotation';
 
 import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
@@ -99,8 +100,23 @@ var myLineChart = new Chart(ctx2, {
             line: {
                 tension: 0
             }
-        }
-    }
+        },
+        annotation: {
+            annotations: [{
+              type: 'line',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: 6,
+              borderColor: 'black',
+              borderWidth: 4,
+              label: {
+                enabled: true,
+                content: '4'
+              }
+            }]
+          }
+    },
+    
 });
 
 
