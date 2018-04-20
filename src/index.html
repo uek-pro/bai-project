@@ -33,7 +33,7 @@
 
 	.db-footer {
 		bottom: 0;
-		position:fixed;
+		position: fixed;
 	}
 </style>
 
@@ -87,18 +87,17 @@
 
 	<div id="habitsListPage" data-role="page">
 		<div data-role="header">
-			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
-			<a href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
-
+			<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
+				<a data-role="button" href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
+				<a data-role="button" href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+			</div>
 			<h1>Lista zwyczajów</h1>
 		</div>
 
 		<div data-role="content">
-			<ul id="stats" data-role="listview" data-filter="true" data-filter-placeholder="Filter your habits list" data-inset="true">
+			<ul id="habitsList" data-role="listview" data-filter="true" data-filter-placeholder="Filter your habits list" data-inset="true">
 				<!-- Tutaj wpadaja habitsy -->
 			</ul>
-			<br>
-			<button id="clearHabits" onclick="return confirm('Are you sure?')" data-theme="b">Clear your list</button>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
@@ -157,7 +156,20 @@
 
 		<div data-role="content">
 
-			<p>TODO: Ustawienia</p>
+			<h2>Ustawienia</h2>
+
+			<label for="slider2">Włącz powiadomienia</label>
+			<select name="slider2" id="slider2" data-role="slider">
+				<option value="off">Wył</option>
+				<option value="on">Wł</option>
+			</select>
+
+			<p>Wybierz godzinę powiadomień</p>
+			<p>TODO: time picker</p>
+
+			<h2>Informacje</h2>
+
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente corrupti omnis at quaerat?</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -204,10 +216,28 @@
 
 			<fieldset class="ui-grid-a">
 				<div class="ui-block-a">
-					<p>TODO: implement habits types</p>
+
+					<label for="select-choice-a" class="select">Typ zadania</label>
+					<select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+						<option>Wybierz typ zadania</option>
+						<option value="-1">Wszystkie</option>
+						<option value="0">Tak / Nie</option>
+						<option value="1">Z odpowiedzią</option>
+						<option value="2">Informacja</option>
+						<option value="3">Mini-słownik</option>
+					</select>
+
 				</div>
 				<div class="ui-block-b">
-					<p>TODO: implement habits categories</p>
+
+					<label for="select-choice-8" class="select">Kategoria</label>
+					<select name="select-choice-8" id="select-choice-8" multiple="multiple" data-native-menu="false" data-icon="grid" data-iconpos="left">
+						<option>Wybierz pożądane kategorie</option>
+						<option value="0" selected="">tmp 1</option>
+						<option value="1" selected="">tmp 2</option>
+						<option value="2" selected="">tmp 3</option>
+					</select>
+
 				</div>
 			</fieldset>
 
@@ -281,7 +311,7 @@
 			<form id="editForm">
 				<label for="editTitle"></label>
 				<input type="text" id="editTitle" />
-				
+
 				<label for="editDescription"></label>
 				<input type="text" data-role="date" class="date" id="editDescription" data-inline="true" />
 
