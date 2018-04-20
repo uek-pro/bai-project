@@ -67,7 +67,7 @@
 	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
 		<div data-role="header">
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
-			<h1>Rejestracja</h1>
+			<span class="ui-title">Rejestracja</span>
 		</div>
 		<div data-role="content">
 			<form class="form-container-register">
@@ -91,7 +91,7 @@
 				<a data-role="button" href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
 				<a data-role="button" href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
 			</div>
-			<h1>Lista zwyczajów</h1>
+			<span class="ui-title">Lista zwyczajów</span>
 		</div>
 
 		<div data-role="content">
@@ -121,7 +121,7 @@
 
 	<div id="summaryPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Podsumowanie</h1>
+			<span class="ui-title">Podsumowanie</span>
 		</div>
 
 		<div data-role="content">
@@ -150,7 +150,7 @@
 
 	<div id="settingsPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Ustawienia</h1>
+			<span class="ui-title">Ustawienia</span>
 			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
 		</div>
 
@@ -169,7 +169,8 @@
 
 			<h2>Informacje</h2>
 
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente corrupti omnis at quaerat?</p>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente
+				corrupti omnis at quaerat?</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -207,7 +208,7 @@
 
 	<div id="suggestPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Sugerowane zadania</h1>
+			<span class="ui-title">Sugerowane zadania</span>
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 			<a href="#" data-icon="refresh" data-iconpos="notext">Odśwież</a>
 		</div>
@@ -249,61 +250,83 @@
 	<!-- STRONA DODAWANIA ZADANIA -->
 
 	<div id="manageHabitPage" data-role="page">
+
 		<div data-role="header" data-position="inline">
-			<h1>Dodaj zwyczaj</h1>
+			<span class="ui-title">Dodaj zwyczaj</span>
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 		</div>
 
 		<div data-role="content">
 
-			<label for="addTitle">Tytuł</label>
-			<input type="text" id="addTitle" />
+			<label>Tytuł
+				<input type="text" id="manageHabit-title" />
+			</label>
 
-			<label for="addDescription">Treść zadania</label>
-			<input type="text" id="addDescription" />
+			<label>Treść zadania
+				<input type="text" id="manageHabit-description" />
+			</label>
 
 			<p>Typ zadania</p>
 
-			<div data-role="tabs" id="tabs">
+			<input type="hidden" id="manageHabit-type" value="-1"/>
+
+			<div data-role="tabs">
+
 				<div data-role="navbar">
 					<ul>
 						<li>
-							<a href="#type0">Tak / Nie</a>
+							<a href="#type0" class="habit-type" data-habit="0">Tak / Nie</a>
 						</li>
 						<li>
-							<a href="#type1">Z odpowiedzią</a>
+							<a href="#type1" class="habit-type" data-habit="1">Z odpowiedzią</a>
 						</li>
 						<li>
-							<a href="#type2">Informacja</a>
+							<a href="#type2" class="habit-type" data-habit="2">Informacja</a>
 						</li>
 						<li>
-							<a href="#type3">Mini-słownik</a>
+							<a href="#type3" class="habit-type" data-habit="3">Mini-słownik</a>
 						</li>
 					</ul>
 				</div>
-				<div id="type0"></div>
+
 				<div id="type1" class="ui-body-d ui-content">
-					<label for="addOptimalValue">Optymalna wartość</label>
-					<input type="number" id="addOptimalValue" />
+					<label>Optymalna wartość
+						<input type="number" id="manageHabit-optimal-value" />
+					</label>
 				</div>
+
 				<div id="type2" class="ui-body-d ui-content">
-					<label for="addAuthor">Autor (opcjonalne)</label>
-					<input type="text" id="addAuthor" />
+					<label>Autor (opcjonalne)
+						<input type="text" id="manageHabit-author" />
+					</label>
 				</div>
+
 				<div id="type3" class="ui-body-d ui-content">
 					<p>TODO: dict form</p>
 				</div>
+
+				<script>
+					const hHabitType = document.getElementById('manageHabit-type');
+					$('.habit-type').click(function () {
+						if ($(this).hasClass('ui-btn-active')) {
+							console.log('tab jest już aktywny');
+						} else {
+							console.log(`zmiana aktywnego tab'a (${this.attributes['data-habit'].textContent})`);
+							hHabitType.value = this.attributes['data-habit'].value;
+						}
+					});
+				</script>
 			</div>
 		</div>
 
-		<button id="submitAdd" class="ui-btn ui-btn-b ui-corder-all db-footer">Dodaj</button>
+		<button id="manageHabit-add-btn" class="ui-btn ui-btn-b ui-corder-all db-footer">Dodaj</button>
 	</div>
 
 	<!-- STRONA EDYCJI ZADANIA -->
 	<!-- NOTE: danbraj: tu można wykorzystać formularz z dodawania zwyczaju -->
 	<div id="edit" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Edytuj zwyczaj</h1>
+			<span class="ui-title">Edytuj zwyczaj</span>
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 		</div>
 		<div data-role="content">
