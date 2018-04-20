@@ -9,10 +9,14 @@ const showHabits = () => {
 
 const addHabit = (habit) => {
 
+    habit.date = +new Date();
     console.log(habit);
+
     // pobierz listę
     // dodaj do listy obiekt habit
     // zapis listę
+
+    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).push().set(habit);
 
     return true;
 };

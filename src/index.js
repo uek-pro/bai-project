@@ -77,10 +77,38 @@ notifyAuthStateChanged(function (user) {
         window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
-        firebase.database().ref(`users/${user.uid}`).set({ // firebase.auth().currentUser.uid;
+        firebase.database().ref(`users/${user.uid}`).update({ // firebase.auth().currentUser.uid;
             lastLogged: +new Date()
         });
 
+        // nasłuchiwanie na zmiany w liście zwyczajów
+        firebase.database().ref(`users/${user.uid}/practices`).on('value', function (snapshot) {
+
+            const habits = snapshot.val();
+            const keys = Object.keys(habits);
+            console.log('Lista zwyczajów', habits);
+
+            const hHabitsList = document.getElementById('habitsList');
+            $(hHabitsList).empty();
+            for (let i = 0; i < keys.length; i++) {
+                const el = habits[keys[i]];
+                console.log(i, el);
+
+                $(hHabitsList).append(
+                    `<li class="ui-body-inherit ui-li-static">
+                        <p><strong>Data:</strong> ${el.date}</p>
+                        <p><strong>Tytuł:</strong> ${el.name}</p>
+                        <p><strong>Opis:</strong> ${el.desc}</p>
+                        <p><strong>Type:</strong> ${el.type}</p>
+                        <div class="controls">
+                            <a href="#">Edit</a> | <a href="#">Delete</a>
+                        </div>
+                    </li>`
+                );
+            }
+        });
+
+        // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
         firebase.database().ref('suggestions').once('value').then(function (snapshot) {
 
             for (let i = 0; i < snapshot.val().length; i++) {
