@@ -33,6 +33,7 @@ const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
+const hShowNotifications = $('#show-notifications');
 
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
 const hSuggestedHabits = document.getElementById('suggested-habits');
@@ -116,6 +117,34 @@ notifyAuthStateChanged(function (user) {
                     `<p>T${sh.type} - <strong>${sh.name}</strong> ${sh.desc}, ${sh.category}</p>`
                 );
             };
+        });
+
+        firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
+
+            if (snapshot.val() == null) {
+                firebase.database().ref(`users/${user.uid}/settings`).update({
+                    showNotifications: false,
+                    notificationsTime: 21
+                });
+            } else {
+                hShowNotifications.val(
+                    snapshot.val()['showNotifications'] ? 1 : 0
+                );
+            }
+            console.log('Settings: ', snapshot.val());
+
+            hShowNotifications.on('change', function (evt) {
+
+                hShowNotifications.flipswitch('disable');
+
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({
+                    showNotifications: this.value == 1 ? true : false
+                });
+
+                setTimeout(() => {
+                    hShowNotifications.flipswitch('enable');
+                }, 3000);
+            });
         });
 
     } else {
