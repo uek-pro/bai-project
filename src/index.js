@@ -125,11 +125,13 @@ notifyAuthStateChanged(function (user) {
 
             console.log('Settings: ', snapshot.val());
 
-            let sn = snapshot.val().showNotifications;
-            hShowNotifications.val(sn != null ? sn : 0);
+            const ss = snapshot.val();
 
-            let nt = snapshot.val().notificationsTime;
-            hNotificationsTime.val(nt != null ? nt : '21:00');
+            const snExist = ss && typeof ss.showNotifications !== 'undefined';
+            const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
+            
+            hShowNotifications.val(snExist ? 1 : 0);
+            hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
 
             hShowNotifications.on('change', function () {
 
@@ -145,9 +147,9 @@ notifyAuthStateChanged(function (user) {
 
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
-            
-            const itsTime = nt != null && nt <= lastLogged.toLocaleString('pl-PL', {hour: '2-digit', minute: '2-digit'});
-            if (sn == true && itsTime) {
+
+            const itsTime = ss && typeof ss.showNotifications !== 'null' && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+            if (snExist && ss.showNotifications == true && itsTime) {
                 // TODO: sprawdzenie czy już było dzisiaj i czy ten warunek napewno jest poprawny
                 console.log('Powiadomienie!!11oneone');
             }
