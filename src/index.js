@@ -34,6 +34,7 @@ const hHabitsList = document.getElementById('habitsList');
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
 const hShowNotifications = $('#show-notifications');
+const hNotificationsTime = $('#notifications-time');
 
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
 const hSuggestedHabits = document.getElementById('suggested-habits');
@@ -90,12 +91,12 @@ notifyAuthStateChanged(function (user) {
             const habits = snapshot.val();
             if (habits != null) {
                 const keys = Object.keys(habits);
-                console.log('Lista zwyczajów', habits);
+                // console.log('Lista zwyczajów', habits);
 
                 $(hHabitsList).empty();
                 for (let i = 0; i < keys.length; i++) {
                     const el = habits[keys[i]];
-                    console.log(i, el);
+                    // console.log(i, el);
 
                     $(hHabitsList).append(
                         `<li><a href="#">
@@ -121,29 +122,27 @@ notifyAuthStateChanged(function (user) {
 
         firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
 
-            if (snapshot.val() == null) {
-                firebase.database().ref(`users/${user.uid}/settings`).update({
-                    showNotifications: false,
-                    notificationsTime: 21
-                });
-            } else {
-                hShowNotifications.val(
-                    snapshot.val()['showNotifications'] ? 1 : 0
-                );
-            }
             console.log('Settings: ', snapshot.val());
 
-            hShowNotifications.on('change', function (evt) {
+            let sn = snapshot.val().showNotifications;
+            hShowNotifications.val(sn != null ? sn : 0);
+
+            let nt = snapshot.val().notificationsTime;
+            hNotificationsTime.val(nt != null ? nt : 21);
+
+            hShowNotifications.on('change', function () {
 
                 hShowNotifications.flipswitch('disable');
-
-                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({
-                    showNotifications: this.value == 1 ? true : false
-                });
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ showNotifications: this.value == 1 ? true : false });
 
                 setTimeout(() => {
                     hShowNotifications.flipswitch('enable');
                 }, 3000);
+            });
+
+            hNotificationsTime.on('blur', function () {
+
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
         });
 
