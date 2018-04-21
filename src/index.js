@@ -103,7 +103,12 @@ notifyAuthStateChanged(function (user) {
                             <a href="#">Delete</a></li>`
                     );
                 }
+                
                 $(hHabitsList).listview('refresh');
+            } else {
+                $(hHabitsList).append(
+                        `<p class="emptyList">Aktualnie nie posiadasz nic na swojej liście</p>`
+                    );
             }
         });
 
