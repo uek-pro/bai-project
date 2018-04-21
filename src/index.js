@@ -6,7 +6,7 @@ import firebaseConfig from './components/firebase/firebase_config.js';
 import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
-import { addHabit } from "./components/firebase/appdata/habits_manager";
+import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -46,6 +46,7 @@ const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
 // TODO: + słowniczek
 
+
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
     const habitType = +mhType.value;
@@ -72,6 +73,8 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 // PAGE: ? STRONA EDYCJI ZADANIA ?
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
+const habitRemoverElement = `<a href="#">Delete</a>`
+habitRemoverElement.addEventListener('click', deleteHabit('${keys[i]}'));
 
 
 notifyAuthStateChanged(function (user) {
@@ -100,8 +103,9 @@ notifyAuthStateChanged(function (user) {
                         `<li><a href="#">
                             <h2>${el.name}</h2>
                             <p>(${el.type}) ${el.desc} - ${el.date}</p>
-                            <a href="#">Delete</a></li>`
+                            </a>${habitRemoverElement}</li>`
                     );
+               
                 }
                 
                 $(hHabitsList).listview('refresh');
@@ -111,7 +115,7 @@ notifyAuthStateChanged(function (user) {
                     );
             }
         });
-
+     
         // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
         firebase.database().ref('suggestions').once('value').then(function (snapshot) {
 
@@ -130,4 +134,5 @@ notifyAuthStateChanged(function (user) {
         console.log('Signed off.');
     }
 });
+
 

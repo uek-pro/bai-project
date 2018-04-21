@@ -30,10 +30,9 @@ const editHabit = () => {
     return true;
 };
 
-const deleteHabit = () => {
-
-    // wyszukaj pasujący habit (wszystkie pola powinny być takie same)
-    // array.splice(index, 1)
+const deleteHabit = (key) => {
+debugger;
+firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${key}`).remove();
 
     return true;
 };
