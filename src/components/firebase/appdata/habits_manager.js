@@ -31,7 +31,7 @@ const editHabit = () => {
 };
 
 const deleteHabit = (key) => {
-debugger;
+
 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${key}`).remove();
 
     return true;

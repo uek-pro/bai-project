@@ -73,8 +73,6 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 // PAGE: ? STRONA EDYCJI ZADANIA ?
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
-const habitRemoverElement = `<a href="#">Delete</a>`
-habitRemoverElement.addEventListener('click', deleteHabit('${keys[i]}'));
 
 
 notifyAuthStateChanged(function (user) {
@@ -90,11 +88,11 @@ notifyAuthStateChanged(function (user) {
         firebase.database().ref(`users/${user.uid}/practices`).on('value', function (snapshot) {
 
             const habits = snapshot.val();
+            $(hHabitsList).empty();
             if (habits != null) {
                 const keys = Object.keys(habits);
                 console.log('Lista zwyczajów', habits);
 
-                $(hHabitsList).empty();
                 for (let i = 0; i < keys.length; i++) {
                     const el = habits[keys[i]];
                     console.log(i, el);
@@ -103,13 +101,15 @@ notifyAuthStateChanged(function (user) {
                         `<li><a href="#">
                             <h2>${el.name}</h2>
                             <p>(${el.type}) ${el.desc} - ${el.date}</p>
-                            </a>${habitRemoverElement}</li>`
+                            </a><a href="#">Delete</a></li>`
                     );
-               
+                    hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
                 }
                 
+                
                 $(hHabitsList).listview('refresh');
-            } else {
+            } 
+            else {
                 $(hHabitsList).append(
                         `<p class="emptyList">Aktualnie nie posiadasz nic na swojej liście</p>`
                     );
