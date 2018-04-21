@@ -81,8 +81,9 @@ notifyAuthStateChanged(function (user) {
         window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
+        let lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({ // firebase.auth().currentUser.uid;
-            lastLogged: +new Date()
+            lastLogged: +lastLogged
         });
 
         // nasłuchiwanie na zmiany w liście zwyczajów
@@ -128,7 +129,7 @@ notifyAuthStateChanged(function (user) {
             hShowNotifications.val(sn != null ? sn : 0);
 
             let nt = snapshot.val().notificationsTime;
-            hNotificationsTime.val(nt != null ? nt : 21);
+            hNotificationsTime.val(nt != null ? nt : '21:00');
 
             hShowNotifications.on('change', function () {
 
@@ -144,6 +145,12 @@ notifyAuthStateChanged(function (user) {
 
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
+            
+            const itsTime = nt != null && nt <= lastLogged.toLocaleString('pl-PL', {hour: '2-digit', minute: '2-digit'});
+            if (sn == true && itsTime) {
+                // TODO: sprawdzenie czy już było dzisiaj i czy ten warunek napewno jest poprawny
+                console.log('Powiadomienie!!11oneone');
+            }
         });
 
     } else {
