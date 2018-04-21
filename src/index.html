@@ -93,9 +93,11 @@
 			</div>
 			<span class="ui-title">Lista zwyczajów</span>
 		</div>
-
 		<div data-role="content">
-			<ul id="habitsList" data-role="listview" data-split-icon="delete" data-inset="true"></ul>
+			<ul id="habitsList" data-split-icon="delete" data-role="listview" data-filter="true" data-filter-theme="a" data-filter-placeholder="Filter habits list..."
+			    data-inset="true">
+				<!-- dodawanie nawykow -->
+			</ul>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
@@ -266,7 +268,7 @@
 
 			<p>Typ zadania</p>
 
-			<input type="hidden" id="manageHabit-type" value="-1"/>
+			<input type="hidden" id="manageHabit-type" value="-1" />
 
 			<div data-role="tabs">
 

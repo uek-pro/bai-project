@@ -100,7 +100,7 @@ notifyAuthStateChanged(function (user) {
                         `<li><a href="#">
                             <h2>${el.name}</h2>
                             <p>(${el.type}) ${el.desc} - ${el.date}</p>
-                        </a><a href="#">Delete</a></li>`
+                            <a href="#">Delete</a></li>`
                     );
                 }
                 $(hHabitsList).listview('refresh');
@@ -125,3 +125,4 @@ notifyAuthStateChanged(function (user) {
         console.log('Signed off.');
     }
 });
+
