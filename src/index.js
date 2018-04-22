@@ -125,7 +125,7 @@ notifyAuthStateChanged(function (user) {
             for (let i = 0; i < snapshot.val().length; i++) {
                 const sh = snapshot.val()[i];
                 $(hSuggestedHabitsList).append(
-                    `<li>
+                    `<li data-type="${sh.type}">
                         <a href="#">
                             <h2>${sh.name}</h2>
                             <p>${sh.desc}</strong></p>
@@ -138,6 +138,16 @@ notifyAuthStateChanged(function (user) {
             };
 
             $(hSuggestedHabitsList).hasClass('ui-listview') ? $(hSuggestedHabitsList).listview('refresh') : $(hSuggestedHabitsList).trigger('create');
+
+            // filtrowanie po typie zadania
+            const $suggestedHabits = $('#suggested-habits-list li');
+            $('#habit-type-select').change(function () {
+                const habitType = this.options[this.selectedIndex].value;
+                $suggestedHabits.hide().filter(function () {
+                    const t = $(this).data('type');
+                    return habitType == -1 || t == habitType;
+                }).show();
+            });
         });
 
         firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
@@ -169,11 +179,11 @@ notifyAuthStateChanged(function (user) {
             });
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
-                
+
                 const d1 = new Date(+lastLogged).getDate();
                 const d2 = lnExist ? new Date(ss.lastNotification).getDate() : -1;
                 console.log(d1, d2);
-                
+
                 if (d1 != d2) {
                     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: +lastLogged });
 
