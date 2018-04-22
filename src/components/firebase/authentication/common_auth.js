@@ -9,7 +9,7 @@ const logOut = () => {
 };
 
 const checkAuth = () => {
-    var user = firebase.auth().currentUser; // NOTE: user.emailVerified : bool - sprawdza czy konto jest zweryfikowane
+    var user = firebase.auth().currentUser;
     return user ? true : false;
     // return user || false;
 };

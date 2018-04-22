@@ -13,8 +13,8 @@ firebase.initializeApp(firebaseConfig);
 
 
 // PAGE: LOGOWANIE (STRONA GŁÓWNA)
-let userEmail = document.getElementById('email-login-1');
-let userPass = document.getElementById('password-login-1');
+const userEmail = document.getElementById('email-login-1');
+const userPass = document.getElementById('password-login-1');
 document.querySelector('#login_field').addEventListener('click', () => logIn(userEmail.value, userPass.value));
 
 document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
@@ -22,8 +22,8 @@ document.querySelector('#btnGitHubLogIn').addEventListener('click', () => social
 document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
 // PAGE: REJESTRACJA [OKNO MODALNE]
-let userRegisterEmail = document.getElementById('email-register');
-let userRegisterPass = document.getElementById('password-register1');
+const userRegisterEmail = document.getElementById('email-register');
+const userRegisterPass = document.getElementById('password-register1');
 document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
 
 // PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
@@ -72,7 +72,6 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
     }
 });
 
-// PAGE: ? STRONA EDYCJI ZADANIA ?
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
 
@@ -83,7 +82,7 @@ notifyAuthStateChanged(function (user) {
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
         let lastLogged = new Date();
-        firebase.database().ref(`users/${user.uid}`).update({ // firebase.auth().currentUser.uid;
+        firebase.database().ref(`users/${user.uid}`).update({
             lastLogged: +lastLogged
         });
 
@@ -95,27 +94,24 @@ notifyAuthStateChanged(function (user) {
             if (habits != null) {
                 const keys = Object.keys(habits);
                 // console.log('Lista zwyczajów', habits);
-
                 for (let i = 0; i < keys.length; i++) {
                     const el = habits[keys[i]];
                     // console.log(i, el);
-
                     $(hHabitsList).append(
-                        `<li><a href="#">
-                            <h2>${el.name}</h2>
-                            <p>(${el.type}) ${el.desc} - ${el.date}</p>
-                            </a><a href="#">Delete</a></li>`
+                        `<li>
+                            <a href="#">
+                                <h2>${el.name}</h2>
+                                <p>(${el.type}) ${el.desc} - ${el.date}</p>
+                            </a>
+                            <a href="#">Delete</a>
+                        </li>`
                     );
                     hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
                 }
-
-
                 $(hHabitsList).listview('refresh');
             }
             else {
-                $(hHabitsList).append(
-                    `<p class="emptyList">Aktualnie nie posiadasz nic na swojej liście</p>`
-                );
+                $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
             }
         });
 
@@ -152,10 +148,8 @@ notifyAuthStateChanged(function (user) {
 
         firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
 
-            console.log('Settings: ', snapshot.val());
-
             const ss = snapshot.val();
-
+            console.log('Settings: ', ss);
             const snExist = ss && typeof ss.showNotifications !== 'undefined';
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
             const lnExist = ss && typeof ss.lastNotification !== 'undefined'; //
@@ -168,9 +162,7 @@ notifyAuthStateChanged(function (user) {
                 hShowNotifications.flipswitch('disable');
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ showNotifications: this.value == 1 ? true : false });
 
-                setTimeout(() => {
-                    hShowNotifications.flipswitch('enable');
-                }, 3000);
+                setTimeout(() => { hShowNotifications.flipswitch('enable'); }, 3000);
             });
 
             hNotificationsTime.on('blur', function () {
