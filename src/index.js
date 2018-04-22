@@ -33,6 +33,8 @@ const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
+const hShowNotifications = $('#show-notifications');
+const hNotificationsTime = $('#notifications-time');
 
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
 const hSuggestedHabitsList = document.getElementById('suggested-habits-list');
@@ -80,8 +82,9 @@ notifyAuthStateChanged(function (user) {
         window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
+        let lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({ // firebase.auth().currentUser.uid;
-            lastLogged: +new Date()
+            lastLogged: +lastLogged
         });
 
         // nasłuchiwanie na zmiany w liście zwyczajów
@@ -91,11 +94,11 @@ notifyAuthStateChanged(function (user) {
             $(hHabitsList).empty();
             if (habits != null) {
                 const keys = Object.keys(habits);
-                console.log('Lista zwyczajów', habits);
+                // console.log('Lista zwyczajów', habits);
 
                 for (let i = 0; i < keys.length; i++) {
                     const el = habits[keys[i]];
-                    console.log(i, el);
+                    // console.log(i, el);
 
                     $(hHabitsList).append(
                         `<li><a href="#">
@@ -135,6 +138,51 @@ notifyAuthStateChanged(function (user) {
             };
 
             $(hSuggestedHabitsList).hasClass('ui-listview') ? $(hSuggestedHabitsList).listview('refresh') : $(hSuggestedHabitsList).trigger('create');
+        });
+
+        firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
+
+            console.log('Settings: ', snapshot.val());
+
+            const ss = snapshot.val();
+
+            const snExist = ss && typeof ss.showNotifications !== 'undefined';
+            const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
+            const lnExist = ss && typeof ss.lastNotification !== 'undefined'; //
+
+            hShowNotifications.val(snExist ? 1 : 0);
+            hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
+
+            hShowNotifications.on('change', function () {
+
+                hShowNotifications.flipswitch('disable');
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ showNotifications: this.value == 1 ? true : false });
+
+                setTimeout(() => {
+                    hShowNotifications.flipswitch('enable');
+                }, 3000);
+            });
+
+            hNotificationsTime.on('blur', function () {
+
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
+            });
+
+            if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
+                
+                const d1 = new Date(+lastLogged).getDate();
+                const d2 = lnExist ? new Date(ss.lastNotification).getDate() : -1;
+                console.log(d1, d2);
+                
+                if (d1 != d2) {
+                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: +lastLogged });
+
+                    console.log('Powiadomienie!!11oneone');
+                    // TODO: realizacja zapisanych zadań
+                } else {
+                    console.log('Dziś już było powiadomienie');
+                }
+            }
         });
 
     } else {
