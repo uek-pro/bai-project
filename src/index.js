@@ -35,7 +35,7 @@ const hHabitsList = document.getElementById('habitsList');
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
 
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
-const hSuggestedHabits = document.getElementById('suggested-habits');
+const hSuggestedHabitsList = document.getElementById('suggested-habits-list');
 
 // PAGE: STRONA DODAWANIA ZADANIA
 const mhTitle = document.getElementById('manageHabit-title');
@@ -121,15 +121,23 @@ notifyAuthStateChanged(function (user) {
 
             for (let i = 0; i < snapshot.val().length; i++) {
                 const sh = snapshot.val()[i];
-                $(hSuggestedHabits).append(
-                    `<p>T${sh.type} - <strong>${sh.name}</strong> ${sh.desc}, ${sh.category}</p>`
+                $(hSuggestedHabitsList).append(
+                    `<li>
+                        <a href="#">
+                            <h2>${sh.name}</h2>
+                            <p>${sh.desc}</strong></p>
+                            <p><strong>(${sh.type})</strong> ${sh.category}</p>
+                        </a>
+                        <a href="#">Add</a>
+                    </li>`
                 );
             };
+            $(hSuggestedHabitsList).listview('refresh'); // NOTE: czasem wysypuje
         });
 
     } else {
         $(hHabitsList).empty();
-        $(hSuggestedHabits).empty();
+        $(hSuggestedHabitsList).empty();
         window.location.hash = '';
         console.log('Signed off.');
     }
