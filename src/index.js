@@ -129,7 +129,8 @@ notifyAuthStateChanged(function (user) {
 
             const snExist = ss && typeof ss.showNotifications !== 'undefined';
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
-            
+            const lnExist = ss && typeof ss.lastNotification !== 'undefined'; //
+
             hShowNotifications.val(snExist ? 1 : 0);
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
 
@@ -148,10 +149,20 @@ notifyAuthStateChanged(function (user) {
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
 
-            const itsTime = ss && typeof ss.showNotifications !== 'null' && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' });
-            if (snExist && ss.showNotifications == true && itsTime) {
-                // TODO: sprawdzenie czy już było dzisiaj i czy ten warunek napewno jest poprawny
-                console.log('Powiadomienie!!11oneone');
+            if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
+                
+                const d1 = new Date(+lastLogged).getDate();
+                const d2 = lnExist ? new Date(ss.lastNotification).getDate() : -1;
+                console.log(d1, d2);
+                
+                if (d1 != d2) {
+                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: +lastLogged });
+
+                    console.log('Powiadomienie!!11oneone');
+                    // TODO: realizacja zapisanych zadań
+                } else {
+                    console.log('Dziś już było powiadomienie');
+                }
             }
         });
 
