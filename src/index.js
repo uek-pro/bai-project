@@ -105,17 +105,17 @@ notifyAuthStateChanged(function (user) {
                     );
                     hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
                 }
-                
-                
+
+
                 $(hHabitsList).listview('refresh');
-            } 
+            }
             else {
                 $(hHabitsList).append(
-                        `<p class="emptyList">Aktualnie nie posiadasz nic na swojej liście</p>`
-                    );
+                    `<p class="emptyList">Aktualnie nie posiadasz nic na swojej liście</p>`
+                );
             }
         });
-     
+
         // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
         firebase.database().ref('suggestions').once('value').then(function (snapshot) {
 
@@ -131,8 +131,10 @@ notifyAuthStateChanged(function (user) {
                         <a href="#">Add</a>
                     </li>`
                 );
+                hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
             };
-            $(hSuggestedHabitsList).listview('refresh'); // NOTE: czasem wysypuje
+
+            $(hSuggestedHabitsList).hasClass('ui-listview') ? $(hSuggestedHabitsList).listview('refresh') : $(hSuggestedHabitsList).trigger('create');
         });
 
     } else {
@@ -142,5 +144,3 @@ notifyAuthStateChanged(function (user) {
         console.log('Signed off.');
     }
 });
-
-
