@@ -1,8 +1,15 @@
-.register-buttons{
-    width: 220px;
-    margin: 0 auto
-}
-.form-container-register{
-    width: 355px;
-    margin: 0 auto;
+#registerPage {
+
+    .register-form {
+        padding: 1em;
+    }
+
+    .inputs {
+        margin-top: 30px;
+        text-align: center;
+    }
+    
+    #btnCreateAccount {
+        width: 160px;
+    }
 }

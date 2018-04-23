@@ -1,9 +1,15 @@
-@import './layouts/_body.scss';
-@import './layouts/_footer.scss';
-@import './layouts/_logo.scss';
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
 
+.empty {
+    padding: 20px;
+    text-align: center;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    color: orange;
+}
 
-
-
+.db-footer {
+    bottom: 0;
+    position: fixed;
+}

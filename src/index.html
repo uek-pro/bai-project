@@ -6,93 +6,88 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-	<link rel="stylesheet" href="src/styles/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="src/lib/jquery.mobile-1.4.5.min.css">
 	<script src="src/lib/jquery-2.1.4.min.js"></script>
 	<script src="src/lib/jquery.mobile-1.4.5.min.js"></script>
 
 	<title>Practice Control</title>
 </head>
 
-<style>
-	body {
-		text-align: center;
-	}
-
-	ul {
-		display: block;
-	}
-
-	.controls {
-		float: right;
-	}
-
-	#stats p {
-		color: red;
-		padding: 10px;
-	}
-</style>
-
 <body>
 
-	<!-- LOGOWANIE (STRONA GŁÓWNA) -->
-
+	<!-- PAGE: LOGOWANIE (STRONA GŁÓWNA) -->
 	<div id="logonPage" data-role="page">
 		<div data-role="content">
-			<form class="form-container">
+			<div class="container">
+
 				<h1>
-					<img src="./img/logo.svg" height="225" width="360" alt="Practice Control">
+					<img src="./img/logo.svg" alt="Practice Control">
 				</h1>
-				<label for="email-1">Email</label>
-				<input type="email" data-clear-btn="false" name="email-1" id="email-login-1" value="">
-				<label for="password-1">Password</label>
-				<input type="password" data-clear-btn="false" name="password-1" id="password-login-1" value="" autocomplete="off">
-				<div class="form-buttons">
-					<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
-					<a href="" id="login_field" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
-				</div>
-				<a href="" id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
-				<a href="" id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
-				<a href="" id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
-			</form>
+
+				<form class="login-form">
+
+					<label>E-mail
+						<input type="email" id="email-login">
+					</label>
+					<label>Hasło
+						<input type="password" id="password-login" autocomplete="off">
+					</label>
+
+					<div class="inputs-inline">
+						<a id="btnLogin" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
+						<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
+					</div>
+
+					<div class="inputs">
+						<a id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
+						<a id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
+						<a id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 
-	<!-- REJESTRACJA [OKNO MODALNE] -->
+	<!-- PAGE: REJESTRACJA [OKNO MODALNE] -->
 
 	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
 		<div data-role="header">
-			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
-			<h1>Rejestracja</h1>
+			<span class="ui-title">Rejestracja</span>
 		</div>
 		<div data-role="content">
-			<form class="form-container-register">
-				<label for="email-1-register">Email</label>
-				<input type="email" data-clear-btn="false" name="email-1" id="email-register" value="">
-				<label for="password-1">Password</label>
-				<input type="password" data-clear-btn="false" name="password-1" id="password-register1" value="" autocomplete="off">
 
-				<div class="register-buttons">
-					<a href="#createaccount" id="createAccountBtn" data-role="button" data-icon="mail" data-inline="true">Create new account</a>
+			<form class="register-form">
+				<label>E-mail
+					<input type="email" id="email-register">
+				</label>
+				<label>Hasło
+					<input type="password" id="password-register" autocomplete="off">
+				</label>
+				<label>Powtórz hasło
+					<input type="password" id="password-register-repeat" autocomplete="off">
+				</label>
+
+				<div class="inputs">
+					<a id="btnCreateAccount" data-role="button" data-icon="mail" data-inline="true">Utwórz konto</a>
 				</div>
 			</form>
+
 		</div>
 	</div>
 
 	<!-- STRONA Z LISTĄ ZADAŃ [PODSTRONA] -->
 
 	<div id="habitsListPage" data-role="page">
-		<div data-role="header" data-position="inline">
-			<h1>Lista zwyczajów</h1>
-			<a href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
-			<a href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+		<div data-role="header">
+			<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
+				<a data-role="button" href="#suggestPage" data-icon="shop" data-iconpos="notext">Sugerowane</a>
+				<a data-role="button" href="#manageHabitPage" data-icon="plus" data-iconpos="notext">Dodaj</a>
+			</div>
+			<span class="ui-title">Lista zwyczajów</span>
 		</div>
-
 		<div data-role="content">
-			<ul id="stats" data-role="listview" data-filter="true" data-filter-placeholder="Filter your habits list" data-inset="true">
-				<!-- Tutaj wpadaja habitsy -->
-			</ul>
-			<br>
-			<button id="clearHabits" onclick="return confirm('Are you sure?')" data-theme="b">Clear your list</button>
+			<ul id="habitsList" data-split-icon="delete" data-role="listview" data-filter="true" data-filter-theme="a" data-filter-placeholder="Wyszukaj zwyczaje.."
+			 data-inset="true"></ul>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
@@ -116,7 +111,7 @@
 
 	<div id="summaryPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Podsumowanie</h1>
+			<span class="ui-title">Podsumowanie</span>
 		</div>
 
 		<div data-role="content">
@@ -151,13 +146,28 @@
 
 	<div id="settingsPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Ustawienia</h1>
+			<span class="ui-title">Ustawienia</span>
 			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
 		</div>
 
 		<div data-role="content">
 
-			<p>TODO: Ustawienia</p>
+			<h2>Ustawienia</h2>
+
+			<label for="show-notifications">Włącz powiadomienia</label>
+			<select id="show-notifications" data-role="flipswitch">
+				<option value="0">Wył</option>
+				<option value="1">Wł</option>
+			</select>
+
+			<label for="notifications-time">Wybierz godzinę powiadomień</label>
+			<!-- FIXME: time picker -->
+			<input type="time" id="notifications-time" value="20:00">
+
+			<h2>Informacje</h2>
+
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente
+				corrupti omnis at quaerat?</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -177,101 +187,109 @@
 		</div>
 	</div>
 
-	<script>
-		// SKRYPT OBSŁUGI PODSRON
-		$("a[data-podstrona=true]").each(function () {
-			const anchor = $(this);
-			anchor.bind("click", function () {
-				$.mobile.changePage(anchor.attr("href"), {
-					transition: "none",
-					changeHash: false
-				});
-				return false;
-			});
-		});
-	</script>
-
 	<!-- STRONA Z SUGEROWANYMI ZADANIAMI -->
 
 	<div id="suggestPage" data-role="page">
 		<div data-role="header" data-position="inline">
-			<h1>Sugerowane zadania</h1>
+			<span class="ui-title">Sugerowane zadania</span>
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 			<a href="#" data-icon="refresh" data-iconpos="notext">Odśwież</a>
 		</div>
 
 		<div data-role="content">
 
-			<fieldset class="ui-grid-a">
-				<div class="ui-block-a">
-					<p>TODO: implement habits types</p>
-				</div>
+			<!-- <fieldset class="ui-grid-a"> TODO: sortowanie po kategorii 
+				<div class="ui-block-a"> -->
+
+			<!-- <label for="habit-type-select" class="select">Typ zadania</label> -->
+			<select id="habit-type-select" data-native-menu="false">
+				<option>Wybierz typ zadania</option>
+				<option value="-1">Wszystkie</option>
+				<option value="0">Tak / Nie</option>
+				<option value="1">Z odpowiedzią</option>
+				<option value="2">Informacja</option>
+				<option value="3">Mini-słownik</option>
+			</select>
+
+			<!-- </div>
 				<div class="ui-block-b">
-					<p>TODO: implement habits categories</p>
+
+					<label for="select-choice-8" class="select">Kategoria</label>
+					<select name="select-choice-8" id="select-choice-8" multiple="multiple" data-native-menu="false" data-icon="grid" data-iconpos="left">
+						<option>Wybierz pożądane kategorie</option>
+						<option value="0" selected="">tmp 1</option>
+						<option value="1" selected="">tmp 2</option>
+						<option value="2" selected="">tmp 3</option>
+					</select>
+
 				</div>
-			</fieldset>
-			<p>TODO: implement suggest habits listview</p>
+			</fieldset> -->
+
+			<ul id="suggested-habits-list" data-split-icon="plus" data-role="listview" data-inset="true"></ul>
 		</div>
 	</div>
 
 	<!-- STRONA DODAWANIA ZADANIA -->
 
 	<div id="manageHabitPage" data-role="page">
+
 		<div data-role="header" data-position="inline">
-			<h1>Dodaj zwyczaj</h1>
+			<span class="ui-title">Dodaj zwyczaj</span>
 			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 		</div>
 
 		<div data-role="content">
-			<form id="addForm">
-				<label for="addTitle">Tytuł</label>
-				<input type="text" id="addTitle" />
 
-				<label for="addDescription">Treść</label>
-				<input type="text" id="addDescription" />
+			<label>Tytuł
+				<input type="text" id="manageHabit-title" />
+			</label>
 
-				<label for="chooseHabitType">Wybierz typ zadania</label>
+			<label>Treść zadania
+				<input type="text" id="manageHabit-description" />
+			</label>
 
-				<select id="chooseHabitType" data-native-menu="false" class="filterable-select">
-					<option value="0">Tak / Nie</option>
-					<option value="1">Z odpowiedzią</option>
-					<option value="2">Informacja</option>
-					<option value="3">Mini-słownik</option>
-				</select>
+			<p>Typ zadania</p>
 
-				<!-- <label for="addDate">Data</label>
-				<input type="text" data-role="date" class="date" id="addDate" data-inline="true" /> -->
+			<input type="hidden" id="manageHabit-type" value="-1" />
 
-				<button id="submitAdd" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
-			</form>
+			<div data-role="tabs">
+
+				<div data-role="navbar">
+					<ul>
+						<li>
+							<a href="#type0" class="habit-type" data-habit="0">Tak / Nie</a>
+						</li>
+						<li>
+							<a href="#type1" class="habit-type" data-habit="1">Z odpowiedzią</a>
+						</li>
+						<li>
+							<a href="#type2" class="habit-type" data-habit="2">Informacja</a>
+						</li>
+						<li>
+							<a href="#type3" class="habit-type" data-habit="3">Mini-słownik</a>
+						</li>
+					</ul>
+				</div>
+
+				<div id="type1" class="ui-body-d ui-content">
+					<label>Optymalna wartość
+						<input type="number" id="manageHabit-optimal-value" />
+					</label>
+				</div>
+
+				<div id="type2" class="ui-body-d ui-content">
+					<label>Autor (opcjonalne)
+						<input type="text" id="manageHabit-author" />
+					</label>
+				</div>
+
+				<div id="type3" class="ui-body-d ui-content">
+					<p>TODO: dict form</p>
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<!-- STRONA EDYCJI ZADANIA -->
-	<!-- NOTE: danbraj: tu można wykorzystać formularz z dodawania zwyczaju -->
-	<div id="edit" data-role="page">
-		<div data-role="header" data-position="inline">
-			<h1>Edytuj zwyczaj</h1>
-			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
-		</div>
-		<div data-role="content">
-			<h3>Edit your habit</h3>
-			<form id="editForm">
-				<label for="editTitle"></label>
-				<input type="text" id="editTitle" />
-
-				<!-- <label for="editDate"></label>
-				<input type="text" data-role="date" class="date" id="editDate" data-inline="true" /> -->
-
-				<label for="editDescription"></label>
-				<input type="text" data-role="date" class="date" id="editDescription" data-inline="true" />
-
-				<label for="editHabitType"></label>
-				<input type="text" data-role="date" class="date" id="editHabitType" data-inline="true" />
-
-				<button id="submitEdit" class="ui-btn ui-btn-b ui-corder-all">Submit</button>
-			</form>
-		</div>
+		<button id="manageHabit-add-btn" class="ui-btn ui-btn-b ui-corder-all db-footer">Dodaj</button>
 	</div>
 
 	<!-- TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
@@ -283,161 +301,6 @@
 			<p>TODO: implement habit realization form</p>
 		</div>
 	</div>
-
-	<script>
-		/*
-		showHabits();
-
-		$('#submitAdd').on('tap', addHabit);
-		$('#submitEdit').on('tap', editRun);
-		$('#stats').on('tap', '#deleteLink', deleteHabit);
-
-		$('#stats').on('tap', '#editLink', function (event) {
-
-			localStorage.setItem('currentDate', $(this).data('date'));
-			localStorage.setItem('currentTitle', $(this).data('title'));
-			localStorage.setItem('currentDescription', $(this).data('description'));
-			localStorage.setItem('currentCategory', $(this).data('category'));
-
-			$('#editDate').val(localStorage.getItem('currentDate'));
-			$('#editTitle').val(localStorage.getItem('currentTitle'));
-			$('#editDescription').val(localStorage.getItem('currentDescription'));
-			$('#editHabitType').val(localStorage.getItem('currentCategory'));
-		});
-
-		$('#clearHabits').on('tap', function (event) {
-
-			localStorage.removeItem('habits');
-			$('#stats').html('<p>Nie masz nic na liście!</p>');
-			return false;
-		});
-
-		function showHabits() {
-
-			var habits = getRunsObject();
-
-			if (habits != '' && habits != null) {
-
-				for (var i = 0; i < habits.length; i++) {
-					$('#stats').append('<li class="ui-body-inherit ui-li-static"><strong>Data: </strong>' + habits[i]["date"] +
-						'<br/><strong>Tytuł: </strong>' + habits[i]["title"] +
-						'<br/><strong>Opis: </strong>' + habits[i]["description"] +
-						'<br/><strong>Kategoria: </strong>' + habits[i]["category"] +
-						'<div class="controls">' +
-						'<a href="#edit" id="editLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + '" data-description="' + habits[i]["description"] + '" data-category="' + habits[i]["category"] +
-						'">Edit</a> | <a href="#" id="deleteLink" data-title="' + habits[i]["title"] + '" data-date="' + habits[i]["date"] + '" data-description="' + habits[i]["description"] + '" data-category="' + habits[i]["category"] +
-						'" onClick="return confirm(\' Are you sure?\')">Delete</a>' +
-						'</div></li>')
-				};
-
-			} else {
-				$('#stats').html('<p>Nie masz na liście nawyków!</p>');
-			}
-		}
-
-		function addHabit() {
-
-			var title = $('#addTitle').val();
-			var date = $('#addDate').val();
-			var description = $('#addDescription').val();
-			var category = $('#chooseHabitType').val()
-
-			var habit = {
-				description: description,
-				category: category,
-				date: date,
-				title: title
-			}
-
-			var habits = getRunsObject();
-
-			habits.push(habit);
-			alert('Nawyk dodany');
-
-			localStorage.setItem('habits', JSON.stringify(habits));
-
-			window.location.hash = 'habitsListPage';
-			return false;
-		}
-
-		function editRun() {
-
-			currentDate = localStorage.getItem('currentDate');
-			currentTitle = localStorage.getItem('currentTitle');
-			currentDescription = localStorage.getItem('currentDescription');
-			currentCategory = localStorage.getItem('currentCategory');
-
-			var habits = getRunsObject();
-
-			for (var i = 0; i < habits.length; i++) {
-				if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory) {
-
-					habits.splice(i, 1);
-				}
-				localStorage.setItem('habits', JSON.stringify(habits));
-			};
-
-			var title = $('#editTitle').val();
-			var date = $('#editDate').val();
-			var description = $('#editDescription').val();
-			var category = $('#editHabitType').val()
-
-			var habit_update = {
-				description: description,
-				category: category,
-				date: date,
-				title: title
-			}
-
-			habits.push(habit_update);
-			alert('Habit updated');
-
-			localStorage.setItem('habits', JSON.stringify(habits));
-
-			window.location.hash = 'habitsListPage';
-			return false;
-		}
-
-		function deleteHabit() {
-
-			localStorage.setItem('currentDate', $(this).data('date'));
-			localStorage.setItem('currentTitle', $(this).data('title'));
-			localStorage.setItem('currentDescription', $(this).data('description'));
-			localStorage.setItem('currentCategory', $(this).data('category'));
-
-			currentDate = localStorage.getItem('currentDate');
-			currentTitle = localStorage.getItem('currentTitle');
-			currentDescription = localStorage.getItem('currentDescription');
-			currentCategory = localStorage.getItem('currentCategory');
-
-			var habits = getRunsObject();
-
-			for (var i = 0; i < habits.length; i++) {
-				if (habits[i]['date'] == currentDate && habits[i]['title'] == currentTitle && habits[i]['description'] == currentDescription && habits[i]['category'] == currentCategory) {
-					habits.splice(i, 1);
-				}
-				localStorage.setItem('habits', JSON.stringify(habits));
-			};
-
-			alert('Habit deleted');
-			window.location.hash = 'habitsListPage';
-			return false;
-		}
-
-		function getRunsObject() {
-
-			var habits = new Array();
-			var currentHabits = localStorage.getItem('habits');
-			if (currentHabits != null) {
-				var habits = JSON.parse(currentHabits);
-			}
-
-			return habits.sort(function (a, b) {
-				return new Date(b.date) - new Date(b.date)
-			});
-		}
-		*/
-	</script>
 </body>
 
 </html>
