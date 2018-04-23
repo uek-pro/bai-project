@@ -1,4 +1,3 @@
-@import './layouts/_logo.scss';
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
 
@@ -10,4 +9,7 @@
     color: orange;
 }
 
-.db-footer {bottom: 0;position: fixed;}
+.db-footer {
+    bottom: 0;
+    position: fixed;
+}

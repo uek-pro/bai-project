@@ -15,47 +15,63 @@
 
 <body>
 
-	<!-- LOGOWANIE (STRONA GŁÓWNA) -->
-
+	<!-- PAGE: LOGOWANIE (STRONA GŁÓWNA) -->
 	<div id="logonPage" data-role="page">
 		<div data-role="content">
-			<form class="form-container">
+			<div class="container">
+
 				<h1>
-					<img src="./img/logo.svg" height="225" width="360" alt="Practice Control">
+					<img src="./img/logo.svg" alt="Practice Control">
 				</h1>
-				<label for="email-1">Email</label>
-				<input type="email" data-clear-btn="false" name="email-1" id="email-login-1" value="">
-				<label for="password-1">Password</label>
-				<input type="password" data-clear-btn="false" name="password-1" id="password-login-1" value="" autocomplete="off">
-				<div class="form-buttons">
-					<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
-					<a href="" id="login_field" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
-				</div>
-				<a href="" id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
-				<a href="" id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
-				<a href="" id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
-			</form>
+
+				<form class="login-form">
+
+					<label>E-mail
+						<input type="email" id="email-login">
+					</label>
+					<label>Hasło
+						<input type="password" id="password-login" autocomplete="off">
+					</label>
+
+					<div class="inputs-inline">
+						<a id="btnLogin" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
+						<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
+					</div>
+
+					<div class="inputs">
+						<a id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
+						<a id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
+						<a id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 
-	<!-- REJESTRACJA [OKNO MODALNE] -->
+	<!-- PAGE: REJESTRACJA [OKNO MODALNE] -->
 
 	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
 		<div data-role="header">
-			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
 			<span class="ui-title">Rejestracja</span>
 		</div>
 		<div data-role="content">
-			<form class="form-container-register">
-				<label for="email-1-register">Email</label>
-				<input type="email" data-clear-btn="false" name="email-1" id="email-register" value="">
-				<label for="password-1">Password</label>
-				<input type="password" data-clear-btn="false" name="password-1" id="password-register1" value="" autocomplete="off">
 
-				<div class="register-buttons">
-					<a href="#createaccount" id="createAccountBtn" data-role="button" data-icon="mail" data-inline="true">Create new account</a>
+			<form class="register-form">
+				<label>E-mail
+					<input type="email" id="email-register">
+				</label>
+				<label>Hasło
+					<input type="password" id="password-register" autocomplete="off">
+				</label>
+				<label>Powtórz hasło
+					<input type="password" id="password-register-repeat" autocomplete="off">
+				</label>
+
+				<div class="inputs">
+					<a id="btnCreateAccount" data-role="button" data-icon="mail" data-inline="true">Utwórz konto</a>
 				</div>
 			</form>
+
 		</div>
 	</div>
 

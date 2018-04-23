@@ -13,18 +13,18 @@ firebase.initializeApp(firebaseConfig);
 
 
 // PAGE: LOGOWANIE (STRONA GŁÓWNA)
-const userEmail = document.getElementById('email-login-1');
-const userPass = document.getElementById('password-login-1');
-document.querySelector('#login_field').addEventListener('click', () => logIn(userEmail.value, userPass.value));
-
+const userEmail = document.getElementById('email-login');
+const userPass = document.getElementById('password-login');
+document.querySelector('#btnLogin').addEventListener('click', () => logIn(userEmail.value, userPass.value));
 document.querySelector('#btnGoogleLogIn').addEventListener('click', () => socialMediaLogIn('google'));
 document.querySelector('#btnGitHubLogIn').addEventListener('click', () => socialMediaLogIn('github'));
 document.querySelector('#btnFacebookLogIn').addEventListener('click', () => socialMediaLogIn('facebook'));
 
 // PAGE: REJESTRACJA [OKNO MODALNE]
 const userRegisterEmail = document.getElementById('email-register');
-const userRegisterPass = document.getElementById('password-register1');
-document.querySelector('#createAccountBtn').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value));
+const userRegisterPass = document.getElementById('password-register');
+const userRegisterPass2 = document.getElementById('password-register-repeat');
+document.querySelector('#btnCreateAccount').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value, userRegisterPass2.value));
 
 // PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
 const hHabitsList = document.getElementById('habitsList');
