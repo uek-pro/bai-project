@@ -12,7 +12,12 @@ const logIn = (userEmail, userPass) => {
 }
 
 // create new account via email password
-const createAccount = (userEmail, userPass) => {
+const createAccount = (userEmail, userPass, userPass2) => {
+
+    if (userPass !== userPass2) {
+        console.log('Hasła nie zgadzają się');
+        return false;
+    }
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         let errorCode = error.code;

@@ -1,44 +1,45 @@
-// .uk-close:focus {
-//   transition: .5s ease all;
-//   border-color: #99baca;
-//   outline: 0;
-//   background: #f5fbfe;
-//   color: #666;
-// }
+#logonPage {
 
-// .container-login {
-//   min-height: 100vh;
-//   display: -webkit-box;
-//   display: -webkit-flex;
-//   display: -moz-box;
-//   display: -ms-flexbox;
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 15px;
-//   background: #f2f2f2;
-// }
+  .container {
+    margin: 0 auto;
+    width: 600px;
+  }
 
-// .wrap-login {
-    // box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-    // background: #fff;
-    // border-radius: 10px;
-    // overflow: hidden;
-    // padding: 77px 55px 33px 55px;
-// }
+  h1, img {
+    display: block;
+    width: 100%;
+  }
 
-.form-container {
-  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  padding: 77px 55px 33px 55px;
-  width: 355px;
-  margin: 0 auto;
+  .login-form {
+    margin: 0 auto;
+    width: 400px;
+  }
 
-}
+  .inputs-inline {
+    margin-bottom: 40px;
+  }
 
-.form-buttons{
-  width:400px;
+  .inputs-inline a {
+    width: 120px;
+  }
+
+  #btnLogin {
+    float: right;
+    margin-right: 0;
+  }
+
+  // Mobile
+  @media screen and (max-width: 660px) {
+    .container {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 440px) {
+    .login-form {
+      margin: 0;
+      width: 100%;
+    }
+  }
 }
