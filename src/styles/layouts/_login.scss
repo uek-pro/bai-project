@@ -3,6 +3,7 @@
   .container {
     margin: 0 auto;
     width: 600px;
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
   }
 
   h1, img {
@@ -10,13 +11,67 @@
     width: 100%;
   }
 
+  #btnGoogleLogIn {
+    background: #DD4B39;
+    color:white;
+    font-weight: 300;
+    border: 0;
+  }
+
+  #btnGoogleLogIn:hover,
+  #btnGoogleLogIn:focus {
+  background: #E74B37;
+}
+
+  #btnFacebookLogIn {
+    background: linear-gradient(#5B7BD5, #4864B1);
+    color:white;
+    font-weight: 300;
+    border: 0;
+  }
+
+  #btnFacebookLogIn:hover,
+  #btnFacebookLogIn:focus {
+  background: #5B7BD5;
+}
+
+ #btnGitHubLogIn {
+  border-color: rgba(27,31,35,0.25);
+ }
+
+ #btnLogin{
+  box-shadow: 0px 3px 21px rgba(166, 255, 0, 0.7);
+  background: linear-gradient(to right, rgb(64, 249, 95), rgb(20, 90, 14));
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color:white;
+  transition: 0.3s all ease;
+ }
+ 
+ #btnLogin:hover {
+  background: linear-gradient(to right,rgb(20, 90, 14),rgb(64, 249, 95));
+ }
+
+ #registerButton {
+  box-shadow: 0px 3px 21px rgba(255, 100, 0, 0.7);
+  background: linear-gradient(to right, #F98340, #F71442);
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color:white;
+ }
+ #registerButton:hover {
+  background: linear-gradient(to right, #F71442,#F98340);
+ }
+
   .login-form {
     margin: 0 auto;
     width: 400px;
   }
 
   .inputs-inline {
-    margin-bottom: 40px;
+    margin-bottom: 70px;
   }
 
   .inputs-inline a {
@@ -42,4 +97,8 @@
       width: 100%;
     }
   }
+}
+
+.inputs {
+  padding-bottom: 25px;
 }
