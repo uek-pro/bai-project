@@ -9,6 +9,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
+import { createDoughnutChart } from './components/chart/charts';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -94,7 +95,27 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
     }
 });
 
-// PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
+// PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
+const hdMain = document.getElementById('hdMain');
+const begChart = document.getElementById('beginningPreview').getContext('2d');
+const l2wChart = document.getElementById('last2weeksPreview').getContext('2d');
+
+let storeHabitDetails = {};
+
+const showDetailsPage = (habit) => {
+    storeHabitDetails = habit;
+    $.mobile.changePage('#habitDetailsPage', { transition : 'pop' });
+}
+
+$(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
+    
+    console.log(storeHabitDetails);
+    hdMain.textContent = storeHabitDetails.desc ? storeHabitDetails.desc : storeHabitDetails.name;
+
+    createDoughnutChart(begChart, 12, 3, 5);
+    createDoughnutChart(l2wChart, 8, 1);
+});
+
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
 
 
@@ -128,6 +149,7 @@ notifyAuthStateChanged(function (user) {
                             <a href="#">Delete</a>
                         </li>`
                     );
+                    el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
                     hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
                 }
                 $(hHabitsList).listview('refresh');

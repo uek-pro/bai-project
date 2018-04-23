@@ -292,7 +292,27 @@
 		<button id="manageHabit-add-btn" class="ui-btn ui-btn-b ui-corder-all db-footer">Dodaj</button>
 	</div>
 
-	<!-- TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+	<!-- STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+	<div id="habitDetailsPage" data-role="page">
+		<div data-role="content">
+
+			<h1 id="hdMain"></h1>
+			<p>Skuteczność:</p>
+
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<p>od początku</p>
+					<canvas class="db-chart" id="beginningPreview"></canvas>
+				</div>
+				<div class="ui-block-b">
+					<p>ostatnie 2 tyg</p>
+					<canvas class="db-chart" id="last2weeksPreview"></canvas>
+				</div>
+			</fieldset>
+
+			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+		</div>
+	</div>
 
 	<!-- STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
 
