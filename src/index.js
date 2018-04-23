@@ -26,6 +26,18 @@ const userRegisterPass = document.getElementById('password-register');
 const userRegisterPass2 = document.getElementById('password-register-repeat');
 document.querySelector('#btnCreateAccount').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value, userRegisterPass2.value));
 
+// Skrypt obsługi podstron
+$('a[data-podstrona=true]').each(function () {
+    const anchor = $(this);
+    anchor.on('tap', function () {
+        $.mobile.changePage(anchor.attr('href'), {
+            transition: 'none',
+            changeHash: false
+        });
+        return false;
+    });
+});
+
 // PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
 const hHabitsList = document.getElementById('habitsList');
 
@@ -44,10 +56,18 @@ const mhTitle = document.getElementById('manageHabit-title');
 const mhDescription = document.getElementById('manageHabit-description');
 const mhType = document.getElementById('manageHabit-type');
 
+$('.habit-type').on('tap', function () {
+    if ($(this).hasClass('ui-btn-active')) {
+        console.log('tab jest już aktywny');
+    } else {
+        console.log(`zmiana aktywnego tab'a (${this.attributes['data-habit'].textContent})`);
+        mhType.value = this.attributes['data-habit'].value;
+    }
+});
+
 const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
 // TODO: + słowniczek
-
 
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 

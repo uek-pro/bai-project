@@ -181,20 +181,6 @@
 		</div>
 	</div>
 
-	<script>
-		// SKRYPT OBSŁUGI PODSRON
-		$("a[data-podstrona=true]").each(function () {
-			const anchor = $(this);
-			anchor.bind("click", function () {
-				$.mobile.changePage(anchor.attr("href"), {
-					transition: "none",
-					changeHash: false
-				});
-				return false;
-			});
-		});
-	</script>
-
 	<!-- STRONA Z SUGEROWANYMI ZADANIAMI -->
 
 	<div id="suggestPage" data-role="page">
@@ -294,18 +280,6 @@
 				<div id="type3" class="ui-body-d ui-content">
 					<p>TODO: dict form</p>
 				</div>
-
-				<script>
-					const hHabitType = document.getElementById('manageHabit-type');
-					$('.habit-type').click(function () {
-						if ($(this).hasClass('ui-btn-active')) {
-							console.log('tab jest już aktywny');
-						} else {
-							console.log(`zmiana aktywnego tab'a (${this.attributes['data-habit'].textContent})`);
-							hHabitType.value = this.attributes['data-habit'].value;
-						}
-					});
-				</script>
 			</div>
 		</div>
 
