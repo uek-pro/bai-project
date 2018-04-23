@@ -12,7 +12,7 @@
   }
 
   #btnGoogleLogIn {
-    background: #DD4B39;
+    background: linear-gradient(to right, #DD4B39, rgba(243, 81, 60, 0.911));
     color:white;
     font-weight: 300;
     border: 0;
@@ -24,7 +24,7 @@
 }
 
   #btnFacebookLogIn {
-    background: linear-gradient(#5B7BD5, #4864B1);
+    background: linear-gradient(to right, #4B77BE, #1F4788);
     color:white;
     font-weight: 300;
     border: 0;
@@ -32,7 +32,7 @@
 
   #btnFacebookLogIn:hover,
   #btnFacebookLogIn:focus {
-  background: #5B7BD5;
+  background: rgb(39, 92, 177);
 }
 
  #btnGitHubLogIn {
@@ -41,16 +41,15 @@
 
  #btnLogin{
   box-shadow: 0px 3px 21px rgba(166, 255, 0, 0.7);
-  background: linear-gradient(to right, rgb(64, 249, 95), rgb(20, 90, 14));
+  background: linear-gradient(to right, rgb(64, 249, 95), rgb(29, 129, 20));
   background-size: 100%;
   text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
   border: 0;
   color:white;
-  transition: 0.3s all ease;
  }
  
  #btnLogin:hover {
-  background: linear-gradient(to right,rgb(20, 90, 14),rgb(64, 249, 95));
+  background: linear-gradient(to right,rgb(32, 141, 23),rgb(64, 249, 95));
  }
 
  #registerButton {
