@@ -299,18 +299,24 @@
 			<h1 id="hdMain"></h1>
 			<p>Skuteczność:</p>
 
-			<fieldset class="ui-grid-a">
-				<div class="ui-block-a">
+			<div class="ui-grid-a">
+				<div class="ui-block-a db-chart-block">
 					<p>od początku</p>
 					<canvas class="db-chart" id="beginningPreview"></canvas>
 				</div>
-				<div class="ui-block-b">
+				<div class="ui-block-b db-chart-block">
 					<p>ostatnie 2 tyg</p>
 					<canvas class="db-chart" id="last2weeksPreview"></canvas>
 				</div>
-			</fieldset>
+			</div>
+			<div class="ui-grid-solo">
+				<div class="ui-block-a">
+					<p>wykres warstwowy</p>
+					<canvas id="areaPreview"></canvas>
+				</div>
+			</div>
 
-			<a data-rel="back" data-icon="back" data-iconpos="notext">Wróć</a>
+			<a data-rel="back">Wróć</a>
 		</div>
 	</div>
 

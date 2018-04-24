@@ -9,7 +9,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { createDoughnutChart } from './components/chart/charts';
+import { createDoughnutChart, createLineChart } from './components/chart/charts';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -99,21 +99,24 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 const hdMain = document.getElementById('hdMain');
 const begChart = document.getElementById('beginningPreview').getContext('2d');
 const l2wChart = document.getElementById('last2weeksPreview').getContext('2d');
+const avaChart = document.getElementById('areaPreview').getContext('2d');
 
 let storeHabitDetails = {};
 
 const showDetailsPage = (habit) => {
     storeHabitDetails = habit;
-    $.mobile.changePage('#habitDetailsPage', { transition : 'pop' });
+    $.mobile.changePage('#habitDetailsPage', { transition: 'pop' });
 }
 
 $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
-    
+
     console.log(storeHabitDetails);
     hdMain.textContent = storeHabitDetails.desc ? storeHabitDetails.desc : storeHabitDetails.name;
 
     createDoughnutChart(begChart, 12, 3, 5);
     createDoughnutChart(l2wChart, 8, 1);
+
+    createLineChart(avaChart, 5, [10, 11, 12, 13, 14, 15, 16 ], [3, 2, 9, 6, 0, 5, 7]);
 });
 
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
@@ -236,111 +239,5 @@ notifyAuthStateChanged(function (user) {
         $(hSuggestedHabitsList).empty();
         window.location.hash = '';
         console.log('Signed off.');
-    }
-});
-
-
-var data1 = {
-    datasets: [
-        {
-            data: [23, 4],
-            backgroundColor: ['green', 'red']
-        }
-    ],
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-        'Wykonano',
-        'Nie wykonano'
-    ]
-};
-
-var ctx1 = document.getElementById('myChart1').getContext('2d');
-var myDoughnutChart = new Chart(ctx1, {
-    type: 'doughnut',
-    data: data1,
-    options: {
-        title: {
-            display: true,
-            fontSize: 16,
-            text: '% skuteczności'
-        },
-        legend: false,
-        events: null
-    }
-});
-
-
-var data2 = {
-    labels: [10, 11, 12, 13, 14, 15, 16, 17, 18],
-    datasets: [{
-        fill: 'start',
-        backgroundColor: 'green',
-        data: [3, 0, 2, 6, 1, 9, 0, 5, 7]
-    }]
-};
-
-var ctx2 = document.getElementById('myChart2').getContext('2d');
-var myLineChart = new Chart(ctx2, {
-    type: 'line',
-    data: data2,
-    options: {
-        title: {
-            display: true,
-            fontSize: 16,
-            text: 'Wykres'
-        },
-        legend: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        },
-        elements: {
-            line: {
-                tension: 0
-            }
-        },
-        annotation: {
-            annotations: [{
-              type: 'line',
-              mode: 'horizontal',
-              scaleID: 'y-axis-0',
-              value: 6,
-              borderColor: 'black',
-              borderWidth: 4,
-              label: {
-                enabled: true,
-                content: '6'
-              }
-            }]
-          }
-    },
-    
-});
-
-
-var data3 = {
-    datasets: [
-        {
-            data: [12, 8, 3],
-            backgroundColor: ['green', 'orange', 'red']
-        }
-    ]
-};
-
-var ctx3 = document.getElementById('myChart3').getContext('2d');
-var myDoughnutChart3 = new Chart(ctx3, {
-    type: 'doughnut',
-    data: data3,
-    options: {
-        title: {
-            display: true,
-            fontSize: 16,
-            text: '% skuteczności'
-        },
-        legend: false,
-        events: null
     }
 });
