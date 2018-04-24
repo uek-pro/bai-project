@@ -1,9 +1,10 @@
+@import "mixin";
+
 #logonPage {
 
   .container {
     margin: 0 auto;
     width: 600px;
-    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
   }
 
   h1, img {
@@ -13,56 +14,44 @@
 
   #btnGoogleLogIn {
     background: linear-gradient(to right, #DD4B39, rgba(243, 81, 60, 0.911));
-    color:white;
-    font-weight: 300;
-    border: 0;
+    
+    @include button(#E74B37);
   }
 
-  #btnGoogleLogIn:hover,
-  #btnGoogleLogIn:focus {
-  background: #E74B37;
-}
 
   #btnFacebookLogIn {
     background: linear-gradient(to right, #4B77BE, #1F4788);
-    color:white;
-    font-weight: 300;
-    border: 0;
+    
+    @include button(rgb(39, 92, 177));
   }
 
-  #btnFacebookLogIn:hover,
-  #btnFacebookLogIn:focus {
-  background: rgb(39, 92, 177);
-}
 
  #btnGitHubLogIn {
-  border-color: rgba(27,31,35,0.25);
+  background: linear-gradient(to right, rgb(77, 75, 74), rgb(122, 113, 115));
+  
+  @include button(linear-gradient(to right, rgb(97, 94, 93), rgb(141, 137, 137)));
  }
 
+
  #btnLogin{
+  float: right;
+  margin-right: 0;
   box-shadow: 0px 3px 21px rgba(166, 255, 0, 0.7);
   background: linear-gradient(to right, rgb(64, 249, 95), rgb(29, 129, 20));
-  background-size: 100%;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  border: 0;
   color:white;
+
+  @include button(linear-gradient(to right,rgb(32, 141, 23),rgb(64, 249, 95)));
  }
  
- #btnLogin:hover {
-  background: linear-gradient(to right,rgb(32, 141, 23),rgb(64, 249, 95));
- }
 
  #registerButton {
   box-shadow: 0px 3px 21px rgba(255, 100, 0, 0.7);
-  background: linear-gradient(to right, #F98340, #F71442);
-  background-size: 100%;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
-  border: 0;
-  color:white;
+  background: linear-gradient(to right, rgb(194, 150, 125), rgb(235, 132, 152));
+
+  @include button(linear-gradient(to right, rgb(167, 127, 104), rgb(214, 102, 124)));
+
  }
- #registerButton:hover {
-  background: linear-gradient(to right, #F71442,#F98340);
- }
+
 
   .login-form {
     margin: 0 auto;
@@ -70,16 +59,10 @@
   }
 
   .inputs-inline {
-    margin-bottom: 70px;
-  }
-
-  .inputs-inline a {
-    width: 120px;
-  }
-
-  #btnLogin {
-    float: right;
-    margin-right: 0;
+    margin-bottom: 50px;
+    a {
+      width:120px;
+    }
   }
 
   // Mobile
@@ -87,6 +70,12 @@
     .container {
       margin: 0;
       width: 100%;
+    }
+  }
+
+  @media screen and (min-width: 660px) {
+    .container {
+      box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
     }
   }
 
