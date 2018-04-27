@@ -15,16 +15,33 @@ const chooseSocialMediaProvider = (media) => {
 const logIn = (media) => {
     const provider = chooseSocialMediaProvider(media);
     if (provider === null) return false;
+
+    console.log('click');
     
-    firebase.auth().signInWithPopup(provider).then(function (result) {
-        // var token = result.credential.accessToken;
-        // var user = result.user;
+    firebase.auth().signInWithRedirect(provider).then(function () {
+
+        return firebase.auth().getRedirectResult();
+
+    }).then(function(result) {
+
+        var user = result.user; 
+        console.log('Ok.', user);
     }).catch(function (error) {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
-        // var email = error.email;
-        // var credential = error.credential;
+
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log('Błąd', errorCode, errorMessage);
     });
+
+    // firebase.auth().signInWithPopup(provider).then(function (result) {
+    //     // var token = result.credential.accessToken;
+    //     // var user = result.user;
+    // }).catch(function (error) {
+    //     // var errorCode = error.code;
+    //     // var errorMessage = error.message;
+    //     // var email = error.email;
+    //     // var credential = error.credential;
+    // });
 };
 
 export default logIn;
