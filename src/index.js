@@ -7,6 +7,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
+import { unixDateWithoutTime } from "./components/notifications/time_manager";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -94,7 +95,9 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
-
+const btnSuccess = document.getElementById('success');
+const btnFailure = document.getElementById('failure');
+const answerValue = document.getElementById('realization-answer-value');
 
 notifyAuthStateChanged(function (user) {
     if (user) {
@@ -103,7 +106,7 @@ notifyAuthStateChanged(function (user) {
 
         let lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({
-            lastLogged: +lastLogged
+            lastLogged: unixDateWithoutTime(lastLogged)
         });
 
         // nasłuchiwanie na zmiany w liście zwyczajów
@@ -192,12 +195,10 @@ notifyAuthStateChanged(function (user) {
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
 
-                const d1 = new Date(+lastLogged).getDate();
-                const d2 = lnExist ? new Date(ss.lastNotification).getDate() : -1;
-                console.log(d1, d2);
+                const unixLastLoggedDay = unixDateWithoutTime(lastLogged);
+                if (!lnExist || unixLastLoggedDay != unixDateWithoutTime(ss.lastNotification)) {
 
-                if (d1 != d2) {
-                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: +lastLogged });
+                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
 
                     console.log('Powiadomienie!!11oneone');
                     // TODO: realizacja zapisanych zadań
@@ -206,12 +207,10 @@ notifyAuthStateChanged(function (user) {
                     console.log('Dziś już było powiadomienie');
                 }
 
-                const btnSuccess = document.getElementById('success');
                 const $hr = $('#habit-realization');
-                let habits;
                 firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
 
-                    habits = snapshot.val();
+                    const habits = snapshot.val();
                     if (habits != null) {
                         const keys = Object.keys(habits);
                         let i = 0;
@@ -224,22 +223,42 @@ notifyAuthStateChanged(function (user) {
                             keys.length
                         );
 
-                        btnSuccess.addEventListener('click', function () {
-
-                            // ładowanie kolejnego zwyczaju
-                            if (++i == keys.length) {
-                                console.log('ok');
+                        const doHabitRealization = function(isSucceed) {
+                            if (i >= keys.length - 1) {
+                                // TODO: powrót do strony głównej
                                 return;
-                            } else {
-                                renderHabitsRealizationForm(
-                                    $hr,
-                                    habits[keys[i]],
-                                    btnSuccess,
-                                    i,
-                                    keys.length
+                            }
+
+                            console.log([
+                                unixLastLoggedDay,
+                                +habits[keys[i]].date
+                            ]);
+
+                            if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
+
+                                const diff = unixLastLoggedDay - (+habits[keys[i]].date);
+                                const relativeDayNumber = Math.ceil(diff / 86400000);
+                                // console.log(relativeDayNumber);
+
+                                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
+                                    habits[keys[i]].type == 0 ? true : +answerValue.value
                                 );
                             }
-                        });
+
+                            i++;
+
+                            // ładowanie kolejnego zwyczaju
+                            renderHabitsRealizationForm(
+                                $hr,
+                                habits[keys[i]],
+                                btnSuccess,
+                                i,
+                                keys.length
+                            );
+                        }
+
+                        btnSuccess.addEventListener('click', () => doHabitRealization(true));
+                        btnFailure.addEventListener('click', () => doHabitRealization(false));
                     }
                 });
             }
@@ -255,18 +274,22 @@ notifyAuthStateChanged(function (user) {
 
 function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
 
+    btnFailure.classList.add('hide');
+    answerValue.parentElement.classList.add('hide');
+
     let specific = '';
     switch (habit.type) {
         case 0:
             btnSuccess.text = 'Udało się';
+            btnFailure.classList.remove('hide');
             break;
         case 1:
             btnSuccess.text = 'Zastosuj';
-            specific = '<input type="number" id="realization-answer-value" />';
+            answerValue.parentElement.classList.remove('hide');
             break;
         case 2:
             btnSuccess.text = 'Ok';
-            specific = habit.author != null ? `<p class="quote">${habit.author}</p>` : '';
+            specific = habit.author != null ? `<p class="quote">~ ${habit.author}</p>` : '';
             break;
         case 3:
             btnSuccess.text = 'Ok';
@@ -282,8 +305,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
         <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
         
-        ${specific}
-
-        <a data-role="button" data-inline="true">Nie udało się</a>`
+        ${specific}`
     ).trigger('create');
 }
