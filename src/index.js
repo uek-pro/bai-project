@@ -98,7 +98,7 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
 notifyAuthStateChanged(function (user) {
     if (user) {
-        window.location.hash = 'habitsListPage';
+        // window.location.hash = 'habitsListPage';
         console.log(`Logged in. Greetings ${user.displayName}!`);
 
         let lastLogged = new Date();
@@ -201,9 +201,33 @@ notifyAuthStateChanged(function (user) {
 
                     console.log('Powiadomienie!!11oneone');
                     // TODO: realizacja zapisanych zadań
+
                 } else {
                     console.log('Dziś już było powiadomienie');
                 }
+
+                const btnSuccess = document.getElementById('success');
+                const $hr = $('#habit-realization');
+                let habits;
+                firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
+
+                    habits = snapshot.val();
+                    if (habits != null) {
+                        const keys = Object.keys(habits);
+                        let i = 0;
+                        renderHabitsRealizationForm($hr, habits, keys[i++], i, keys.length);
+                        btnSuccess.addEventListener('click', function () {
+
+                            if (i == keys.length) {
+                                console.log('ok');
+                                return;
+                            } else {
+                                renderHabitsRealizationForm($hr, habits, keys[i++], i, keys.length);
+                            }
+                        });
+                    }
+                });
+
             }
         });
 
@@ -214,3 +238,14 @@ notifyAuthStateChanged(function (user) {
         console.log('Signed off.');
     }
 });
+
+function renderHabitsRealizationForm(element, habits, key, index, length) {
+    const habit = habits[key];
+    element.html(
+        `<p>${index} / ${length}</p>
+        ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
+        <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
+        
+        <a data-role="button" data-inline="true">Nie udało się</a>`
+    ).trigger('create');
+}
