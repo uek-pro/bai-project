@@ -215,19 +215,33 @@ notifyAuthStateChanged(function (user) {
                     if (habits != null) {
                         const keys = Object.keys(habits);
                         let i = 0;
-                        renderHabitsRealizationForm($hr, habits, keys[i++], i, keys.length);
+                        // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
+                        renderHabitsRealizationForm(
+                            $hr,
+                            habits[keys[i]],
+                            btnSuccess,
+                            i,
+                            keys.length
+                        );
+
                         btnSuccess.addEventListener('click', function () {
 
-                            if (i == keys.length) {
+                            // ładowanie kolejnego zwyczaju
+                            if (++i == keys.length) {
                                 console.log('ok');
                                 return;
                             } else {
-                                renderHabitsRealizationForm($hr, habits, keys[i++], i, keys.length);
+                                renderHabitsRealizationForm(
+                                    $hr,
+                                    habits[keys[i]],
+                                    btnSuccess,
+                                    i,
+                                    keys.length
+                                );
                             }
                         });
                     }
                 });
-
             }
         });
 
@@ -239,13 +253,37 @@ notifyAuthStateChanged(function (user) {
     }
 });
 
-function renderHabitsRealizationForm(element, habits, key, index, length) {
-    const habit = habits[key];
-    element.html(
-        `<p>${index} / ${length}</p>
+function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
+
+    let specific = '';
+    switch (habit.type) {
+        case 0:
+            btnSuccess.text = 'Udało się';
+            break;
+        case 1:
+            btnSuccess.text = 'Zastosuj';
+            specific = '<input type="number" id="realization-answer-value" />';
+            break;
+        case 2:
+            btnSuccess.text = 'Ok';
+            specific = habit.author != null ? `<p class="quote">${habit.author}</p>` : '';
+            break;
+        case 3:
+            btnSuccess.text = 'Ok';
+            specific = '<p>TODO: table with words</p>'
+            break;
+
+        default:
+            break;
+    }
+
+    el.html(
+        `<p>${index + 1} / ${count}</p>
         ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
         <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
         
+        ${specific}
+
         <a data-role="button" data-inline="true">Nie udało się</a>`
     ).trigger('create');
 }
