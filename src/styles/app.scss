@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext');
+
+body, input, select, textarea, button, .ui-btn {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
 
@@ -19,5 +25,55 @@
 //     overflow:hidden;
 // }
 
-
-
+/*----------------------- Preloader -----------------------*/
+#loaderSvgWrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(79, 80, 80, 0.918);
+    
+    z-index: 99;
+  }
+  #preLoader{
+    position: absolute;
+    top: 50%;
+    left: 45%;
+  }
+  path{
+    fill: #00796B;
+    stroke: #00796B;
+  }
+  #T1{
+    animation: visible 2s ease .2s infinite;
+  }
+  #T2{
+    animation: visible 2s ease .4s infinite;
+  }
+  #T3{
+    animation: visible 2s ease .6s infinite;
+  }
+  #T4{
+    animation: visible 2s ease .8s infinite;
+  }
+  #T5{
+    animation: visible 2s ease 1s infinite;
+  }
+  #T6{
+    animation: visible 2s ease 1.2s infinite;
+  }
+  @keyframes visible {
+    0%{
+      opacity: 1;
+      stroke-opacity: 1;
+    }
+    50%{
+      opacity: 0;
+      stroke-opacity: 0;
+    }
+    100%{
+      opacity: 1;
+      stroke-opacity: 1;
+    }
+  }
