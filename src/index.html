@@ -13,6 +13,16 @@
 	<title>Practice Control</title>
 </head>
 
+<script>
+
+	const validate = () => {
+
+	}
+
+
+</script>
+
+
 <body>
 
 	<!-- PAGE: LOGOWANIE (STRONA GŁÓWNA) -->
@@ -25,12 +35,16 @@
 				</h1>
 
 				<form class="login-form">
-
+					<!-- popup przy logowaniu -->
+					<div data-role="popup" data-transition="slideup" class="validPop" data-overlay-theme="a" id="popupArrow" data-arrow="true">
+						<p>The email or password is invalid or badly formatted!</p>
+					</div>
+					<!-- popup przy logowaniu -->
 					<label>E-mail
-						<input type="email" id="email-login">
+						<input type="email" required id="email-login">
 					</label>
 					<label>Hasło
-						<input type="password" id="password-login" autocomplete="off">
+						<input type="password" required id="password-login" autocomplete="off">
 					</label>
 
 					<div class="inputs-inline">
@@ -55,7 +69,11 @@
 			<span class="ui-title">Rejestracja</span>
 		</div>
 		<div data-role="content">
-
+			<!-- popup przy rejestracji -->
+			<div data-role="popup" data-transition="slideup" class="validPop" data-overlay-theme="a" id="popupArrowRegister" data-arrow="true">
+				<p>The email or password is invalid or badly formatted!</p>
+			</div>
+			<!-- popup przy rejestracji -->
 			<form class="register-form">
 				<label>E-mail
 					<input type="email" id="email-register">
