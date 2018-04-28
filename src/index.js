@@ -214,3 +214,12 @@ notifyAuthStateChanged(function (user) {
         console.log('Signed off.');
     }
 });
+
+
+
+//preloader, mobileinit chyba tutaj na mobilkach by bylo
+$(window).on('load', function(){
+    $('#loaderSvgWrapper').fadeOut(2000);
+    $('#preloader').delay(350).fadeOut('slow');
+    $('body').delay(300).css({'overflow':'visible'});
+});
