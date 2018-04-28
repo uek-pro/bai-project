@@ -20,13 +20,16 @@ const logIn = (userEmail, userPass) => {
 const createAccount = (userEmail, userPass, userPass2) => {
     if (userPass !== userPass2) {
         console.log('Hasła nie zgadzają się');
-        return false;
     }
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         let errorCode = error.code;
         let errorMessage = error.message;
-        console.log("Error: " + errorMessage);
+        if(errorMessage){
+            $.mobile.document.on( "click", "#btnCreateAccount", function( evt ) {
+                $( "#popupArrowRegister" ).popup( "open", { x: evt.pageX, y: evt.pageY } );
+          }); 
+        }
         return false;
     });
     // sendVerification(); NOTE: zakomentowane, żeby nie spamować ;)
