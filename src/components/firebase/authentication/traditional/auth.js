@@ -7,13 +7,17 @@ const logIn = (userEmail, userPass) => {
         
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log("Error: " + errorMessage);
+
+        if(errorMessage){      
+            $.mobile.document.on( "click", "#btnLogin", function( evt ) {
+                $( "#popupArrow" ).popup( "open", { x: evt.pageX, y: evt.pageY } );
+          });            
+        }           
     });
 }
 
 // create new account via email password
 const createAccount = (userEmail, userPass, userPass2) => {
-
     if (userPass !== userPass2) {
         console.log('Hasła nie zgadzają się');
         return false;
