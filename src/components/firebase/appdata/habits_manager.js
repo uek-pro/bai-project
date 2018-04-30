@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { unixDateWoutTime } from '../../notifications/time_manager';
+import { unixDateWithoutTime } from '../../notifications/time_manager';
 
 
 const addHabit = (habit) => {
