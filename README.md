@@ -88,7 +88,6 @@ git pull origin master
         src="https://avatars1.githubusercontent.com/u/23094478?v=4">
         </a>
         <p>Daniel</p>
-        <p>1</p>
       </td>
       <td>
         <a href="https://github.com/danbraj">
@@ -96,7 +95,6 @@ git pull origin master
         src="https://avatars3.githubusercontent.com/u/19363013?v=4">
         </a>
         <p>Daniel <span>(kierownik)</span></p>
-        <p>2</p>
       </td>
       <td>
         <a href="https://github.com/insomnia1337">
@@ -104,7 +102,6 @@ git pull origin master
         src="https://avatars1.githubusercontent.com/u/23103157?v=4">
         </a>
         <p>Mateusz</p>
-        <p>3</p>
       </td>
       <td>
         <a href="https://github.com/EmSiii">
@@ -112,14 +109,12 @@ git pull origin master
         src="https://avatars1.githubusercontent.com/u/22874596?v=4">
         </a>
         <p>Michał</p>
-        <p>4</p>
       </td>
     </tr>
 </table>
 
 ## Raport prac
-
-| Zadanie          |  1 |  2 |  3 |  4 |
+| Zadanie | Daniel | Daniel (k) | Mateusz | Michał |
 | ---------------- | -: | -: | -: | -: |
 | Zadanie 1        |  2 |  3 |  2 |  1 |
 | Zadanie 2        |  2 |  1 |  1 |  1 |
