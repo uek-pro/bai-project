@@ -2,6 +2,8 @@
 
 - [Opis projektu](#opis-projektu)
 - [Organizacja pracy](#organizacja-pracy)
+    - [Gałęzie projektu](#gałęzie-projektu)
+    - [Obsługa Git'a dla mniej wtajemniczonych](#obsługa-gita-dla-mniej-wtajemniczonych)
 - [Prototyp aplikacji](#prototyp-aplikacji)
     - [Schemat działania aplikacji](#schemat-działania-aplikacji)
     - [Struktura aplikacji](#struktura-aplikacji)
@@ -28,7 +30,7 @@ Typy czynności możliwe do dodania i śledzenia znajdują się poniżej.
 
 ## Organizacja pracy
 
-Gałęzie projektu
+### Gałęzie projektu
 
 * **[master](/uek-pro/bai-project/tree/master)** - Główna gałąź aplikacji. **Commity dodawane wyłącznie poprzez pull request** (wytłumaczone poniżej).
 * **[gh-pages](/uek-pro/bai-project/tree/gh-pages)** - Gałąź z dokumentacją. Commity dodawane dowolnie.
@@ -36,9 +38,9 @@ Gałęzie projektu
 * ***dowolna\_nazwa*** - Dodatkowe gałęzie wspomagające tworzenie aplikacji.
 
 1. **Nie usuwamy branchy**, które zostały już zmergowane. 
-1. Gałęzie można tworzyć dowoli i jest to nawet wskazane.
+1. Gałęzie można tworzyć do woli i jest to nawet wskazane.
 
-Dla mniej wtajemniczonych
+### Obsługa Git'a dla mniej wtajemniczonych
 
 ```bash
 git clone https://github.com/uek-pro/bai-project.git
@@ -50,8 +52,6 @@ git push origin nazwa_brancha   # Wysłanie brancha do repozytorium na GitHubie
 ```
 
 Niezależnie od tego czy problem został rozwiązany czy jest to dopiero początek rozwiązania, pasowałoby utworzyć Pull request. Na [stronie z tworzeniem nowych Pull requestów](https://github.com/uek-pro/bai-project/compare) należy, wybrać w miejscu _compare_ nazwe brancha, nad którym pracowaliśmy, wcisnąć przycisk Create pull request, a następnie uzupełnić pola treścią oraz zatwierdzić. Kolejne wypychane commity automatycznie dodawane są do utworzonego wcześniej pull requesta.
-
----
 
 Z czasem gdy na branchu master projekt bardziej się posunie niż mamy go u siebie lokalnie, wymagana jest synchronizacja 
 
@@ -80,6 +80,51 @@ git pull origin master
 
 ## Autorzy
 
+<table class="authors" style="text-align:center">
+    <tr>
+      <td>
+        <a href="https://github.com/adamusdaniel">
+            <img width="120" height="120"
+        src="https://avatars1.githubusercontent.com/u/23094478?v=4">
+        </a>
+        <p>Daniel</p>
+        <p>1</p>
+      </td>
+      <td>
+        <a href="https://github.com/danbraj">
+            <img width="120" height="120"
+        src="https://avatars3.githubusercontent.com/u/19363013?v=4">
+        </a>
+        <p>Daniel <span>(kierownik)</span></p>
+        <p>2</p>
+      </td>
+      <td>
+        <a href="https://github.com/insomnia1337">
+            <img width="120" height="120"
+        src="https://avatars1.githubusercontent.com/u/23103157?v=4">
+        </a>
+        <p>Mateusz</p>
+        <p>3</p>
+      </td>
+      <td>
+        <a href="https://github.com/EmSiii">
+            <img width="120" height="120"
+        src="https://avatars1.githubusercontent.com/u/22874596?v=4">
+        </a>
+        <p>Michał</p>
+        <p>4</p>
+      </td>
+    </tr>
+</table>
+
 ## Raport prac
 
-![Practice Control](/uek-pro/bai-project/blob/master/src/img/logo.svg)
+| Zadanie          |  1 |  2 |  3 |  4 |
+| ---------------- | -: | -: | -: | -: |
+| Zadanie 1        |  2 |  3 |  2 |  1 |
+| Zadanie 2        |  2 |  1 |  1 |  1 |
+| Zadanie 3        |  1 |  1 |  1 |  2 |
+| Zadanie 4        |  1 |  2 |  3 |  2 |
+| **Podsumowanie** |**6**|**7**|**7**|**6**|
+
+![Practice Control](https://raw.githubusercontent.com/uek-pro/bai-project/master/src/img/logo.svg?sanitize=true)
