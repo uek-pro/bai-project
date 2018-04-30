@@ -21,3 +21,20 @@ section {
         background-color: #005499;
     }
 }
+
+section > ul:first-of-type {
+	position: relative
+}
+
+section > ul:first-of-type::after {
+	background: url('https://raw.githubusercontent.com/uek-pro/bai-project/master/src/img/logo.svg?sanitize=true') no-repeat center;
+	opacity: 0.33;
+	background-size: 70%;
+	content: '';
+	top: 0;
+  	left: 0;
+  	bottom: 0;
+  	right: 0;
+  	position: absolute;
+  	z-index: -1;
+}
