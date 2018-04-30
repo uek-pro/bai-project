@@ -1,8 +1,6 @@
 import style from "./main.scss";
-
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';
-
 import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
@@ -27,7 +25,17 @@ const userRegisterPass = document.getElementById('password-register');
 const userRegisterPass2 = document.getElementById('password-register-repeat');
 document.querySelector('#btnCreateAccount').addEventListener('click', () => createAccount(userRegisterEmail.value, userRegisterPass.value, userRegisterPass2.value));
 
-// Skrypt obsługi podstron
+// PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
+const hHabitsList = document.getElementById('habitsList');
+
+// PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
+
+// PAGE: STRONA USTAWIEŃ [PODSTRONA]
+document.querySelector('#btnLogOut').addEventListener('click', logOut);
+const hShowNotifications = $('#show-notifications');
+const hNotificationsTime = $('#notifications-time');
+
+// skrypt obsługi podstron
 $('a[data-podstrona=true]').each(function () {
     const anchor = $(this);
     anchor.on('tap', function () {
@@ -39,18 +47,42 @@ $('a[data-podstrona=true]').each(function () {
     });
 });
 
-// PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA]
-const hHabitsList = document.getElementById('habitsList');
-
-// PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
-
-// PAGE: STRONA USTAWIEŃ [PODSTRONA]
-document.querySelector('#btnLogOut').addEventListener('click', logOut);
-const hShowNotifications = $('#show-notifications');
-const hNotificationsTime = $('#notifications-time');
-
 // PAGE: STRONA Z SUGEROWANYMI ZADANIAMI
 const hSuggestedHabitsList = document.getElementById('suggested-habits-list');
+
+$(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
+    // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
+    firebase.database().ref('suggestions').once('value').then(function (snapshot) {
+
+        $(hSuggestedHabitsList).empty();
+        for (let i = 0; i < snapshot.val().length; i++) {
+            const sh = snapshot.val()[i];
+            $(hSuggestedHabitsList).append(
+                `<li data-type="${sh.type}">
+                    <a href="#">
+                        <h2>${sh.name}</h2>
+                        <p>${sh.desc}</strong></p>
+                        <p><strong>(${sh.type})</strong> ${sh.category}</p>
+                    </a>
+                    <a href="#">Add</a>
+                </li>`
+            );
+            hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
+        };
+
+        $(hSuggestedHabitsList).hasClass('ui-listview') ? $(hSuggestedHabitsList).listview('refresh') : $(hSuggestedHabitsList).trigger('create');
+
+        // filtrowanie po typie zadania
+        const $suggestedHabits = $('#suggested-habits-list li');
+        $('#habit-type-select').change(function () {
+            const habitType = this.options[this.selectedIndex].value;
+            $suggestedHabits.hide().filter(function () {
+                const t = $(this).data('type');
+                return habitType == -1 || t == habitType;
+            }).show();
+        });
+    });
+});
 
 // PAGE: STRONA DODAWANIA ZADANIA
 const mhTitle = document.getElementById('manageHabit-title');
@@ -58,10 +90,8 @@ const mhDescription = document.getElementById('manageHabit-description');
 const mhType = document.getElementById('manageHabit-type');
 
 $('.habit-type').on('tap', function () {
-    if ($(this).hasClass('ui-btn-active')) {
-        console.log('tab jest już aktywny');
-    } else {
-        console.log(`zmiana aktywnego tab'a (${this.attributes['data-habit'].textContent})`);
+    if (!$(this).hasClass('ui-btn-active')) {
+        console.log(this.attributes['data-habit'].textContent);
         mhType.value = this.attributes['data-habit'].value;
     }
 });
@@ -101,72 +131,42 @@ const answerValue = document.getElementById('realization-answer-value');
 
 notifyAuthStateChanged(function (user) {
     if (user) {
-        // window.location.hash = 'habitsListPage';
-        console.log(`Logged in. Greetings ${user.displayName}!`);
+        console.log(`Logged in. Greetings ${user.email}!`, user);
+
+        $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
+            // nasłuchiwanie na zmiany w liście zwyczajów
+            firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).on('value', function (snapshot) {
+
+                const habits = snapshot.val();
+                $(hHabitsList).empty();
+                if (habits != null) {
+                    const keys = Object.keys(habits);
+                    // console.log('Lista zwyczajów', habits);
+                    for (let i = 0; i < keys.length; i++) {
+                        const el = habits[keys[i]];
+                        // console.log(i, el);
+                        $(hHabitsList).append(
+                            `<li>
+                                <a href="#">
+                                    <h2>${el.name}</h2>
+                                    <p>(${el.type}) ${el.desc} - ${el.date}</p>
+                                </a>
+                                <a href="#">Delete</a>
+                            </li>`
+                        );
+                        hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
+                    }
+                    $(hHabitsList).listview('refresh');
+                }
+                else {
+                    $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
+                }
+            });
+        });
 
         let lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({
             lastLogged: unixDateWithoutTime(lastLogged)
-        });
-
-        // nasłuchiwanie na zmiany w liście zwyczajów
-        firebase.database().ref(`users/${user.uid}/practices`).on('value', function (snapshot) {
-
-            const habits = snapshot.val();
-            $(hHabitsList).empty();
-            if (habits != null) {
-                const keys = Object.keys(habits);
-                // console.log('Lista zwyczajów', habits);
-                for (let i = 0; i < keys.length; i++) {
-                    const el = habits[keys[i]];
-                    // console.log(i, el);
-                    $(hHabitsList).append(
-                        `<li>
-                            <a href="#">
-                                <h2>${el.name}</h2>
-                                <p>(${el.type}) ${el.desc} - ${el.date}</p>
-                            </a>
-                            <a href="#">Delete</a>
-                        </li>`
-                    );
-                    hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
-                }
-                $(hHabitsList).listview('refresh');
-            }
-            else {
-                $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
-            }
-        });
-
-        // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
-        firebase.database().ref('suggestions').once('value').then(function (snapshot) {
-
-            for (let i = 0; i < snapshot.val().length; i++) {
-                const sh = snapshot.val()[i];
-                $(hSuggestedHabitsList).append(
-                    `<li data-type="${sh.type}">
-                        <a href="#">
-                            <h2>${sh.name}</h2>
-                            <p>${sh.desc}</strong></p>
-                            <p><strong>(${sh.type})</strong> ${sh.category}</p>
-                        </a>
-                        <a href="#">Add</a>
-                    </li>`
-                );
-                hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
-            };
-
-            $(hSuggestedHabitsList).hasClass('ui-listview') ? $(hSuggestedHabitsList).listview('refresh') : $(hSuggestedHabitsList).trigger('create');
-
-            // filtrowanie po typie zadania
-            const $suggestedHabits = $('#suggested-habits-list li');
-            $('#habit-type-select').change(function () {
-                const habitType = this.options[this.selectedIndex].value;
-                $suggestedHabits.hide().filter(function () {
-                    const t = $(this).data('type');
-                    return habitType == -1 || t == habitType;
-                }).show();
-            });
         });
 
         firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
@@ -201,53 +201,16 @@ notifyAuthStateChanged(function (user) {
                     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
 
                     console.log('Powiadomienie!!11oneone');
-                    // TODO: realizacja zapisanych zadań
+                    $.mobile.changePage('#habitRealizationPage');
 
-                } else {
-                    console.log('Dziś już było powiadomienie');
-                }
+                    const $hr = $('#habit-realization');
+                    firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
 
-                const $hr = $('#habit-realization');
-                firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
-
-                    const habits = snapshot.val();
-                    if (habits != null) {
-                        const keys = Object.keys(habits);
-                        let i = 0;
-                        // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
-                        renderHabitsRealizationForm(
-                            $hr,
-                            habits[keys[i]],
-                            btnSuccess,
-                            i,
-                            keys.length
-                        );
-
-                        const doHabitRealization = function(isSucceed) {
-                            if (i >= keys.length - 1) {
-                                // TODO: powrót do strony głównej
-                                return;
-                            }
-
-                            console.log([
-                                unixLastLoggedDay,
-                                +habits[keys[i]].date
-                            ]);
-
-                            if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
-
-                                const diff = unixLastLoggedDay - (+habits[keys[i]].date);
-                                const relativeDayNumber = Math.ceil(diff / 86400000);
-                                // console.log(relativeDayNumber);
-
-                                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
-                                    habits[keys[i]].type == 0 ? true : +answerValue.value
-                                );
-                            }
-
-                            i++;
-
-                            // ładowanie kolejnego zwyczaju
+                        const habits = snapshot.val();
+                        if (habits != null) {
+                            const keys = Object.keys(habits);
+                            let i = 0;
+                            // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
                             renderHabitsRealizationForm(
                                 $hr,
                                 habits[keys[i]],
@@ -255,12 +218,53 @@ notifyAuthStateChanged(function (user) {
                                 i,
                                 keys.length
                             );
-                        }
 
-                        btnSuccess.addEventListener('click', () => doHabitRealization(true));
-                        btnFailure.addEventListener('click', () => doHabitRealization(false));
-                    }
-                });
+                            const doHabitRealization = function (isSucceed) {
+                                if (i >= keys.length - 1) {
+                                    $.mobile.changePage('#habitsListPage');
+                                    return;
+                                }
+
+                                console.log([
+                                    unixLastLoggedDay,
+                                    +habits[keys[i]].date
+                                ]);
+
+                                if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
+
+                                    const diff = unixLastLoggedDay - (+habits[keys[i]].date);
+                                    const relativeDayNumber = Math.ceil(diff / 86400000);
+                                    // console.log(relativeDayNumber);
+
+                                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
+                                        habits[keys[i]].type == 0 ? true : +answerValue.value
+                                    );
+                                }
+
+                                i++;
+
+                                // ładowanie kolejnego zwyczaju
+                                renderHabitsRealizationForm(
+                                    $hr,
+                                    habits[keys[i]],
+                                    btnSuccess,
+                                    i,
+                                    keys.length
+                                );
+                            }
+
+                            btnSuccess.addEventListener('click', () => doHabitRealization(true));
+                            btnFailure.addEventListener('click', () => doHabitRealization(false));
+                        }
+                    });
+
+                } else {
+                    console.log('Dziś już było powiadomienie');
+                    $.mobile.changePage('#habitsListPage');
+                }
+
+            } else {
+                $.mobile.changePage('#habitsListPage');
             }
         });
 
@@ -295,7 +299,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             btnSuccess.text = 'Ok';
             specific = '<p>TODO: table with words</p>'
             break;
-
         default:
             break;
     }
@@ -306,5 +309,5 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
         
         ${specific}`
-    ).trigger('create');
-}
+    ).trigger('refresh');
+};
