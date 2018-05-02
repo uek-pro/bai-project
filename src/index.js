@@ -10,6 +10,7 @@ import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
 import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
+import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -140,36 +141,31 @@ const showDetailsPage = (habit) => {
     $.mobile.changePage('#habitDetailsPage', { transition: 'pop' });
 }
 
-let allAlongChart, twoWeeksChart;
+let allAlongChart, twoWeeksChart, areaChart;
 $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
+
+    allAlongChart ? allAlongChart.destroy() : null;
+    twoWeeksChart ? twoWeeksChart.destroy() : null;
+    areaChart ? areaChart.destroy() : null;
 
     console.log(storeHabit);
     hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
 
-    // NOTE: dla zadań typu: tak/nie
-    const daysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
-    const daysCount2Weeks = daysCount > 14 ? 14 : daysCount;
-    const limit = daysCount - daysCount2Weeks;
+    const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
+    if (storeHabit.type == 0) {
+        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount);
+        allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.success, dataset.allAlong.failed);
+        twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.success, dataset.last2Weeks.failed);
+    } else if (storeHabit.type == 1) {
+        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount, storeHabit.optimal);
+        allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
+        twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
-    let successDays = 0, successDays2Weeks = 0;
-    for (let k in storeHabit.days) {
-        if (storeHabit.days.hasOwnProperty(k)) {
-           ++successDays;
-           if (+k > limit) ++successDays2Weeks;
-        }
+        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount);
+        console.log(lineChartDataset);
+
+        areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
     }
-
-    const failedDays = daysCount - successDays;
-    const failedDays2Weeks = daysCount2Weeks - successDays2Weeks;
-
-    // https://github.com/chartjs/Chart.js/issues/559
-    allAlongChart ? allAlongChart.destroy() : null;
-    twoWeeksChart ? twoWeeksChart.destroy() : null;
-
-    allAlongChart = createDoughnutChart(hdChartAllAlong, successDays, failedDays);
-    twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, successDays2Weeks, failedDays2Weeks);
-
-    createLineChart(hdChartArea, 5, [10, 11, 12, 13, 14, 15, 16 ], [3, 2, 9, 6, 0, 5, 7]);
 });
 
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
