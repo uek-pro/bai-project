@@ -1,0 +1,12 @@
+@mixin button($bg-hover) {
+    background-size: 100%;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    border: 0;
+    color:white;
+
+
+    &:hover {
+      background:($bg-hover);
+    }
+  
+  }

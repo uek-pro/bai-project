@@ -21,7 +21,7 @@
 			<div class="container">
 
 				<h1>
-					<img src="./img/logo.svg" alt="Practice Control">
+					<img src="./img/logo.svg" height="300" width="1280" alt="Practice Control">
 				</h1>
 
 				<form class="login-form">
@@ -35,7 +35,7 @@
 
 					<div class="inputs-inline">
 						<a id="btnLogin" data-role="button" data-icon="forward" data-inline="true">Zaloguj się</a>
-						<a href="#registerPage" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
+						<a href="#registerPage" id="registerButton" data-role="button" data-icon="mail" data-inline="true">Zarejestruj się</a>
 					</div>
 
 					<div class="inputs">
@@ -320,11 +320,17 @@
 		</div>
 	</div>
 
-	<!-- STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
+	<!-- PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
 
 	<div id="habitRealizationPage" data-role="page">
 		<div data-role="content">
-			<p>TODO: implement habit realization form</p>
+			
+			<div id="habit-realization"></div>
+
+			<input type="number" id="realization-answer-value" />
+
+			<a id="failure" data-role="button" data-inline="true">Nie udało się</a>
+			<a id="success" data-role="button" data-inline="true">Udało się</a>
 		</div>
 	</div>
 </body>
