@@ -223,7 +223,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA DODAWANIA ZADANIA -->
+	<!-- PAGE: STRONA DODAWANIA ZADANIA -->
 
 	<div id="manageHabitPage" data-role="page">
 
@@ -262,6 +262,8 @@
 						<li>
 							<a href="#type3" class="habit-type" data-habit="3">Mini-słownik</a>
 						</li>
+						<li></li>
+						<li></li>
 					</ul>
 				</div>
 
@@ -279,6 +281,14 @@
 
 				<div id="type3" class="ui-body-d ui-content">
 					<p>TODO: dict form</p>
+					<table id="dict">
+						<tr>
+							<td><input type="text"></td>
+							<td><input type="text"></td>
+							<td><a data-role="button" data-inline="true">delete</a></td>
+						</tr>
+					</table>
+					<a id="new-word" data-role="button" data-inline="true">Dodaj</a>
 				</div>
 			</div>
 		</div>
@@ -292,7 +302,7 @@
 
 	<div id="habitRealizationPage" data-role="page">
 		<div data-role="content">
-			
+
 			<div id="habit-realization"></div>
 
 			<input type="number" id="realization-answer-value" />

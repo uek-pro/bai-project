@@ -99,6 +99,7 @@ $('.habit-type').on('tap', function () {
 const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
 // TODO: + słowniczek
+const mhTable = document.getElementById('dict');
 
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
@@ -122,6 +123,27 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
         addHabit(habit);
     }
 });
+
+const addNewWord = function nw(table) {
+    var row = table.insertRow(table.rows.length);
+    for (var i = 0; i < table.rows[0].cells.length - 1; i++) {
+        var input = document.createElement('input');
+        input.type = 'text';
+        // input.className = '';
+        if (i == 0) {
+            var clicked = false;
+            input.addEventListener('input', function () {
+                if (!clicked) {
+                    clicked = true;
+                    nw(table);
+                }
+            });
+        }
+        row.insertCell(i).appendChild(input);
+    }
+}
+
+document.getElementById('new-word').addEventListener('click', () => addNewWord(mhTable));
 
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
