@@ -8,7 +8,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { unixDateWithoutTime } from "./components/notifications/time_manager";
+import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 
 // Initialize Firebase
@@ -129,26 +129,47 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
 // PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 const hdMain = document.getElementById('hdMain');
-const begChart = document.getElementById('beginningPreview').getContext('2d');
-const l2wChart = document.getElementById('last2weeksPreview').getContext('2d');
-const avaChart = document.getElementById('areaPreview').getContext('2d');
+const hdChartAllAlong = document.getElementById('beginning-preview').getContext('2d');
+const hdChartTwoWeeks = document.getElementById('last-2-weeks-preview').getContext('2d');
+const hdChartArea = document.getElementById('area-preview').getContext('2d');
 
-let storeHabitDetails = {};
+let storeHabit = {};
 
 const showDetailsPage = (habit) => {
-    storeHabitDetails = habit;
+    storeHabit = habit;
     $.mobile.changePage('#habitDetailsPage', { transition: 'pop' });
 }
 
+let allAlongChart, twoWeeksChart;
 $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
-    console.log(storeHabitDetails);
-    hdMain.textContent = storeHabitDetails.desc ? storeHabitDetails.desc : storeHabitDetails.name;
+    console.log(storeHabit);
+    hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
 
-    createDoughnutChart(begChart, 12, 3, 5);
-    createDoughnutChart(l2wChart, 8, 1);
+    // NOTE: dla zadań typu: tak/nie
+    const daysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
+    const daysCount2Weeks = daysCount > 14 ? 14 : daysCount;
+    const limit = daysCount - daysCount2Weeks;
 
-    createLineChart(avaChart, 5, [10, 11, 12, 13, 14, 15, 16 ], [3, 2, 9, 6, 0, 5, 7]);
+    let successDays = 0, successDays2Weeks = 0;
+    for (let k in storeHabit.days) {
+        if (storeHabit.days.hasOwnProperty(k)) {
+           ++successDays;
+           if (+k > limit) ++successDays2Weeks;
+        }
+    }
+
+    const failedDays = daysCount - successDays;
+    const failedDays2Weeks = daysCount2Weeks - successDays2Weeks;
+
+    // https://github.com/chartjs/Chart.js/issues/559
+    allAlongChart ? allAlongChart.destroy() : null;
+    twoWeeksChart ? twoWeeksChart.destroy() : null;
+
+    allAlongChart = createDoughnutChart(hdChartAllAlong, successDays, failedDays);
+    twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, successDays2Weeks, failedDays2Weeks);
+
+    createLineChart(hdChartArea, 5, [10, 11, 12, 13, 14, 15, 16 ], [3, 2, 9, 6, 0, 5, 7]);
 });
 
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
@@ -262,8 +283,7 @@ notifyAuthStateChanged(function (user) {
 
                                 if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
 
-                                    const diff = unixLastLoggedDay - (+habits[keys[i]].date);
-                                    const relativeDayNumber = Math.ceil(diff / 86400000);
+                                    const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
                                     // console.log(relativeDayNumber);
 
                                     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
