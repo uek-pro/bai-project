@@ -164,7 +164,7 @@ notifyAuthStateChanged(function (user) {
             });
         });
 
-        let lastLogged = new Date();
+        const lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({
             lastLogged: unixDateWithoutTime(lastLogged)
         });
@@ -192,6 +192,8 @@ notifyAuthStateChanged(function (user) {
 
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
+
+            console.log(ss.notificationsTime, lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })); // tmp
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
 
