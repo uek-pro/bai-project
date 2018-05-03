@@ -130,6 +130,10 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
 // PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 const hdMain = document.getElementById('hdMain');
+const hdDoughnutCharts = document.getElementById('hdDoughnutCharts');
+const hdChartOnly1 = document.getElementById('hdChartOnly1');
+const hdDict = document.getElementById('hdDict');
+
 const hdChartAllAlong = document.getElementById('beginning-preview').getContext('2d');
 const hdChartTwoWeeks = document.getElementById('last-2-weeks-preview').getContext('2d');
 const hdChartArea = document.getElementById('area-preview').getContext('2d');
@@ -144,6 +148,10 @@ const showDetailsPage = (habit) => {
 let allAlongChart, twoWeeksChart, areaChart;
 $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
+    hdDoughnutCharts.classList.add('hide');
+    hdChartOnly1.classList.add('hide');
+    hdDict.classList.add('hide');
+
     allAlongChart ? allAlongChart.destroy() : null;
     twoWeeksChart ? twoWeeksChart.destroy() : null;
     areaChart ? areaChart.destroy() : null;
@@ -153,10 +161,13 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
     if (storeHabit.type == 0) {
+        hdDoughnutCharts.classList.remove('hide');
         const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.success, dataset.allAlong.failed);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.success, dataset.last2Weeks.failed);
     } else if (storeHabit.type == 1) {
+        hdDoughnutCharts.classList.remove('hide');
+        hdChartOnly1.classList.remove('hide');
         const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount, storeHabit.optimal);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
@@ -165,6 +176,8 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
         console.log(lineChartDataset);
 
         areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
+    } else if (storeHabit.type == 3) {
+        hdDict.classList.remove('hide');
     }
 });
 

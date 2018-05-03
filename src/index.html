@@ -297,9 +297,12 @@
 		<div data-role="content">
 
 			<h1 id="hdMain"></h1>
-			<p>Skuteczność:</p>
 
-			<div class="ui-grid-a">
+
+			<div id="hdDoughnutCharts" class="ui-grid-a hide">
+
+				<p>Skuteczność:</p>
+
 				<div class="ui-block-a db-chart-block">
 					<p>od początku</p>
 					<canvas class="db-chart" id="beginning-preview"></canvas>
@@ -309,11 +312,16 @@
 					<canvas class="db-chart" id="last-2-weeks-preview"></canvas>
 				</div>
 			</div>
-			<div class="ui-grid-solo">
+
+			<div id="hdChartOnly1" class="ui-grid-solo hide">
 				<div class="ui-block-a">
 					<p>wykres warstwowy</p>
 					<canvas id="area-preview"></canvas>
 				</div>
+			</div>
+
+			<div id="hdDict" class="ui-grid-solo hide">
+				słownik <!-- TODO: słownik -->
 			</div>
 
 			<a data-rel="back">Wróć</a>
@@ -324,7 +332,7 @@
 
 	<div id="habitRealizationPage" data-role="page">
 		<div data-role="content">
-			
+
 			<div id="habit-realization"></div>
 
 			<input type="number" id="realization-answer-value" />
