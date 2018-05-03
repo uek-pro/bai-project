@@ -238,23 +238,22 @@ notifyAuthStateChanged(function (user) {
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
 
-            console.log(ss.notificationsTime, lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })); // tmp
-
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
 
                 const unixLastLoggedDay = unixDateWithoutTime(lastLogged);
                 if (!lnExist || unixLastLoggedDay != unixDateWithoutTime(ss.lastNotification)) {
-
-                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
-
-                    console.log('Powiadomienie!!11oneone');
-                    $.mobile.changePage('#habitRealizationPage');
 
                     const $hr = $('#habit-realization');
                     firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
 
                         const habits = snapshot.val();
                         if (habits != null) {
+
+                            firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
+
+                            console.log('Powiadomienie!!11oneone');
+                            $.mobile.changePage('#habitRealizationPage');
+
                             const keys = Object.keys(habits);
                             let i = 0;
                             // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
@@ -267,27 +266,33 @@ notifyAuthStateChanged(function (user) {
                             );
 
                             const doHabitRealization = function (isSucceed) {
-                                if (i >= keys.length - 1) {
-                                    $.mobile.changePage('#habitsListPage');
-                                    return;
-                                }
 
                                 console.log([
                                     unixLastLoggedDay,
                                     +habits[keys[i]].date
                                 ]);
 
-                                if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
+                                //console.log(+answerValue.value);
+
+                                if (isSucceed && +answerValue.value != 0 && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
 
                                     const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
-                                    // console.log(relativeDayNumber);
 
-                                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
-                                        habits[keys[i]].type == 0 ? true : +answerValue.value
-                                    );
+                                    if (relativeDayNumber > 0) {
+
+                                        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
+                                            habits[keys[i]].type == 0 ? true : +answerValue.value
+                                        );
+                                    }
                                 }
 
+                                answerValue.value = '';
                                 i++;
+
+                                if (i >= keys.length) {
+                                    $.mobile.changePage('#habitsListPage');
+                                    return;
+                                }
 
                                 // ładowanie kolejnego zwyczaju
                                 renderHabitsRealizationForm(
@@ -301,6 +306,9 @@ notifyAuthStateChanged(function (user) {
 
                             btnSuccess.addEventListener('click', () => doHabitRealization(true));
                             btnFailure.addEventListener('click', () => doHabitRealization(false));
+
+                        } else {
+                            $.mobile.changePage('#habitsListPage');
                         }
                     });
 
@@ -353,7 +361,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         `<p>${index + 1} / ${count}</p>
         ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
         <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
-        
         ${specific}`
     ).trigger('refresh');
 };

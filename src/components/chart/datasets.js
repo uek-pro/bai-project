@@ -67,7 +67,7 @@ const getDatasetForLineChart = (assocDays, daysCount) => {
     let daysArray = [];
     let valuesArray = [];
 
-    let daysCounter = 1;
+    let daysCounter = 0;
     for (let k in assocDays) {
         if (assocDays.hasOwnProperty(k)) {
             const c = +k;
