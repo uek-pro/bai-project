@@ -98,23 +98,27 @@ $('.habit-type').on('tap', function () {
 
 const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
-const mhDictWord = document.querySelectorAll('.dict-word')
 
 // TODO: + słowniczek
 const mhTable = document.getElementById('dict');
 
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
-
+    const mhDictWord = document.querySelectorAll('.dict-word1') //to musi byc tutaj wewnatrz
     const habitType = +mhType.value;
     if (habitType >= 0 && habitType < 4) {
-
 
         const habit = {
             name: mhTitle.value,
             desc: mhDescription.value,
             type: habitType,
-            dict: [mhDictWord[0].value, mhDictWord[1].value]
+            dict: []
         }
+
+        mhDictWord.forEach(parent => {
+            const inputs = parent.querySelectorAll('input');
+            const row = [inputs[0].value, inputs[1].value];
+            habit.dict.push(row);
+          })
 
         if (habitType == 1) {
             habit.optimal = +mhOptimalValue.value;
@@ -135,7 +139,8 @@ const addNewWord = function nw(table) {
     for (var i = 0; i < table.rows[0].cells.length - 1; i++) {
         var input = document.createElement('input');
         input.type = 'text';
-        input.className = 'dict-word';
+        row.className = 'dict-word1'
+        //input.className = 'dict-word';
         if (i == 0) {
             var clicked = false;
             input.addEventListener('input', function () {
