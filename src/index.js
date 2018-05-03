@@ -98,6 +98,8 @@ $('.habit-type').on('tap', function () {
 
 const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
+const mhDictWord = document.querySelectorAll('.dict-word')
+
 // TODO: + słowniczek
 const mhTable = document.getElementById('dict');
 
@@ -106,10 +108,12 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
     const habitType = +mhType.value;
     if (habitType >= 0 && habitType < 4) {
 
+
         const habit = {
             name: mhTitle.value,
             desc: mhDescription.value,
-            type: habitType
+            type: habitType,
+            dict: [mhDictWord[0].value, mhDictWord[1].value]
         }
 
         if (habitType == 1) {
@@ -117,6 +121,7 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
         } else if (habitType == 2) {
             habit.author = mhAuthor.value
         } else {
+            
             // TODO: słowniczek
         }
 
@@ -125,11 +130,12 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 });
 
 const addNewWord = function nw(table) {
+
     var row = table.insertRow(table.rows.length);
     for (var i = 0; i < table.rows[0].cells.length - 1; i++) {
         var input = document.createElement('input');
         input.type = 'text';
-        // input.className = '';
+        input.className = 'dict-word';
         if (i == 0) {
             var clicked = false;
             input.addEventListener('input', function () {
@@ -215,7 +221,7 @@ notifyAuthStateChanged(function (user) {
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
 
-            console.log(ss.notificationsTime, lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })); // tmp
+           // console.log(ss.notificationsTime, lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })); // tmp
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
 
