@@ -16,6 +16,13 @@ body, input, select, textarea, button, .ui-btn {
     margin: 0 auto;
 }
 
+#habitsList, #suggested-habits-list {
+    
+    a {
+        padding: 10px 20px;
+    }
+}
+
 .empty {
     padding: 20px;
     text-align: center;
