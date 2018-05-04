@@ -11,10 +11,13 @@ import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_mana
 import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
+import { generateDictList } from "./components/dict/dict";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
+const habitTypesNames = ['Tak / Nie', 'Z odpowiedzią', 'Informacja', 'Mini-słownik'];
 
 // PAGE: LOGOWANIE (STRONA GŁÓWNA)
 const userEmail = document.getElementById('email-login');
@@ -67,10 +70,11 @@ $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
                 `<li data-type="${sh.type}">
                     <a href="#">
                         <h2>${sh.name}</h2>
-                        <p>${sh.desc}</strong></p>
-                        <p><strong>(${sh.type})</strong> ${sh.category}</p>
+                        <p>${sh.desc}${sh.type == 1 ? ` <span class="opt">[minimum ${sh.optimal}]</span>` : ''}${sh.type == 2 && sh.author != null ? ` <span class="author">~ ${sh.author}</span>` : ''}</p>
+                        <p><span class="db-type db-t${sh.type}">${habitTypesNames[sh.type]}</span> <span class="db-type db-default">${sh.category}</span></p>
+                        ${sh.type == 3 ? generateDictList(sh.dict) : ''}
                     </a>
-                    <a href="#">Add</a>
+                    <a href="#">Delete</a>
                 </li>`
             );
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
@@ -187,8 +191,6 @@ const btnSuccess = document.getElementById('success');
 const btnFailure = document.getElementById('failure');
 const answerValue = document.getElementById('realization-answer-value');
 
-const habitTypesNames = ['Tak / Nie', 'Z odpowiedzią', 'Informacja', 'Mini-słownik'];
-
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
@@ -210,7 +212,8 @@ notifyAuthStateChanged(function (user) {
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
-                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}</p>
+                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
+                                    ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
                                     <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
                                 </a>
                                 <a href="#">Delete</a>
