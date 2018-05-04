@@ -19,7 +19,11 @@ const logIn = (userEmail, userPass) => {
 // create new account via email password
 const createAccount = (userEmail, userPass, userPass2) => {
     if (userPass !== userPass2) {
+        $.mobile.document.on( "click", "#btnCreateAccount", function( evt ) {
+            $( "#popupArrowRegister1" ).popup( "open", { x: evt.pageX, y: evt.pageY } );
+      }); 
         console.log('Hasła nie zgadzają się');
+        return false;
     }
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
