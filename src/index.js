@@ -187,6 +187,8 @@ const btnSuccess = document.getElementById('success');
 const btnFailure = document.getElementById('failure');
 const answerValue = document.getElementById('realization-answer-value');
 
+const habitTypesNames = ['Tak / Nie', 'Z odpowiedzią', 'Informacja', 'Mini-słownik'];
+
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
@@ -208,7 +210,8 @@ notifyAuthStateChanged(function (user) {
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
-                                    <p>(${el.type}) ${el.desc} - ${el.date}</p>
+                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}</p>
+                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
                                 </a>
                                 <a href="#">Delete</a>
                             </li>`
