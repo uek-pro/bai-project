@@ -98,63 +98,62 @@ $('.habit-type').on('tap', function () {
 
 const mhOptimalValue = document.getElementById('manageHabit-optimal-value');
 const mhAuthor = document.getElementById('manageHabit-author');
-
-// TODO: + słowniczek
-const mhTable = document.getElementById('dict');
+const mhDict = document.getElementById('dict');
 
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
-    const mhDictWord = document.querySelectorAll('.dict-word1') //to musi byc tutaj wewnatrz
+
     const habitType = +mhType.value;
     if (habitType >= 0 && habitType < 4) {
 
         const habit = {
             name: mhTitle.value,
             desc: mhDescription.value,
-            type: habitType,
-            dict: []
-        }
-
-        mhDictWord.forEach(parent => {
-            const inputs = parent.querySelectorAll('input');
-            const row = [inputs[0].value, inputs[1].value];
-            habit.dict.push(row);
-          })
+            type: habitType
+        };
 
         if (habitType == 1) {
             habit.optimal = +mhOptimalValue.value;
         } else if (habitType == 2) {
-            habit.author = mhAuthor.value
-        } else {
-            
-            // TODO: słowniczek
-        }
+            habit.author = mhAuthor.value;
+        } else if (habitType == 3) {
 
+            habit.dict = [];
+
+            const inputs = mhDict.querySelectorAll('tr input');
+            for (let i = 0; i < inputs.length; i += 2) {
+
+                const o = inputs[i].value;
+                const t = inputs[i + 1].value;
+                o != '' && t != '' ? habit.dict.push([o, t]) : null;
+            };
+            console.log(habit.dict);
+
+            // $(mhDict).empty();
+        }
         addHabit(habit);
     }
 });
 
-const addNewWord = function nw(table) {
+const addNewWord = function (table) {
 
-    var row = table.insertRow(table.rows.length);
-    for (var i = 0; i < table.rows[0].cells.length - 1; i++) {
-        var input = document.createElement('input');
-        input.type = 'text';
-        row.className = 'dict-word1'
-        //input.className = 'dict-word';
-        if (i == 0) {
-            var clicked = false;
-            input.addEventListener('input', function () {
-                if (!clicked) {
-                    clicked = true;
-                    nw(table);
-                }
-            });
-        }
-        row.insertCell(i).appendChild(input);
-    }
+    $(table).append(
+        `<tr>
+            <td>
+                <input type="text" />
+            </td>
+            <td>
+                <input type="text" />
+            </td>
+        </tr>`
+    ).trigger('create');
+};
+
+const delLastWord = function (table) {
+    $(table).find('tr:last-child').remove();
 }
 
-document.getElementById('new-word').addEventListener('click', () => addNewWord(mhTable));
+document.getElementById('new-word').addEventListener('click', () => addNewWord(mhDict));
+document.getElementById('del-word').addEventListener('click', () => delLastWord(mhDict));
 
 // PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
@@ -225,8 +224,6 @@ notifyAuthStateChanged(function (user) {
 
                 firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
             });
-
-           // console.log(ss.notificationsTime, lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })); // tmp
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
 

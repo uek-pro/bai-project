@@ -280,15 +280,28 @@
 				</div>
 
 				<div id="type3" class="ui-body-d ui-content">
-					<p>TODO: dict form</p>
-					<table id="dict">
-						<tr class="dict-word1">
-							<td><input  type="text"></td>
-							<td><input  type="text"></td>
-							<td><a data-role="button" data-inline="true">delete</a></td>
-						</tr>
+					<p>Lista słówek</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Słówko</th>
+								<th>Tłumaczenie</th>
+							</tr>
+						</thead>
+						<tbody id="dict">
+							<tr>
+								<td>
+									<input type="text" />
+								</td>
+								<td>
+									<input type="text" />
+								</td>
+							</tr>
+						</tbody>
 					</table>
-					<a id="new-word" data-role="button" data-inline="true">Dodaj</a>
+
+					<a id="del-word" data-role="button" data-inline="true">Usuń ostatnie pole</a>
+					<a id="new-word" data-role="button" data-inline="true">Dodaj nowe pole</a>
 				</div>
 			</div>
 		</div>
