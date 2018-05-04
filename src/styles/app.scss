@@ -7,6 +7,14 @@ body, input, select, textarea, button, .ui-btn {
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
 
+#type3 {
+    margin-bottom: 120px;
+    text-align: center;
+}
+
+#type3 table {
+    margin: 0 auto;
+}
 
 .empty {
     padding: 20px;

@@ -152,13 +152,11 @@
 			</select>
 
 			<label for="notifications-time">Wybierz godzinę powiadomień</label>
-			<!-- FIXME: time picker -->
 			<input type="time" id="notifications-time" value="20:00">
 
 			<h2>Informacje</h2>
 
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente
-				corrupti omnis at quaerat?</p>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsum, nam a? Adipisci inventore consequatur quasi sapiente corrupti omnis at quaerat?</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -257,6 +255,8 @@
 						<li>
 							<a href="#type3" class="habit-type" data-habit="3">Mini-słownik</a>
 						</li>
+						<li></li>
+						<li></li>
 					</ul>
 				</div>
 
@@ -273,7 +273,28 @@
 				</div>
 
 				<div id="type3" class="ui-body-d ui-content">
-					<p>TODO: dict form</p>
+					<p>Lista słówek</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Słówko</th>
+								<th>Tłumaczenie</th>
+							</tr>
+						</thead>
+						<tbody id="dict">
+							<tr>
+								<td>
+									<input type="text" />
+								</td>
+								<td>
+									<input type="text" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<a id="del-word" data-role="button" data-inline="true">Usuń ostatnie pole</a>
+					<a id="new-word" data-role="button" data-inline="true">Dodaj nowe pole</a>
 				</div>
 			</div>
 		</div>
@@ -304,14 +325,11 @@
 			<div id="hdChartOnly1" class="ui-grid-solo hide">
 				<div class="ui-block-a">
 					<p>wykres warstwowy</p>
-					<canvas id="area-preview"></canvas>
+					<canvas id="area-preview"></canvas> <!-- TODO: in the future: możliwość przewijania poziomego -->
 				</div>
 			</div>
 
-			<div id="hdDict" class="ui-grid-solo hide">
-				słownik
-				<!-- TODO: słownik -->
-			</div>
+			<div id="hdDict" class="ui-grid-solo hide"></div>
 
 			<a class="db-back" data-role="button" data-icon="back" data-inline="true" data-rel="back">Powrót</a>
 		</div>
