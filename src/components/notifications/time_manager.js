@@ -5,4 +5,10 @@ const unixDateWithoutTime = (date = null) => {
     return +dateWithoutTime;
 }
 
-export { unixDateWithoutTime };
+const getRelativeDaysBetween = (earlierUnixDate, laterUnixDate) => {
+
+    const diff = laterUnixDate - earlierUnixDate;
+    return Math.ceil(diff / 86400000);
+}
+
+export { unixDateWithoutTime, getRelativeDaysBetween };
