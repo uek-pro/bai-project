@@ -22,14 +22,21 @@
     display: none;
 }
 
+.db-details-container {
+    position: relative;
+}
+
+.db-back {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
+.db-chart-block {
+    padding: 20px;
+}
+
 .db-footer {
     bottom: 0;
     position: fixed;
 }
-
-// body {
-//     overflow:hidden;
-// }
-
-
-

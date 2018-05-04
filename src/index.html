@@ -49,7 +49,6 @@
 	</div>
 
 	<!-- PAGE: REJESTRACJA [OKNO MODALNE] -->
-
 	<div id="registerPage" data-role="page" data-dialog="true" data-close-btn="right">
 		<div data-role="header">
 			<span class="ui-title">Rejestracja</span>
@@ -75,8 +74,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA Z LISTĄ ZADAŃ [PODSTRONA] -->
-
+	<!-- PAGE: STRONA Z LISTĄ ZADAŃ [PODSTRONA] -->
 	<div id="habitsListPage" data-role="page">
 		<div data-role="header">
 			<div data-type="horizontal" data-role="controlgroup" class="ui-btn-right">
@@ -107,8 +105,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA] -->
-
+	<!-- PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA] -->
 	<div id="summaryPage" data-role="page">
 		<div data-role="header" data-position="inline">
 			<span class="ui-title">Podsumowanie</span>
@@ -116,7 +113,9 @@
 
 		<div data-role="content">
 
-			<p>TODO: Podsumowanie</p>
+			<p>Liczba śledzonych zwyczajów:
+				<span id="summHabitsCount">?</span>
+			</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -136,8 +135,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA USTAWIEŃ [PODSTRONA] -->
-
+	<!-- PAGE: STRONA USTAWIEŃ [PODSTRONA] -->
 	<div id="settingsPage" data-role="page">
 		<div data-role="header" data-position="inline">
 			<span class="ui-title">Ustawienia</span>
@@ -181,8 +179,7 @@
 		</div>
 	</div>
 
-	<!-- STRONA Z SUGEROWANYMI ZADANIAMI -->
-
+	<!-- PAGE: STRONA Z SUGEROWANYMI ZADANIAMI -->
 	<div id="suggestPage" data-role="page">
 		<div data-role="header" data-position="inline">
 			<span class="ui-title">Sugerowane zadania</span>
@@ -224,7 +221,6 @@
 	</div>
 
 	<!-- PAGE: STRONA DODAWANIA ZADANIA -->
-
 	<div id="manageHabitPage" data-role="page">
 
 		<div data-role="header" data-position="inline">
@@ -309,10 +305,43 @@
 		<button id="manageHabit-add-btn" class="ui-btn ui-btn-b ui-corder-all db-footer">Dodaj</button>
 	</div>
 
-	<!-- TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+	<!-- PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
+	<div id="habitDetailsPage" data-role="page">
+		<div class="db-details-container" data-role="content">
+
+			<h1 id="hdMain"></h1>
+
+			<div id="hdDoughnutCharts" class="ui-grid-a hide">
+
+				<p>Skuteczność:</p>
+
+				<div class="ui-block-a db-chart-block">
+					<p>od początku</p>
+					<canvas class="db-chart" id="beginning-preview"></canvas>
+				</div>
+				<div class="ui-block-b db-chart-block">
+					<p>ostatnie 2 tyg</p>
+					<canvas class="db-chart" id="last-2-weeks-preview"></canvas>
+				</div>
+			</div>
+
+			<div id="hdChartOnly1" class="ui-grid-solo hide">
+				<div class="ui-block-a">
+					<p>wykres warstwowy</p>
+					<canvas id="area-preview"></canvas>
+				</div>
+			</div>
+
+			<div id="hdDict" class="ui-grid-solo hide">
+				słownik
+				<!-- TODO: słownik -->
+			</div>
+
+			<a class="db-back" data-role="button" data-icon="back" data-inline="true" data-rel="back">Powrót</a>
+		</div>
+	</div>
 
 	<!-- PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
-
 	<div id="habitRealizationPage" data-role="page">
 		<div data-role="content">
 

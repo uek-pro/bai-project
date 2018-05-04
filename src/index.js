@@ -1,11 +1,16 @@
 import style from "./main.scss";
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';
+import chart from 'chart.js';
+import chartAnnotation from 'chartjs-plugin-annotation';
+
 import { logIn, createAccount } from './components/firebase/authentication/traditional/auth.js';
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { unixDateWithoutTime } from "./components/notifications/time_manager";
+import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
+import { createDoughnutChart, createLineChart } from './components/chart/charts';
+import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -29,6 +34,7 @@ document.querySelector('#btnCreateAccount').addEventListener('click', () => crea
 const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
+const summHabitsCount = document.getElementById('summHabitsCount');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
@@ -155,7 +161,59 @@ const delLastWord = function (table) {
 document.getElementById('new-word').addEventListener('click', () => addNewWord(mhDict));
 document.getElementById('del-word').addEventListener('click', () => delLastWord(mhDict));
 
-// PAGE: TODO: STRONA WIDOKU POJEDYNCZEGO ZADANIA
+// PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
+const hdMain = document.getElementById('hdMain');
+const hdDoughnutCharts = document.getElementById('hdDoughnutCharts');
+const hdChartOnly1 = document.getElementById('hdChartOnly1');
+const hdDict = document.getElementById('hdDict');
+
+const hdChartAllAlong = document.getElementById('beginning-preview').getContext('2d');
+const hdChartTwoWeeks = document.getElementById('last-2-weeks-preview').getContext('2d');
+const hdChartArea = document.getElementById('area-preview').getContext('2d');
+
+let storeHabit = {};
+
+const showDetailsPage = (habit) => {
+    storeHabit = habit;
+    $.mobile.changePage('#habitDetailsPage', { transition: 'pop' });
+}
+
+let allAlongChart, twoWeeksChart, areaChart;
+$(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
+
+    hdDoughnutCharts.classList.add('hide');
+    hdChartOnly1.classList.add('hide');
+    hdDict.classList.add('hide');
+
+    allAlongChart ? allAlongChart.destroy() : null;
+    twoWeeksChart ? twoWeeksChart.destroy() : null;
+    areaChart ? areaChart.destroy() : null;
+
+    console.log(storeHabit);
+    hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
+
+    const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
+    if (storeHabit.type == 0) {
+        hdDoughnutCharts.classList.remove('hide');
+        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount);
+        allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.success, dataset.allAlong.failed);
+        twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.success, dataset.last2Weeks.failed);
+    } else if (storeHabit.type == 1) {
+        hdDoughnutCharts.classList.remove('hide');
+        hdChartOnly1.classList.remove('hide');
+        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount, storeHabit.optimal);
+        allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
+        twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
+
+        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount);
+        console.log(lineChartDataset);
+
+        areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
+    } else if (storeHabit.type == 3) {
+        hdDict.classList.remove('hide');
+    }
+});
+
 // PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE]
 const btnSuccess = document.getElementById('success');
 const btnFailure = document.getElementById('failure');
@@ -173,6 +231,7 @@ notifyAuthStateChanged(function (user) {
                 $(hHabitsList).empty();
                 if (habits != null) {
                     const keys = Object.keys(habits);
+                    summHabitsCount.textContent = keys.length;
                     // console.log('Lista zwyczajów', habits);
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
@@ -186,6 +245,7 @@ notifyAuthStateChanged(function (user) {
                                 <a href="#">Delete</a>
                             </li>`
                         );
+                        el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
                         hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
                     }
                     $(hHabitsList).listview('refresh');
@@ -230,16 +290,17 @@ notifyAuthStateChanged(function (user) {
                 const unixLastLoggedDay = unixDateWithoutTime(lastLogged);
                 if (!lnExist || unixLastLoggedDay != unixDateWithoutTime(ss.lastNotification)) {
 
-                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
-
-                    console.log('Powiadomienie!!11oneone');
-                    $.mobile.changePage('#habitRealizationPage');
-
                     const $hr = $('#habit-realization');
                     firebase.database().ref(`users/${user.uid}/practices`).once('value').then(function (snapshot) {
 
                         const habits = snapshot.val();
                         if (habits != null) {
+
+                            firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
+
+                            console.log('Powiadomienie!!11oneone');
+                            $.mobile.changePage('#habitRealizationPage');
+
                             const keys = Object.keys(habits);
                             let i = 0;
                             // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
@@ -252,28 +313,33 @@ notifyAuthStateChanged(function (user) {
                             );
 
                             const doHabitRealization = function (isSucceed) {
-                                if (i >= keys.length - 1) {
-                                    $.mobile.changePage('#habitsListPage');
-                                    return;
-                                }
 
                                 console.log([
                                     unixLastLoggedDay,
                                     +habits[keys[i]].date
                                 ]);
 
-                                if (isSucceed && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
+                                //console.log(+answerValue.value);
 
-                                    const diff = unixLastLoggedDay - (+habits[keys[i]].date);
-                                    const relativeDayNumber = Math.ceil(diff / 86400000);
-                                    // console.log(relativeDayNumber);
+                                if (isSucceed && +answerValue.value != 0 && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
 
-                                    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
-                                        habits[keys[i]].type == 0 ? true : +answerValue.value
-                                    );
+                                    const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
+
+                                    if (relativeDayNumber > 0) {
+
+                                        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
+                                            habits[keys[i]].type == 0 ? true : +answerValue.value
+                                        );
+                                    }
                                 }
 
+                                answerValue.value = '';
                                 i++;
+
+                                if (i >= keys.length) {
+                                    $.mobile.changePage('#habitsListPage');
+                                    return;
+                                }
 
                                 // ładowanie kolejnego zwyczaju
                                 renderHabitsRealizationForm(
@@ -287,6 +353,9 @@ notifyAuthStateChanged(function (user) {
 
                             btnSuccess.addEventListener('click', () => doHabitRealization(true));
                             btnFailure.addEventListener('click', () => doHabitRealization(false));
+
+                        } else {
+                            $.mobile.changePage('#habitsListPage');
                         }
                     });
 
@@ -339,7 +408,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         `<p>${index + 1} / ${count}</p>
         ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
         <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
-        
         ${specific}`
     ).trigger('refresh');
 };
