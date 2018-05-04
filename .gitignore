@@ -8,5 +8,12 @@
 ## danbraj
 .vs/
 .vscode/
-#/plugins/      # tmp
-#node_modules/  # tmp
+bin/
+bld/
+simulation/
+*.user
+/plugins/*/
+
+## project
+www/
+node_modules/
