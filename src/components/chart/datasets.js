@@ -7,7 +7,7 @@ const getDatasetForDoughnutChartsType0 = (assocDays, daysCount) => {
     for (let k in assocDays) {
         if (assocDays.hasOwnProperty(k)) {
             ++successDays;
-            if (+k > limit) ++successDays2Weeks;
+            if (+k >= limit) ++successDays2Weeks;
         }
     };
 
@@ -38,7 +38,7 @@ const getDatasetForDoughnutChartsType1 = (assocDays, daysCount, optimalValue) =>
             } else {
                 ++belowOptimalDays;
             }
-            if (+k > limit) {
+            if (+k >= limit) {
                 if (assocDays[k] >= optimalValue) {
                     ++aboveOrEqualOptimalDays2Weeks;
                 } else {

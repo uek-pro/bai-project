@@ -205,13 +205,13 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
     if (storeHabit.type == 0) {
         hdDoughnutCharts.classList.remove('hide');
-        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount);
+        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount + 1);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.success, dataset.allAlong.failed);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.success, dataset.last2Weeks.failed);
     } else if (storeHabit.type == 1) {
         hdDoughnutCharts.classList.remove('hide');
         hdChartOnly1.classList.remove('hide');
-        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount, storeHabit.optimal);
+        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount + 1, storeHabit.optimal);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
@@ -334,17 +334,20 @@ notifyAuthStateChanged(function (user) {
 
                                 //console.log(+answerValue.value);
 
-                                if (isSucceed && +answerValue.value != 0 && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
-
+                                if (habits[keys[i]].type == 0 || habits[keys[i]].type == 1) {
                                     const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
-
-                                    if (relativeDayNumber > 0) {
-
+                                
+                                    if (isSucceed && (habits[keys[i]].type != 1 || +answerValue.value != 0)) {
+                                
                                         firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
                                             habits[keys[i]].type == 0 ? true : +answerValue.value
                                         );
-                                    }
-                                }
+                                
+                                    } else {
+                                
+                                        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).remove();
+                                    };
+                                };
 
                                 answerValue.value = '';
                                 i++;
