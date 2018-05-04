@@ -34,6 +34,7 @@ document.querySelector('#btnCreateAccount').addEventListener('click', () => crea
 const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
+const summHabitsCount = document.getElementById('summHabitsCount');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
@@ -198,6 +199,7 @@ notifyAuthStateChanged(function (user) {
                 $(hHabitsList).empty();
                 if (habits != null) {
                     const keys = Object.keys(habits);
+                    summHabitsCount.textContent = keys.length;
                     // console.log('Lista zwyczajów', habits);
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
