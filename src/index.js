@@ -133,7 +133,12 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
                 const t = inputs[i + 1].value;
                 o != '' && t != '' ? habit.dict.push([o, t]) : null;
             };
-            console.log(habit.dict);
+            
+            // nie dodawaj zwyczaju, jeżeli brak słówek
+            if (habit.dict.length == 0) {
+                console.log('Dodaj przynajmniej jedno słówko');
+                return;
+            }
 
             // $(mhDict).empty();
         }
