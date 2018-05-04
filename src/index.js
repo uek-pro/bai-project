@@ -11,6 +11,7 @@ import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_mana
 import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
+import { generateDictTable, generateDictHTML } from "./components/dict/dict";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -184,6 +185,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
     hdDoughnutCharts.classList.add('hide');
     hdChartOnly1.classList.add('hide');
     hdDict.classList.add('hide');
+    $(hdDict).empty();
 
     allAlongChart ? allAlongChart.destroy() : null;
     twoWeeksChart ? twoWeeksChart.destroy() : null;
@@ -210,6 +212,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
         areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
     } else if (storeHabit.type == 3) {
+        generateDictTable(storeHabit.dict, hdDict);
         hdDict.classList.remove('hide');
     }
 });
@@ -398,7 +401,7 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             break;
         case 3:
             btnSuccess.text = 'Ok';
-            specific = '<p>TODO: table with words</p>'
+            specific = generateDictHTML(habit.dict);
             break;
         default:
             break;
