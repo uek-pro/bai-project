@@ -41,6 +41,21 @@ const summHabitsCount = document.getElementById('summHabitsCount');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
+document.querySelector('#reset-realization').addEventListener('click', (evt) => {
+    
+    const btn = evt.target;
+    btn.classList.add('ui-state-disabled');
+
+    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings/lastNotification`).remove();
+    
+    const info = document.getElementById('reset-info');
+    info.textContent = 'Ponowna realizacja zadań będzie możliwa po ponownym uruchomieniu aplikacji';
+    setTimeout(() => {
+        info.textContent = '';
+        btn.classList.remove('ui-state-disabled');
+    }, 8000);
+})
+
 const hShowNotifications = $('#show-notifications');
 const hNotificationsTime = $('#notifications-time');
 
