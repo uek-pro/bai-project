@@ -42,12 +42,12 @@ const summHabitsCount = document.getElementById('summHabitsCount');
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
 document.querySelector('#reset-realization').addEventListener('click', (evt) => {
-    
+
     const btn = evt.target;
     btn.classList.add('ui-state-disabled');
 
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings/lastNotification`).remove();
-    
+
     const info = document.getElementById('reset-info');
     info.textContent = 'Ponowna realizacja zadań będzie możliwa po ponownym uruchomieniu aplikacji';
     setTimeout(() => {
@@ -89,7 +89,7 @@ $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
                         <p><span class="db-type db-t${sh.type}">${habitTypesNames[sh.type]}</span> <span class="db-type db-default">${sh.category}</span></p>
                         ${sh.type == 3 ? generateDictList(sh.dict) : ''}
                     </a>
-                    <a href="#">Delete</a>
+                    <a href="#">Dodaj</a>
                 </li>`
             );
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
@@ -150,17 +150,27 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
                 const o = inputs[i].value;
                 const t = inputs[i + 1].value;
                 o != '' && t != '' ? habit.dict.push([o, t]) : null;
+
+                inputs[i].value = '';
+                inputs[i + 1].value = '';
             };
-            
+
             // nie dodawaj zwyczaju, jeżeli brak słówek
             if (habit.dict.length == 0) {
                 console.log('Dodaj przynajmniej jedno słówko');
                 return;
             }
-
             // $(mhDict).empty();
         }
+
         addHabit(habit);
+        $.mobile.changePage('#habitsListPage');
+
+        mhTitle.value = '';
+        mhDescription.value = '';
+        mhType.value = -1;
+        mhOptimalValue.value = '';
+        mhAuthor.value = '';
     }
 });
 
@@ -258,6 +268,7 @@ notifyAuthStateChanged(function (user) {
                 if (habits != null) {
                     const keys = Object.keys(habits);
                     summHabitsCount.textContent = keys.length;
+
                     // console.log('Lista zwyczajów', habits);
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
@@ -270,7 +281,7 @@ notifyAuthStateChanged(function (user) {
                                     ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
                                     <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
                                 </a>
-                                <a href="#">Delete</a>
+                                <a href="#">Usuń</a>
                             </li>`
                         );
                         el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
@@ -280,6 +291,7 @@ notifyAuthStateChanged(function (user) {
                 }
                 else {
                     $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
+                    summHabitsCount.textContent = 0;
                 }
             });
         });
@@ -295,7 +307,7 @@ notifyAuthStateChanged(function (user) {
             console.log('Settings: ', ss);
             const snExist = ss && typeof ss.showNotifications !== 'undefined';
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
-            const lnExist = ss && typeof ss.lastNotification !== 'undefined'; //
+            const lnExist = ss && typeof ss.lastNotification !== 'undefined';
 
             hShowNotifications.val(snExist ? 1 : 0);
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
@@ -331,7 +343,7 @@ notifyAuthStateChanged(function (user) {
 
                             const keys = Object.keys(habits);
                             let i = 0;
-                            // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
+
                             renderHabitsRealizationForm(
                                 $hr,
                                 habits[keys[i]],
@@ -351,15 +363,15 @@ notifyAuthStateChanged(function (user) {
 
                                 if (habits[keys[i]].type == 0 || habits[keys[i]].type == 1) {
                                     const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
-                                
+
                                     if (isSucceed && (habits[keys[i]].type != 1 || +answerValue.value != 0)) {
-                                
+
                                         firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
                                             habits[keys[i]].type == 0 ? true : +answerValue.value
                                         );
-                                
+
                                     } else {
-                                
+
                                         firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).remove();
                                     };
                                 };
