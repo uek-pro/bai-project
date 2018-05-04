@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext');
+
+body, input, select, textarea, button, .ui-btn {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
 
