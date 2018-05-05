@@ -1,0 +1,35 @@
+#account-info {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+    .personal-data {
+        text-align: right;
+        vertical-align: middle;
+        display: inline-block;
+
+        p {
+            margin: 2px 20px 2px 0px;
+        }
+
+        p:first-child {
+            font-weight: bold;
+        }
+    }
+
+    .photo {
+        vertical-align: middle;
+        display: inline-block;
+
+        img#account-photo {
+            width: 100px;
+            height: 100px;
+        }
+    }
+    
+    @media screen and (max-width: 450px) {
+        .personal-data {
+            display: none;
+        }
+    }
+}

@@ -141,7 +141,17 @@
 			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
 		</div>
 
-		<div data-role="content">
+		<div data-role="content" class="db-relative-container">
+
+			<div id="account-info">
+				<div class="personal-data">
+					<p id="personal-data-name"></p>
+					<p id="personal-data-desc"></p>
+				</div>
+				<div class="photo">
+					<img id="account-photo" src="./img/account-icon.png">
+				</div>
+			</div>
 
 			<h2>Ustawienia</h2>
 
@@ -157,6 +167,18 @@
 
 			<a id="reset-realization" data-role="button" data-inline="true">Wywołaj ponownie realizację zadań</a>
 			<p id="reset-info"></p>
+
+			<h3>Informacje ogólne</h3>
+
+			<h4>Autorzy aplikacji</h4>
+
+			<p>Daniel Adamus</p>
+			<p>Daniel Babraj</p>
+			<p>Mateusz Bieda</p>
+			<p>Michał Chamera</p>
+
+			<h4>Rok powstania</h4>
+			<p>2018</p>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -304,7 +326,7 @@
 
 	<!-- PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
 	<div id="habitDetailsPage" data-role="page">
-		<div class="db-details-container" data-role="content">
+		<div class="db-relative-container" data-role="content">
 
 			<h1 id="hdMain"></h1>
 
@@ -333,7 +355,7 @@
 	</div>
 
 	<!-- PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
-	<div id="habitRealizationPage" data-role="page" class="db-details-container">
+	<div id="habitRealizationPage" data-role="page" class="db-relative-container">
 		<div data-role="content">
 
 			<div id="habit-realization"></div>

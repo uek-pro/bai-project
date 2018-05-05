@@ -1,4 +1,6 @@
 import style from "./main.scss";
+import defaultAccountPhotoURL from "./img/account-icon.png";
+
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';
 import chart from 'chart.js';
@@ -258,6 +260,7 @@ const answerValue = document.getElementById('realization-answer-value');
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
+        setAccountInfo(user.displayName, user.email, user.photoURL);
 
         $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
             // nasłuchiwanie na zmiany w liście zwyczajów
@@ -415,6 +418,7 @@ notifyAuthStateChanged(function (user) {
     } else {
         $(hHabitsList).empty();
         $(hSuggestedHabitsList).empty();
+        setAccountInfo();
         window.location.hash = '';
         console.log('Signed off.');
     }
@@ -456,3 +460,11 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         ${specific}`
     ).trigger('refresh');
 };
+
+function setAccountInfo(displayName = null, email = null, photoURL = null) {
+    
+    const Ai = document.getElementById('account-info');
+    Ai.children[0].children[0].textContent = displayName;
+    Ai.children[0].children[1].textContent = email;
+    Ai.children[1].children[0].src = photoURL != null ? photoURL : defaultAccountPhotoURL;
+}
