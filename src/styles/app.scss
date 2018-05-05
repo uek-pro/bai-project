@@ -1,5 +1,6 @@
 @import './layouts/_login.scss';
 @import './layouts/_register.scss';
+@import './layouts/_account-info.scss';
 @import './layouts/override.scss';
 
 
@@ -28,7 +29,7 @@
     display: none;
 }
 
-.db-details-container {
+.db-relative-container {
     position: relative;
 }
 
