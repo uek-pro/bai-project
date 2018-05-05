@@ -53,6 +53,12 @@
 
  }
 
+ .fab {
+   font-size: 19px;
+   position: absolute;
+   left: 19px;
+ }
+
 
   .login-form {
     margin: 0 auto;
@@ -71,6 +77,12 @@
     .container {
       margin: 0;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 270px) {
+    .fab {
+      display:none;
     }
   }
 
