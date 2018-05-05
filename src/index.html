@@ -142,7 +142,17 @@
 			<a id="btnLogOut" data-icon="power" data-iconpos="notext" class="ui-btn-right">Wyloguj</a>
 		</div>
 
-		<div data-role="content">
+		<div data-role="content" class="db-relative-container">
+
+			<div id="account-info">
+				<div class="personal-data">
+					<p id="personal-data-name"></p>
+					<p id="personal-data-desc"></p>
+				</div>
+				<div class="photo">
+					<img id="account-photo" src="./img/account-icon.png">
+				</div>
+			</div>
 
 			<h2>Ustawienia</h2>
 
@@ -155,35 +165,14 @@
 			<label for="notifications-time">Wybierz godzinę powiadomień</label>
 			<input type="time" id="notifications-time" value="20:00">
 
-			<h2>Hasło</h2>
-
-			<label for="show-notifications">Ustaw hasło</label>
-			<select id="show-notifications" data-role="flipswitch">
-				<option value="0">Wył</option>
-				<option value="1">Wł</option>
-					<input type="text" maxlength="10" size="10" placeholder="Hasło">
-					<div>
-						<button>Submit</button>
-					</div>
-			</select><br>
-			
-			<h2>Wykorzystywanie sieci</h2>
-
-			<label for="show-notifications">Tylko Wi-Fi</label>
-			<select id="show-notifications" data-role="flipswitch">
-				<option value="0">Wył</option>
-				<option value="1">Wł</option>
-			</select>
-			<br><br>
-
-			<h2>Informacje ogólne</h2><br>
+			<h2>Informacje ogólne</h2>
 
 			<h3>Autorzy aplikacji</h3>
 
 			<p>Daniel Adamus</p>
 			<p>Daniel Babraj</p>
 			<p>Mateusz Bieda</p>
-			<p>Michał Chamera</p><br>
+			<p>Michał Chamera</p>
 
 			<h3>Rok powstania</h3>
 			<p>2018</p>
@@ -334,7 +323,7 @@
 
 	<!-- PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA -->
 	<div id="habitDetailsPage" data-role="page">
-		<div class="db-details-container" data-role="content">
+		<div class="db-relative-container" data-role="content">
 
 			<h1 id="hdMain"></h1>
 
