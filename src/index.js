@@ -447,10 +447,12 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             break;
     }
 
+    // console.log(habit);
+
     el.html(
-        `<p>${index + 1} / ${count}</p>
-        ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
-        <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
+        `<p>${index + 1} / ${count}</p><div class="main">
+        ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
+        <h1>${habit.desc != '' ? habit.desc : habit.name}</h1></div>
         ${specific}`
     ).trigger('refresh');
 };

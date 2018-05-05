@@ -73,12 +73,6 @@ body, input, select, textarea, button, .ui-btn {
     position: relative;
 }
 
-.db-back {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-}
-
 .db-chart-block {
     padding: 20px;
 }
@@ -86,4 +80,122 @@ body, input, select, textarea, button, .ui-btn {
 .db-footer {
     bottom: 0;
     position: fixed;
+}
+
+#habitDetailsPage {
+
+    text-align: center;
+
+    .db-back {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    #hdMain {
+        margin-top: 50px;
+        font-weight: 300;
+    }
+
+    #hdChartOnly1 p {
+        text-transform: uppercase;
+    }
+}
+
+.db-dict-row {
+    margin-top: 30px;
+    font-size: 1.2em;
+}
+
+.db-dict-left, .db-dict-right {
+    display: inline-block;
+    padding: 0 5%;
+    width: 39%;
+}
+
+.db-dict-left {
+    text-align: right;
+}
+
+.db-dict-right {
+    text-align: left;
+}
+
+#habit-realization {
+
+    text-align: center;
+    
+    p {
+        color: grey;
+        font-weight: 300;
+        font-size: 1.2em;
+        text-transform: uppercase;
+    }
+
+    .main {
+        padding: 40px 0;
+        text-transform: uppercase;
+    }
+
+    h1, h2 {
+        margin: 0;
+        font-weight: 300;
+    }
+
+    h2 {
+        color: grey;
+        font-size: 1em;
+    }
+
+    h1 {
+        color: #000;
+    }
+
+    #realization-answer-value {
+        width: 200px;
+    }
+}
+
+#habitRealizationPage {
+
+    .ui-content {
+        margin-bottom: 180px;
+    }
+
+    #success {
+        width: 120px;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        line-height: 120px;
+        margin: .625em;
+    }
+
+    #failure {
+        width: 120px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        line-height: 120px;
+        margin: .625em;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #habitDetailsPage {
+        
+        .db-back {
+            top: 30px;
+            right: 30px;
+        }
+
+        #hdMain {
+            text-align: left;
+        }
+
+        .db-dict-row {
+            font-size: 1.5em;
+            margin-top: 50px;
+        }
+    }
 }
