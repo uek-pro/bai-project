@@ -13,11 +13,13 @@ import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_mana
 import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
-import { generateDictTable, generateDictHTML } from "./components/dict/dict";
+import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+
+const habitTypesNames = ['Tak / Nie', 'Z odpowiedzią', 'Informacja', 'Mini-słownik'];
 
 // PAGE: LOGOWANIE (STRONA GŁÓWNA)
 const userEmail = document.getElementById('email-login');
@@ -41,6 +43,21 @@ const summHabitsCount = document.getElementById('summHabitsCount');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
+document.querySelector('#reset-realization').addEventListener('click', (evt) => {
+
+    const btn = evt.target;
+    btn.classList.add('ui-state-disabled');
+
+    firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings/lastNotification`).remove();
+
+    const info = document.getElementById('reset-info');
+    info.textContent = 'Ponowna realizacja zadań będzie możliwa po ponownym uruchomieniu aplikacji';
+    setTimeout(() => {
+        info.textContent = '';
+        btn.classList.remove('ui-state-disabled');
+    }, 8000);
+})
+
 const hShowNotifications = $('#show-notifications');
 const hNotificationsTime = $('#notifications-time');
 
@@ -70,10 +87,11 @@ $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
                 `<li data-type="${sh.type}">
                     <a href="#">
                         <h2>${sh.name}</h2>
-                        <p>${sh.desc}</strong></p>
-                        <p><strong>(${sh.type})</strong> ${sh.category}</p>
+                        <p>${sh.desc}${sh.type == 1 ? ` <span class="opt">[minimum ${sh.optimal}]</span>` : ''}${sh.type == 2 && sh.author != null ? ` <span class="author">~ ${sh.author}</span>` : ''}</p>
+                        <p><span class="db-type db-t${sh.type}">${habitTypesNames[sh.type]}</span> <span class="db-type db-default">${sh.category}</span></p>
+                        ${sh.type == 3 ? generateDictList(sh.dict) : ''}
                     </a>
-                    <a href="#">Add</a>
+                    <a href="#">Dodaj</a>
                 </li>`
             );
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
@@ -134,17 +152,27 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
                 const o = inputs[i].value;
                 const t = inputs[i + 1].value;
                 o != '' && t != '' ? habit.dict.push([o, t]) : null;
+
+                inputs[i].value = '';
+                inputs[i + 1].value = '';
             };
-            
+
             // nie dodawaj zwyczaju, jeżeli brak słówek
             if (habit.dict.length == 0) {
                 console.log('Dodaj przynajmniej jedno słówko');
                 return;
             }
-
             // $(mhDict).empty();
         }
+
         addHabit(habit);
+        $.mobile.changePage('#habitsListPage');
+
+        mhTitle.value = '';
+        mhDescription.value = '';
+        mhType.value = -1;
+        mhOptimalValue.value = '';
+        mhAuthor.value = '';
     }
 });
 
@@ -204,13 +232,13 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
     if (storeHabit.type == 0) {
         hdDoughnutCharts.classList.remove('hide');
-        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount);
+        const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount + 1);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.success, dataset.allAlong.failed);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.success, dataset.last2Weeks.failed);
     } else if (storeHabit.type == 1) {
         hdDoughnutCharts.classList.remove('hide');
         hdChartOnly1.classList.remove('hide');
-        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount, storeHabit.optimal);
+        const dataset = getDatasetForDoughnutChartsType1(storeHabit.days, relativeDaysCount + 1, storeHabit.optimal);
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
@@ -243,6 +271,7 @@ notifyAuthStateChanged(function (user) {
                 if (habits != null) {
                     const keys = Object.keys(habits);
                     summHabitsCount.textContent = keys.length;
+
                     // console.log('Lista zwyczajów', habits);
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
@@ -251,9 +280,11 @@ notifyAuthStateChanged(function (user) {
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
-                                    <p>(${el.type}) ${el.desc} - ${el.date}</p>
+                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
+                                    ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
+                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
                                 </a>
-                                <a href="#">Delete</a>
+                                <a href="#">Usuń</a>
                             </li>`
                         );
                         el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
@@ -263,6 +294,7 @@ notifyAuthStateChanged(function (user) {
                 }
                 else {
                     $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
+                    summHabitsCount.textContent = 0;
                 }
             });
         });
@@ -278,7 +310,7 @@ notifyAuthStateChanged(function (user) {
             console.log('Settings: ', ss);
             const snExist = ss && typeof ss.showNotifications !== 'undefined';
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
-            const lnExist = ss && typeof ss.lastNotification !== 'undefined'; //
+            const lnExist = ss && typeof ss.lastNotification !== 'undefined';
 
             hShowNotifications.val(snExist ? 1 : 0);
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
@@ -314,7 +346,7 @@ notifyAuthStateChanged(function (user) {
 
                             const keys = Object.keys(habits);
                             let i = 0;
-                            // renderHabitsRealizationForm($hr, habits, keys[i], i, keys.length);
+
                             renderHabitsRealizationForm(
                                 $hr,
                                 habits[keys[i]],
@@ -332,17 +364,20 @@ notifyAuthStateChanged(function (user) {
 
                                 //console.log(+answerValue.value);
 
-                                if (isSucceed && +answerValue.value != 0 && (habits[keys[i]].type == 0 || habits[keys[i]].type == 1)) {
-
+                                if (habits[keys[i]].type == 0 || habits[keys[i]].type == 1) {
                                     const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
 
-                                    if (relativeDayNumber > 0) {
+                                    if (isSucceed && (habits[keys[i]].type != 1 || +answerValue.value != 0)) {
 
                                         firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).set(
                                             habits[keys[i]].type == 0 ? true : +answerValue.value
                                         );
-                                    }
-                                }
+
+                                    } else {
+
+                                        firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices/${keys[i]}/days/${relativeDayNumber}`).remove();
+                                    };
+                                };
 
                                 answerValue.value = '';
                                 i++;
@@ -416,10 +451,12 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             break;
     }
 
+    // console.log(habit);
+
     el.html(
-        `<p>${index + 1} / ${count}</p>
-        ${habit.desc != null ? `<h2>${habit.name}</h2>` : null}
-        <h1>${habit.desc != null ? habit.desc : habit.name}</h1>
+        `<p>${index + 1} / ${count}</p><div class="main">
+        ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
+        <h1>${habit.desc != '' ? habit.desc : habit.name}</h1></div>
         ${specific}`
     ).trigger('refresh');
 };

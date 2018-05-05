@@ -8,6 +8,7 @@
   }
 
   h1, img {
+    margin: 0;
     display: block;
     width: 100%;
   }
@@ -83,6 +84,20 @@
     .login-form {
       margin: 0;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .inputs-inline {
+      text-align: center;
+    }
+
+    #btnLogin {
+      float: none;
+    }
+
+    #registerButton {
+      margin-right: 0;
     }
   }
 }

@@ -21,7 +21,7 @@
 			<div class="container">
 
 				<h1>
-					<img src="./img/logo.svg" height="300" width="1280" alt="Practice Control">
+					<img src="./img/logo.svg" alt="Practice Control">
 				</h1>
 
 				<form class="login-form">
@@ -39,9 +39,9 @@
 					</div>
 
 					<div class="inputs">
-						<a id="btnGoogleLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Google</a>
-						<a id="btnFacebookLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez Facebook</a>
-						<a id="btnGitHubLogIn" data-role="button" data-icon="forward">Zaloguj się poprzez GitHub</a>
+						<a id="btnGoogleLogIn" data-role="button">Zaloguj się poprzez Google</a>
+						<a id="btnFacebookLogIn" data-role="button">Zaloguj się poprzez Facebook</a>
+						<a id="btnGitHubLogIn" data-role="button">Zaloguj się poprzez GitHub</a>
 					</div>
 				</form>
 			</div>
@@ -84,8 +84,7 @@
 			<span class="ui-title">Lista zwyczajów</span>
 		</div>
 		<div data-role="content">
-			<ul id="habitsList" data-split-icon="delete" data-role="listview" data-filter="true" data-filter-theme="a" data-filter-placeholder="Wyszukaj zwyczaje.."
-			 data-inset="true"></ul>
+			<ul id="habitsList" data-split-icon="delete" data-role="listview" data-inset="false"></ul>
 		</div>
 
 		<div data-role="footer" data-position="fixed">
@@ -114,7 +113,7 @@
 		<div data-role="content">
 
 			<p>Liczba śledzonych zwyczajów:
-				<span id="summHabitsCount">?</span>
+				<span id="summHabitsCount">0</span>
 			</p>
 
 		</div>
@@ -161,20 +160,24 @@
 				<option value="0">Wył</option>
 				<option value="1">Wł</option>
 			</select>
-
 			<label for="notifications-time">Wybierz godzinę powiadomień</label>
 			<input type="time" id="notifications-time" value="20:00">
 
-			<h2>Informacje ogólne</h2>
+			<h3>Zaawansowane</h3>
 
-			<h3>Autorzy aplikacji</h3>
+			<a id="reset-realization" data-role="button" data-inline="true">Wywołaj ponownie realizację zadań</a>
+			<p id="reset-info"></p>
+
+			<h3>Informacje ogólne</h3>
+
+			<h4>Autorzy aplikacji</h4>
 
 			<p>Daniel Adamus</p>
 			<p>Daniel Babraj</p>
 			<p>Mateusz Bieda</p>
 			<p>Michał Chamera</p>
 
-			<h3>Rok powstania</h3>
+			<h4>Rok powstania</h4>
 			<p>2018</p>
 
 		</div>
@@ -328,9 +331,6 @@
 			<h1 id="hdMain"></h1>
 
 			<div id="hdDoughnutCharts" class="ui-grid-a hide">
-
-				<p>Skuteczność:</p>
-
 				<div class="ui-block-a db-chart-block">
 					<p>od początku</p>
 					<canvas class="db-chart" id="beginning-preview"></canvas>
@@ -355,7 +355,7 @@
 	</div>
 
 	<!-- PAGE: STRONA REALIZACJI ZADANIA [ODPALANA AUTOMATYCZNIE O OKREŚLONEJ PORZE] -->
-	<div id="habitRealizationPage" data-role="page">
+	<div id="habitRealizationPage" data-role="page" class="db-relative-container">
 		<div data-role="content">
 
 			<div id="habit-realization"></div>
