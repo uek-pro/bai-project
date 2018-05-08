@@ -15,21 +15,21 @@
 
   #btnGoogleLogIn {
     background: linear-gradient(to right, #DD4B39, rgba(243, 81, 60, 0.911));
-    
+
     @include button(#E74B37);
   }
 
 
   #btnFacebookLogIn {
     background: linear-gradient(to right, #4B77BE, #1F4788);
-    
+
     @include button(rgb(39, 92, 177));
   }
 
 
  #btnGitHubLogIn {
   background: linear-gradient(to right, rgb(77, 75, 74), rgb(122, 113, 115));
-  
+
   @include button(linear-gradient(to right, rgb(97, 94, 93), rgb(141, 137, 137)));
  }
 
@@ -43,7 +43,7 @@
 
   @include button(linear-gradient(to right,rgb(32, 141, 23),rgb(64, 249, 95)));
  }
- 
+
 
  #registerButton {
   box-shadow: 0px 3px 21px rgba(255, 100, 0, 0.7);
@@ -51,6 +51,12 @@
 
   @include button(linear-gradient(to right, rgb(167, 127, 104), rgb(214, 102, 124)));
 
+ }
+
+ .fab {
+   font-size: 19px;
+   position: absolute;
+   left: 19px;
  }
 
 
@@ -71,6 +77,12 @@
     .container {
       margin: 0;
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 330px) {
+    .fab {
+      display:none;
     }
   }
 
