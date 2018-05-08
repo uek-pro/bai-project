@@ -1,15 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext');
-
-body, input, select, textarea, button, .ui-btn {
-    font-family: 'Roboto', sans-serif !important;
-}
-
-@import './layouts/_login.scss';
-@import './layouts/_register.scss';
-@import './layouts/_account-info.scss';
-@import './layouts/override.scss';
-
-
 #type3 {
     margin-bottom: 120px;
     text-align: center;
@@ -42,7 +30,6 @@ body, input, select, textarea, button, .ui-btn {
     display: none;
 }
 
-
 .db-type {
     display: inline-block;
     padding: 0 10px;
@@ -55,19 +42,19 @@ body, input, select, textarea, button, .ui-btn {
     text-transform: uppercase;
 
     &.db-t0 {
-        background-color: #AD5AFF;
+        background-color: $t0-lb-color;
     }
 
     &.db-t1 {
-        background-color: #3FA9CC;
+        background-color: $t1-lb-color;
     }
 
     &.db-t2 {
-        background-color: #747B7F;
+        background-color: $t2-lb-color;
     }
 
     &.db-t3 {
-        background-color: #FF3A74;
+        background-color: $t3-lb-color;
     }
 
     &.db-default {

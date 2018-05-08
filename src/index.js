@@ -1,5 +1,5 @@
-import style from "./main.scss";
-import defaultAccountPhotoURL from "./img/account-icon.png";
+import './sass/main.scss';
+import defaultAccountPhotoURL from './img/account-icon.png';
 
 import firebase from 'firebase';
 import firebaseConfig from './components/firebase/firebase_config.js';

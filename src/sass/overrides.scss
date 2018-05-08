@@ -1,4 +1,8 @@
-$main-color: #8cc63f;
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext');
+
+body, input, select, textarea, button, .ui-btn {
+    font-family: 'Roboto', sans-serif !important;
+}
 
 .ui-bar-a,
 .ui-page-theme-a .ui-bar-inherit,
@@ -6,7 +10,7 @@ html .ui-bar-a .ui-bar-inherit,
 html .ui-body-a .ui-bar-inherit,
 html body .ui-group-theme-a .ui-bar-inherit {
     background-color: $main-color;
-    border-color: #4d6c22;
+    border-color: $secondary-color;
     color: #ffffff;
     text-shadow: 0 1px 0 #444444;
     font-weight: bold;
@@ -20,18 +24,15 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
     background-color: $main-color;
     border-color: $main-color;
     color: #ffffff;
-    text-shadow: 0 1px 0 #4d6c22;;
+    text-shadow: 0 1px 0 $secondary-color;
 }
-
-/* Active radio button icon */
 
 .ui-page-theme-a .ui-radio-on:after,
 html .ui-bar-a .ui-radio-on:after,
 html .ui-body-a .ui-radio-on:after,
 html body .ui-group-theme-a .ui-radio-on:after,
 .ui-btn.ui-radio-on.ui-btn-a:after {
-    border-color: $main-color
-    ;
+    border-color: $main-color;
 }
 
 .ui-page-theme-a .ui-focus,
@@ -77,7 +78,6 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
     box-shadow: 0 0 12px #628d29;
 }
 
-
 .ui-page-theme-b .ui-btn, html .ui-bar-b .ui-btn, html .ui-body-b .ui-btn, html body .ui-group-theme-b .ui-btn, html head+body .ui-btn.ui-btn-b, .ui-page-theme-b .ui-btn:visited, html .ui-bar-b .ui-btn:visited, html .ui-body-b .ui-btn:visited, html body .ui-group-theme-b .ui-btn:visited, html head+body .ui-btn.ui-btn-b:visited {
     background-color: #333;
     border-color: #1f1f1f;
@@ -93,7 +93,6 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
     -webkit-border-radius: 1em;
     border-radius: 1em;
 }
-
 
 .ui-page-theme-b .ui-btn:hover, html .ui-bar-b .ui-btn:hover, html .ui-body-b .ui-btn:hover, html body .ui-group-theme-b .ui-btn:hover, html head+body .ui-btn.ui-btn-b:hover {
     background-color: rgb(1, 131, 111);
@@ -119,3 +118,13 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
 //     color: white;
 //     text-shadow: none !important;
 // }
+
+.ui-flipswitch.ui-bar-inherit {
+    background-color: red;
+    border-color: darken(red, 20%);
+}
+
+.ui-flipswitch.ui-bar-inherit.ui-flipswitch-active {
+    background-color: $main-color;
+    border-color: $secondary-color;
+}
