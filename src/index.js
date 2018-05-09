@@ -78,11 +78,22 @@ const hSuggestedHabitsList = document.getElementById('suggested-habits-list');
 
 $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
     // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
-    firebase.database().ref('suggestions').once('value').then(function (snapshot) {
+    firebase.database().ref('/suggestions').once('value').then(function (snapshot) {
+
+        const habits = snapshot.val();
+
+        function compare(a, b) {
+            if (a.name < b.name)
+                return -1;
+            if (a.name > b.name)
+                return 1;
+            return 0;
+        }
+        habits.sort(compare);
 
         $(hSuggestedHabitsList).empty();
-        for (let i = 0; i < snapshot.val().length; i++) {
-            const sh = snapshot.val()[i];
+        for (let i = 0; i < habits.length; i++) {
+            const sh = habits[i];
             $(hSuggestedHabitsList).append(
                 `<li data-type="${sh.type}">
                     <a href="#">
@@ -130,7 +141,7 @@ const mhDict = document.getElementById('dict');
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
     const habitType = +mhType.value;
-    if (habitType >= 0 && habitType < 4) {
+    if (mhTitle.value != '' && habitType >= 0 && habitType < 4) {
 
         const habit = {
             name: mhTitle.value,
@@ -173,6 +184,8 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
         mhType.value = -1;
         mhOptimalValue.value = '';
         mhAuthor.value = '';
+    } else {
+        console.log('Należy uzupełnić pole tytułu oraz wybrać typ zadania');
     }
 });
 
@@ -280,7 +293,7 @@ notifyAuthStateChanged(function (user) {
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
-                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
+                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 && el.author != '' ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
                                     ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
                                     <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
                                 </a>
@@ -429,7 +442,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
     btnFailure.classList.add('hide');
     answerValue.parentElement.classList.add('hide');
 
-    let specific = '';
     switch (habit.type) {
         case 0:
             btnSuccess.text = 'Udało się';
@@ -440,12 +452,8 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             answerValue.parentElement.classList.remove('hide');
             break;
         case 2:
-            btnSuccess.text = 'Ok';
-            specific = habit.author != null ? `<p class="quote">~ ${habit.author}</p>` : '';
-            break;
         case 3:
             btnSuccess.text = 'Ok';
-            specific = generateDictHTML(habit.dict);
             break;
         default:
             break;
@@ -454,15 +462,19 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
     // console.log(habit);
 
     el.html(
-        `<p>${index + 1} / ${count}</p><div class="main">
-        ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
-        <h1>${habit.desc != '' ? habit.desc : habit.name}</h1></div>
-        ${specific}`
+        `<p>${index + 1} / ${count}</p>
+        <div class="main">
+            ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
+            <h1>${habit.desc != '' ? habit.desc : habit.name}</h1>
+            ${habit.type == 2 && habit.author != null ? `<p class="quote">~ ${habit.author}</p>` : ''}
+        </div>
+        ${habit.type == 1 ? '<p>Wpisz wartość</p>' : ''}
+        ${habit.type == 3 ? generateDictHTML(habit.dict) : ''}`
     ).trigger('refresh');
 };
 
 function setAccountInfo(displayName = null, email = null, photoURL = null) {
-    
+
     const Ai = document.getElementById('account-info');
     Ai.children[0].children[0].textContent = displayName;
     Ai.children[0].children[1].textContent = email;
