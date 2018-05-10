@@ -328,7 +328,7 @@ notifyAuthStateChanged(function (user) {
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
             const lnExist = ss && typeof ss.lastNotification !== 'undefined';
 
-            hShowNotifications.val(snExist ? 1 : 0);
+            hShowNotifications.val(snExist ? '1' : '0').flipswitch('refresh');
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
 
             hShowNotifications.on('change', function () {
