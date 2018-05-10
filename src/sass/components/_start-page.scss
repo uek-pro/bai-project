@@ -1,0 +1,29 @@
+#startPage {
+
+    .ui-content {
+        padding: 0;
+    }
+
+    img {
+        margin: 0;
+        display: block;
+
+        &.logo {
+            margin: 0 auto;
+            height: 70vh;
+        }
+        
+        &.spinner {
+            margin: 0 auto;
+            height: 30vh;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        img.logo {
+            width: 100%;
+        }
+    }
+}
