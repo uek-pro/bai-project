@@ -128,3 +128,7 @@ html body div.ui-slider-track.ui-body-a .ui-btn-active {
     background-color: $main-color;
     border-color: $secondary-color;
 }
+
+.ui-listview>li p {
+    white-space: pre-wrap;
+}

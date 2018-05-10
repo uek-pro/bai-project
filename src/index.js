@@ -10,8 +10,8 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
-import { createDoughnutChart, createLineChart } from './components/chart/charts';
+import { unixDateWithoutTime, getRelativeDaysBetween, formatDate, getStreakValue } from "./components/notifications/time_manager";
+import { createDoughnutChart, createLineChart, createRadarChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
 
@@ -39,7 +39,8 @@ document.querySelector('#btnCreateAccount').addEventListener('click', () => crea
 const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
-const summHabitsCount = document.getElementById('summHabitsCount');
+const hSummary = document.getElementById('summary');
+const hRadarChart = document.getElementById('radar-preview').getContext('2d');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
@@ -78,22 +79,34 @@ const hSuggestedHabitsList = document.getElementById('suggested-habits-list');
 
 $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
     // pobranie sugerowanych zadań i dodanie do listy na stronie z sugerowanymi zadaniami
-    firebase.database().ref('suggestions').once('value').then(function (snapshot) {
+    firebase.database().ref('/suggestions').once('value').then(function (snapshot) {
+
+        const habits = snapshot.val();
+
+        function compare(a, b) {
+            if (a.name < b.name)
+                return -1;
+            if (a.name > b.name)
+                return 1;
+            return 0;
+        }
+        habits.sort(compare);
 
         $(hSuggestedHabitsList).empty();
-        for (let i = 0; i < snapshot.val().length; i++) {
-            const sh = snapshot.val()[i];
+        for (let i = 0; i < habits.length; i++) {
+            const sh = habits[i];
             $(hSuggestedHabitsList).append(
                 `<li data-type="${sh.type}">
                     <a href="#">
                         <h2>${sh.name}</h2>
                         <p>${sh.desc}${sh.type == 1 ? ` <span class="opt">[minimum ${sh.optimal}]</span>` : ''}${sh.type == 2 && sh.author != null ? ` <span class="author">~ ${sh.author}</span>` : ''}</p>
                         <p><span class="db-type db-t${sh.type}">${habitTypesNames[sh.type]}</span> <span class="db-type db-default">${sh.category}</span></p>
-                        ${sh.type == 3 ? generateDictList(sh.dict) : ''}
+                        ${sh.type == 3 ? `<p>Kliknij, aby pokazać/ukryć listę słówek</p><div class="dict-list hide">${generateDictList(sh.dict)}</div>` : ''}
                     </a>
                     <a href="#">Dodaj</a>
                 </li>`
             );
+            sh.type == 3 ? hSuggestedHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', (evt) => { $(evt.target).parents('li').last().find('.dict-list').toggleClass('hide') }) : null;
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
         };
 
@@ -130,7 +143,7 @@ const mhDict = document.getElementById('dict');
 document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
     const habitType = +mhType.value;
-    if (habitType >= 0 && habitType < 4) {
+    if (mhTitle.value != '' && habitType >= 0 && habitType < 4) {
 
         const habit = {
             name: mhTitle.value,
@@ -173,6 +186,8 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
         mhType.value = -1;
         mhOptimalValue.value = '';
         mhAuthor.value = '';
+    } else {
+        console.log('Należy uzupełnić pole tytułu oraz wybrać typ zadania');
     }
 });
 
@@ -199,6 +214,7 @@ document.getElementById('del-word').addEventListener('click', () => delLastWord(
 
 // PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 const hdMain = document.getElementById('hdMain');
+const hdAdditionDate = document.getElementById('hdAdditionDate');
 const hdDoughnutCharts = document.getElementById('hdDoughnutCharts');
 const hdChartOnly1 = document.getElementById('hdChartOnly1');
 const hdDict = document.getElementById('hdDict');
@@ -228,8 +244,10 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
     console.log(storeHabit);
     hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
+    hdAdditionDate.textContent = `Data dodania zwyczaju: ${formatDate(storeHabit.date)}`;
 
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
+
     if (storeHabit.type == 0) {
         hdDoughnutCharts.classList.remove('hide');
         const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount + 1);
@@ -242,8 +260,8 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
-        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount);
-        console.log(lineChartDataset);
+        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount, +storeHabit.date);
+        // console.log(lineChartDataset);
 
         areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
     } else if (storeHabit.type == 3) {
@@ -257,49 +275,108 @@ const btnSuccess = document.getElementById('success');
 const btnFailure = document.getElementById('failure');
 const answerValue = document.getElementById('realization-answer-value');
 
+let radarChart;
+
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
+        const lastLogged = new Date();
         setAccountInfo(user.displayName, user.email, user.photoURL);
 
         $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
-            // nasłuchiwanie na zmiany w liście zwyczajów
+            // nasłuchiwanie na zmiany w liście zwyczajów; FIXME: tutaj?
             firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).on('value', function (snapshot) {
 
                 const habits = snapshot.val();
+                $(hSummary).empty();
                 $(hHabitsList).empty();
                 if (habits != null) {
                     const keys = Object.keys(habits);
-                    summHabitsCount.textContent = keys.length;
 
-                    // console.log('Lista zwyczajów', habits);
+                    const habitsCounter = {
+                        count: keys.length,
+                        type0: 0,
+                        type1: 0,
+                        type2: 0,
+                        type3: 0,
+                        withStreak: 0,
+                        noStreak: 0
+                    };
+
+                    const habitsDataForRadarChart = {
+                        titles: [],
+                        values: []
+                    };
+
+                    radarChart ? radarChart.destroy() : null;
+                    let habitsForRadarCounter = 0;
+
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
-                        // console.log(i, el);
+
+                        let streak = null;
+                        if (el.type == 0 || el.type == 1) {
+                            const relativeDaysCount = getRelativeDaysBetween(+el.date, unixDateWithoutTime(+lastLogged));
+                            streak = getStreakValue(el.days, relativeDaysCount);
+                            // console.log(streak);
+                            if (streak > 0) habitsCounter.withStreak++;
+                            else habitsCounter.noStreak++;
+
+                            // dane do radar chart
+                            const data = getDatasetForDoughnutChartsType0(el.days, relativeDaysCount);
+                            
+                            habitsDataForRadarChart.titles.push(el.name);
+                            const v = Math.floor((data.last2Weeks.success/(relativeDaysCount+1))*100);
+                            habitsDataForRadarChart.values.push(v);
+
+                            habitsForRadarCounter++;
+                        }
+
                         $(hHabitsList).append(
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
-                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
+                                    <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 && el.author != '' ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
                                     ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
-                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
+                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span> ${streak != null && streak > 0 ? `<span class="streak"><i class="fas fa-burn"></i> ${streak}</span>` : ''}</p>
                                 </a>
                                 <a href="#">Usuń</a>
                             </li>`
                         );
                         el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
                         hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
+
+                        if (el.type == 0) habitsCounter.type0++
+                        else if (el.type == 1) habitsCounter.type1++
+                        else if (el.type == 2) habitsCounter.type2++
+                        else if (el.type == 3) habitsCounter.type3++
                     }
                     $(hHabitsList).listview('refresh');
+
+                    $(hSummary).append(
+                        `<p>Liczba zwyczajów: ${habitsCounter.count}</p>
+                        <hr>
+                        <p>Liczba zwyczajów typu Tak/Nie: ${habitsCounter.type0}</p>
+                        <p>Liczba zwyczajów typu z odpowiedzią: ${habitsCounter.type1}</p>
+                        <p>Liczba zwyczajów typu Informacja: ${habitsCounter.type2}</p>
+                        <p>Liczba zwyczajów typu Mini-słownik: ${habitsCounter.type3}</p>
+                        <hr>
+                        <p>Liczba zwyczajów z aktywną passą: ${habitsCounter.withStreak}</p>
+                        <p>Liczba zwyczajów nierealizowanych: ${habitsCounter.noStreak}</p>`
+                    );
+
+                    console.log(habitsDataForRadarChart);
+
+                    if (habitsForRadarCounter > 2) {
+                        radarChart = createRadarChart(hRadarChart, habitsDataForRadarChart.titles, habitsDataForRadarChart.values);
+                    }
                 }
                 else {
                     $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
-                    summHabitsCount.textContent = 0;
                 }
             });
         });
 
-        const lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({
             lastLogged: unixDateWithoutTime(lastLogged)
         });
@@ -312,7 +389,7 @@ notifyAuthStateChanged(function (user) {
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
             const lnExist = ss && typeof ss.lastNotification !== 'undefined';
 
-            hShowNotifications.val(snExist ? 1 : 0);
+            hShowNotifications.val(snExist ? '1' : '0');
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
 
             hShowNotifications.on('change', function () {
@@ -418,8 +495,9 @@ notifyAuthStateChanged(function (user) {
     } else {
         $(hHabitsList).empty();
         $(hSuggestedHabitsList).empty();
+        $(hSummary).empty();
         setAccountInfo();
-        window.location.hash = '';
+        $.mobile.changePage('#logonPage');
         console.log('Signed off.');
     }
 });
@@ -429,7 +507,6 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
     btnFailure.classList.add('hide');
     answerValue.parentElement.classList.add('hide');
 
-    let specific = '';
     switch (habit.type) {
         case 0:
             btnSuccess.text = 'Udało się';
@@ -440,12 +517,8 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
             answerValue.parentElement.classList.remove('hide');
             break;
         case 2:
-            btnSuccess.text = 'Ok';
-            specific = habit.author != null ? `<p class="quote">~ ${habit.author}</p>` : '';
-            break;
         case 3:
             btnSuccess.text = 'Ok';
-            specific = generateDictHTML(habit.dict);
             break;
         default:
             break;
@@ -454,15 +527,19 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
     // console.log(habit);
 
     el.html(
-        `<p>${index + 1} / ${count}</p><div class="main">
-        ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
-        <h1>${habit.desc != '' ? habit.desc : habit.name}</h1></div>
-        ${specific}`
+        `<p>${index + 1} / ${count}</p>
+        <div class="main">
+            ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
+            <h1>${habit.desc != '' ? habit.desc : habit.name}</h1>
+            ${habit.type == 2 && habit.author != '' ? `<p class="quote">~ ${habit.author}</p>` : ''}
+        </div>
+        ${habit.type == 1 ? '<p>Wpisz wartość</p>' : ''}
+        ${habit.type == 3 ? generateDictHTML(habit.dict) : ''}`
     ).trigger('refresh');
 };
 
 function setAccountInfo(displayName = null, email = null, photoURL = null) {
-    
+
     const Ai = document.getElementById('account-info');
     Ai.children[0].children[0].textContent = displayName;
     Ai.children[0].children[1].textContent = email;

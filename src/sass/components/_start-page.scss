@@ -1,0 +1,26 @@
+#startPage {
+
+    .ui-content {
+        padding: 0;
+    }
+
+    img {
+        margin: 0 auto;
+        display: block;
+        padding: 5vh 0;
+
+        &.logo {
+            max-height: 60vh;
+        }
+        
+        &.spinner {
+            height: 20vh;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        img.logo {
+            max-width: 100%;
+        }
+    }
+}
