@@ -4,6 +4,7 @@
 @import "{{ site.theme }}";
 
 // my overrides styles :)
+$btn-color: #ffcc00;
 $content-width: 900px;
 
 #header nav,
@@ -13,17 +14,21 @@ section {
 }
 
 #header nav li a {
-    border-color: #004a86;
-    background-color: #006ac0;
+	padding: 10px 20px;
+    border-color: darken($btn-color, 30%);
+    background-color: $btn-color;
 
     &:hover {
-        border-color: #003560;
-        background-color: #005499;
+        border-color: darken($btn-color, 50%);
+        background-color: darken($btn-color, 20%);
     }
 }
 
-.authors td {
-    text-align: center;
+.authors {
+	margin: 40px 0;
+	td {
+		text-align: center;
+	}
 }
 
 section > ul:first-of-type {

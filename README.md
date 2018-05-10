@@ -2,6 +2,7 @@
 
 - [Opis projektu](#opis-projektu)
 - [Organizacja pracy](#organizacja-pracy)
+    - [Zarządzanie projektem](#zarządzanie-projektem)
     - [Gałęzie projektu](#gałęzie-projektu)
     - [Obsługa Git'a dla mniej wtajemniczonych](#obsługa-gita-dla-mniej-wtajemniczonych)
 - [Prototyp aplikacji](#prototyp-aplikacji)
@@ -9,14 +10,13 @@
     - [Struktura aplikacji](#struktura-aplikacji)
     - [Struktura bazy danych](#struktura-bazy-danych)
 - [Dokumentacja aplikacji](#dokumentacja-aplikacji)
-    - [Wykorzystane technologie](#wykorzystane-technologie)
-    - [Konfiguracja](#konfiguracja)
+    - [Wykorzystane narzędzia i technologie](#wykorzystane-narzędzia-i-technologie)
     - [Instalacja](#instalacja)
-    - [Instrukcja działania](#instrukcja-działania)
-- [Autorzy](#autorzy)
+- [Skład zespołu projektowego](#skład-zespołu-projektowego)
 - [Raport prac](#raport-prac)
 
 <!-- /TOC -->
+
 ## Opis projektu
 
 Aplikacja, która małymi kroczkami wspomaga codzienną pracę nad sobą, pomagając wyrobić w sobie przydatne nawyki oraz wygasić te niechciane. Codziennie o określonej, wcześniej w aplikacji, porze przychodzi powiadomienie, gdzie należy odpowiedzieć czy udało się zaliczyć daną czynność/zadanie (każde z osobna). Po wszystkich odpowiedziach wyświetlane jest podsumowanie, które prezentowane będzie w postaci licznika passy, % wykonanych czynności w danym miesiącu oraz kolorowych miesięcznych wykresów. Użytkownik aplikacji może dodawać własne, edytować, usuwać oraz przypisywać sugerowane, przez autorów aplikacji, zadania. Z aplikacji można skorzystać po zalogowaniu (przy użyciu kont społecznościowych oraz tradycyjnie) ale także w pewnym zakresie w trybie offline. 
@@ -24,16 +24,20 @@ Aplikacja, która małymi kroczkami wspomaga codzienną pracę nad sobą, pomaga
 Typy czynności możliwe do dodania i śledzenia znajdują się poniżej.
 
 * "Yes/No" np. dzień bez alkoholu, gdzie odpowiedzią jest wartość logiczna
-* "Z inputem" np. 30min nauki dziennie, gdzie należy podać wartość liczbową co oznacza, że czynność można wykonać cząstkowo
+* Z odpowiedzią np. 30min nauki dziennie, gdzie należy podać wartość liczbową co oznacza, że czynność można wykonać cząstkowo
 * Informacja np. jakiś ładny cytat, pełni rolę przypominajki
-* Mini słownik np. słówka polsko-angielskie dotyczące ekonomii, losowana jest codziennie, najlepiej bez powtórzeń, oraz wyświetlana tabela zawierająca n słówek
+* Mini słownik np. słówka polsko-angielskie dotyczące ekonomii
 
 ## Organizacja pracy
 
+### Zarządzanie projektem
+
+**Link do [systemu zarządzania projektem (ZenHub)](https://app.zenhub.com/workspace/o/uek-pro/bai-project/) lub/i listy issuesów oraz pull requestów razem wziętych, czyli [zbioru zadań](https://github.com/uek-pro/bai-project/issues?page=1&q=-label%3Aduplicate&utf8=%E2%9C%93).**
+
 ### Gałęzie projektu
 
-* **[master](/uek-pro/bai-project/tree/master)** - Główna gałąź aplikacji. **Commity dodawane wyłącznie poprzez pull request** (wytłumaczone poniżej).
-* **[gh-pages](/uek-pro/bai-project/tree/gh-pages)** - Gałąź z dokumentacją. Commity dodawane dowolnie.
+* **[master](https://github.com/uek-pro/bai-project/tree/master)** - Główna gałąź aplikacji. **Commity dodawane wyłącznie poprzez pull request** (wytłumaczone poniżej).
+* **[gh-pages](https://github.com/uek-pro/bai-project/tree/gh-pages)** - Gałąź z dokumentacją. Commity dodawane dowolnie.
 * **b-*numer\_issue*** - Gałęzie dodające nowe funkcjonalności lub rozwiązujące problemy o ientyfikatorze issue podanym w nazwie gałęzi.
 * ***dowolna\_nazwa*** - Dodatkowe gałęzie wspomagające tworzenie aplikacji.
 
@@ -56,11 +60,13 @@ Niezależnie od tego czy problem został rozwiązany czy jest to dopiero począt
 Z czasem gdy na branchu master projekt bardziej się posunie niż mamy go u siebie lokalnie, wymagana jest synchronizacja 
 
 ```bash
-git fetch
+git checkout master
 git pull origin master
 ```
 
 ## Prototyp aplikacji
+
+Prototyp aplikacji dostępny jest pod adresem [https://8h4b8u.axshare.com](https://8h4b8u.axshare.com)
 
 ### Schemat działania aplikacji
 
@@ -70,15 +76,11 @@ git pull origin master
 
 ## Dokumentacja aplikacji
 
-### Wykorzystane technologie
-
-### Konfiguracja
+### Wykorzystane narzędzia i technologie
 
 ### Instalacja
 
-### Instrukcja działania
-
-## Autorzy
+## Skład zespołu projektowego
 
 <table class="authors" style="text-align:center">
     <tr>
@@ -114,6 +116,7 @@ git pull origin master
 </table>
 
 ## Raport prac
+
 | Zadanie | Daniel | Daniel (k) | Mateusz | Michał |
 | ---------------- | -: | -: | -: | -: |
 | Zadanie 1        |  2 |  3 |  2 |  1 |
