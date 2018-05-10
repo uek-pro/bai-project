@@ -8,7 +8,7 @@ const unixDateWithoutTime = (date = null) => {
 const getRelativeDaysBetween = (earlierUnixDate, laterUnixDate) => {
 
     const diff = laterUnixDate - earlierUnixDate;
-    return Math.ceil(diff / 86400000);
+    return Math.ceil(diff / 864e5);
 }
 
 const formatDate = (unixDate) => {

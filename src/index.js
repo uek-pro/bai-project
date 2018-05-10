@@ -258,7 +258,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
         allAlongChart = createDoughnutChart(hdChartAllAlong, dataset.allAlong.aboveOrEqualOptimal, dataset.allAlong.failed, dataset.allAlong.belowOptimal);
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
-        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount);
+        const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount, +storeHabit.date);
         console.log(lineChartDataset);
 
         areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
@@ -469,7 +469,7 @@ function renderHabitsRealizationForm(el, habit, btnSuccess, index, count) {
         <div class="main">
             ${habit.desc != '' ? `<h2>${habit.name}</h2>` : ''}
             <h1>${habit.desc != '' ? habit.desc : habit.name}</h1>
-            ${habit.type == 2 && habit.author != null ? `<p class="quote">~ ${habit.author}</p>` : ''}
+            ${habit.type == 2 && habit.author != '' ? `<p class="quote">~ ${habit.author}</p>` : ''}
         </div>
         ${habit.type == 1 ? '<p>Wpisz wartość</p>' : ''}
         ${habit.type == 3 ? generateDictHTML(habit.dict) : ''}`

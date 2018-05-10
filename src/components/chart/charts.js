@@ -47,6 +47,13 @@ const createLineChart = (element, optimal, days, values) => {
                     ticks: {
                         beginAtZero: true
                     }
+                }],
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90,
+                        minRotation: 90
+                    }
                 }]
             },
             elements: {
