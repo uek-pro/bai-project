@@ -5,25 +5,22 @@
     }
 
     img {
-        margin: 0;
+        margin: 0 auto;
         display: block;
+        padding: 5vh 0;
 
         &.logo {
-            margin: 0 auto;
-            height: 70vh;
+            max-height: 60vh;
         }
         
         &.spinner {
-            margin: 0 auto;
-            height: 30vh;
-            box-sizing: border-box;
-            padding: 30px;
+            height: 20vh;
         }
     }
 
-    @media screen and (max-width: 600px) {
+    @media screen and (max-width: 800px) {
         img.logo {
-            width: 100%;
+            max-width: 100%;
         }
     }
 }
