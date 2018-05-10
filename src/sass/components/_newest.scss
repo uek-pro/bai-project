@@ -78,8 +78,15 @@
     position: relative;
 }
 
-.db-chart-block {
+.db-chart-block, .db-chart-radar {
     padding: 20px;
+}
+
+@media screen and (min-width: 680px) {
+    .db-chart-radar {
+        width: 600px;
+        margin: 0 auto;
+    }
 }
 
 .db-footer {

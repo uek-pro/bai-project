@@ -90,6 +90,7 @@ const createRadarChart = (element, habitsTitles, values) => {
             }],
         },
         options: {
+            aspectRatio: 1,
             events: false,
             scale: {
                 ticks: {
