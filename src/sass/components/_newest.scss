@@ -214,3 +214,15 @@
         }
     }
 }
+
+#summaryPage {
+
+    #summary p {
+
+        font-size: 1.2em;
+
+        &:first-child {
+            font-weight: bold;
+        }
+    }
+}

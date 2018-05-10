@@ -39,7 +39,8 @@ document.querySelector('#btnCreateAccount').addEventListener('click', () => crea
 const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
-const summHabitsCount = document.getElementById('summHabitsCount');
+const hSummary = document.getElementById('summary');
+// const hRadarChart = document.getElementById('radar-preview').getContext('2d');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
@@ -281,16 +282,25 @@ notifyAuthStateChanged(function (user) {
         setAccountInfo(user.displayName, user.email, user.photoURL);
 
         $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
-            // nasłuchiwanie na zmiany w liście zwyczajów
+            // nasłuchiwanie na zmiany w liście zwyczajów; FIXME: tutaj?
             firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).on('value', function (snapshot) {
 
                 const habits = snapshot.val();
+                $(hSummary).empty();
                 $(hHabitsList).empty();
                 if (habits != null) {
                     const keys = Object.keys(habits);
-                    summHabitsCount.textContent = keys.length;
 
-                    // console.log('Lista zwyczajów', habits);
+                    const habitsCounter = {
+                        count: keys.length,
+                        type0: 0,
+                        type1: 0,
+                        type2: 0,
+                        type3: 0,
+                        withStreak: 0,
+                        noStreak: 0
+                    }
+
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
 
@@ -298,7 +308,9 @@ notifyAuthStateChanged(function (user) {
                         if (el.type == 0 || el.type == 1) {
                             const relativeDaysCount = getRelativeDaysBetween(+el.date, unixDateWithoutTime(+lastLogged));
                             streak = getStreakValue(el.days, relativeDaysCount);
-                            console.log(streak);
+                            // console.log(streak);
+                            if (streak > 0) habitsCounter.withStreak++;
+                            else habitsCounter.noStreak++;
                         }
 
                         $(hHabitsList).append(
@@ -314,12 +326,28 @@ notifyAuthStateChanged(function (user) {
                         );
                         el.type != 2 ? hHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', () => showDetailsPage(el)) : null;
                         hHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => deleteHabit(keys[i]));
+
+                        if (el.type == 0) habitsCounter.type0++
+                        else if (el.type == 1) habitsCounter.type1++
+                        else if (el.type == 2) habitsCounter.type2++
+                        else if (el.type == 3) habitsCounter.type3++
                     }
                     $(hHabitsList).listview('refresh');
+
+                    $(hSummary).append(
+                        `<p>Liczba zwyczajów: ${habitsCounter.count}</p>
+                        <hr>
+                        <p>Liczba zwyczajów typu Tak/Nie: ${habitsCounter.type0}</p>
+                        <p>Liczba zwyczajów typu z odpowiedzią: ${habitsCounter.type1}</p>
+                        <p>Liczba zwyczajów typu Informacja: ${habitsCounter.type2}</p>
+                        <p>Liczba zwyczajów typu Mini-słownik: ${habitsCounter.type3}</p>
+                        <hr>
+                        <p>Liczba zwyczajów z aktywną passą: ${habitsCounter.withStreak}</p>
+                        <p>Liczba zwyczajów nierealizowanych: ${habitsCounter.noStreak}</p>`
+                    );
                 }
                 else {
                     $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
-                    summHabitsCount.textContent = 0;
                 }
             });
         });
@@ -442,6 +470,7 @@ notifyAuthStateChanged(function (user) {
     } else {
         $(hHabitsList).empty();
         $(hSuggestedHabitsList).empty();
+        $(hSummary).empty();
         setAccountInfo();
         window.location.hash = '';
         console.log('Signed off.');
