@@ -30,6 +30,17 @@
     display: none;
 }
 
+.streak {
+    font-size: 1.2em;
+    margin: 0 16px;
+    height: 18px;
+    line-height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+    color: seagreen;
+}
+
 .db-type {
     display: inline-block;
     padding: 0 10px;
@@ -67,8 +78,15 @@
     position: relative;
 }
 
-.db-chart-block {
+.db-chart-block, .db-chart-radar {
     padding: 20px;
+}
+
+@media screen and (min-width: 680px) {
+    .db-chart-radar {
+        width: 600px;
+        margin: 0 auto;
+    }
 }
 
 .db-footer {
@@ -91,8 +109,19 @@
         font-weight: 300;
     }
 
+    #hdAdditionDate {
+        color: gray;
+        text-align: center;
+        margin: 0;
+        padding: 32px 0;
+    }
+
     #hdChartOnly1 p {
         text-transform: uppercase;
+    }
+
+    #hdDict {
+        margin: 30px 0;
     }
 }
 
@@ -103,6 +132,7 @@
 
 .db-dict-left, .db-dict-right {
     display: inline-block;
+    vertical-align: top;
     padding: 0 5%;
     width: 39%;
 }
@@ -115,42 +145,40 @@
     text-align: left;
 }
 
-#habit-realization {
-
-    text-align: center;
-    
-    p {
-        color: grey;
-        font-weight: 300;
-        font-size: 1.2em;
-        text-transform: uppercase;
-    }
-
-    .main {
-        padding: 40px 0;
-        text-transform: uppercase;
-    }
-
-    h1, h2 {
-        margin: 0;
-        font-weight: 300;
-    }
-
-    h2 {
-        color: grey;
-        font-size: 1em;
-    }
-
-    h1 {
-        color: #000;
-    }
-
-    #realization-answer-value {
-        width: 200px;
-    }
-}
-
 #habitRealizationPage {
+
+    #habit-realization {
+
+        text-align: center;
+        
+        p {
+            color: grey;
+            font-weight: 300;
+            font-size: 1.2em;
+        }
+    
+        .main {
+            padding: 40px 0;
+        }
+    
+        h1, h2 {
+            margin: 0;
+            font-weight: 300;
+        }
+    
+        h2 {
+            color: grey;
+            font-size: 1em;
+        }
+    
+        h1 {
+            color: #000;
+        }
+    
+        #realization-answer-value {
+            width: 200px;
+        }
+    }
 
     .ui-content {
         margin-bottom: 180px;
@@ -190,6 +218,18 @@
         .db-dict-row {
             font-size: 1.5em;
             margin-top: 50px;
+        }
+    }
+}
+
+#summaryPage {
+
+    #summary p {
+
+        font-size: 1.2em;
+
+        &:first-child {
+            font-weight: bold;
         }
     }
 }

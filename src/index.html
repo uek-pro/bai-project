@@ -9,11 +9,24 @@
 	<link rel="stylesheet" href="src/lib/jquery.mobile-1.4.5.min.css">
 	<script src="src/lib/jquery-2.1.4.min.js"></script>
 	<script src="src/lib/jquery.mobile-1.4.5.min.js"></script>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9"
+	 crossorigin="anonymous">
 	<title>Practice Control</title>
 </head>
 
 <body>
+
+	<!-- PAGE: STRONA STARTOWA -->
+	<div id="startPage" data-role="page">
+		<div data-role="content">
+			<div class="container">
+				<div class="splash">
+					<img class="logo" src="./img/logo.svg" alt="Practice Control">
+					<img class="spinner" src="./img/spinner.gif" alt="Spinner">
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- PAGE: LOGOWANIE (STRONA GŁÓWNA) -->
 	<div id="logonPage" data-role="page">
@@ -39,9 +52,12 @@
 					</div>
 
 					<div class="inputs">
-						<a id="btnGoogleLogIn" data-role="button"><i class="fab fa-google"></i>Zaloguj się poprzez Google</a>
-						<a id="btnFacebookLogIn" data-role="button"><i class="fab fa-facebook"></i>Zaloguj się poprzez Facebook</a>
-						<a id="btnGitHubLogIn" data-role="button"><i class="fab fa-github"></i>Zaloguj się poprzez GitHub</a>
+						<a id="btnGoogleLogIn" data-role="button">
+							<i class="fab fa-google"></i>Zaloguj się poprzez Google</a>
+						<a id="btnFacebookLogIn" data-role="button">
+							<i class="fab fa-facebook"></i>Zaloguj się poprzez Facebook</a>
+						<a id="btnGitHubLogIn" data-role="button">
+							<i class="fab fa-github"></i>Zaloguj się poprzez GitHub</a>
 					</div>
 				</form>
 			</div>
@@ -112,9 +128,11 @@
 
 		<div data-role="content">
 
-			<p>Liczba śledzonych zwyczajów:
-				<span id="summHabitsCount">0</span>
-			</p>
+			<div id="summary"></div>
+			
+			<div class="db-chart-radar">
+				<canvas id="radar-preview" class=""></canvas>
+			</div>
 
 		</div>
 		<div data-role="footer" data-position="fixed">
@@ -249,7 +267,7 @@
 
 		<div data-role="content">
 
-			<label>Tytuł
+			<label>Tytuł (wymagane)
 				<input type="text" id="manageHabit-title" />
 			</label>
 
@@ -257,7 +275,7 @@
 				<input type="text" id="manageHabit-description" />
 			</label>
 
-			<p>Typ zadania</p>
+			<p>Typ zadania (wymagane)</p>
 
 			<input type="hidden" id="manageHabit-type" value="-1" />
 
@@ -295,7 +313,7 @@
 				</div>
 
 				<div id="type3" class="ui-body-d ui-content">
-					<p>Lista słówek</p>
+					<p>Lista słówek (wymagane)</p>
 					<table>
 						<thead>
 							<tr>
@@ -344,11 +362,14 @@
 			<div id="hdChartOnly1" class="ui-grid-solo hide">
 				<div class="ui-block-a">
 					<p>wykres warstwowy</p>
-					<canvas id="area-preview"></canvas> <!-- TODO: in the future: możliwość przewijania poziomego -->
+					<canvas id="area-preview"></canvas>
+					<!-- TODO: in the future: możliwość przewijania poziomego -->
 				</div>
 			</div>
 
 			<div id="hdDict" class="ui-grid-solo hide"></div>
+
+			<p id="hdAdditionDate"></p>
 
 			<a class="db-back" data-role="button" data-icon="back" data-inline="true" data-rel="back">Powrót</a>
 		</div>

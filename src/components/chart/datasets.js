@@ -1,3 +1,5 @@
+import { formatDate } from "../notifications/time_manager";
+
 const getDatasetForDoughnutChartsType0 = (assocDays, daysCount) => {
 
     const daysCount2Weeks = daysCount > 14 ? 14 : daysCount;
@@ -7,7 +9,7 @@ const getDatasetForDoughnutChartsType0 = (assocDays, daysCount) => {
     for (let k in assocDays) {
         if (assocDays.hasOwnProperty(k)) {
             ++successDays;
-            if (+k >= limit) ++successDays2Weeks;
+            if (+k >= limit)++successDays2Weeks;
         }
     };
 
@@ -62,7 +64,7 @@ const getDatasetForDoughnutChartsType1 = (assocDays, daysCount, optimalValue) =>
     };
 };
 
-const getDatasetForLineChart = (assocDays, daysCount) => {
+const getDatasetForLineChart = (assocDays, daysCount, unixFirstDate = null) => {
 
     let daysArray = [];
     let valuesArray = [];
@@ -91,7 +93,22 @@ const getDatasetForLineChart = (assocDays, daysCount) => {
         }
     }
 
-    return [daysArray, valuesArray];
+    if (unixFirstDate != null) {
+
+        const count = daysArray.length;
+        const date = new Date(unixFirstDate);
+
+        let fullDates = [formatDate(date)];
+        for (let i = 1; i < count; i++) {
+
+            date.setDate(date.getDate() + 1);
+            fullDates.push(formatDate(date));
+        }
+        return [fullDates, valuesArray];
+
+    } else {
+        return [daysArray, valuesArray];
+    }
 };
 
 export {
