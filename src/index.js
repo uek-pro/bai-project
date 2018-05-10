@@ -10,7 +10,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { unixDateWithoutTime, getRelativeDaysBetween, formatDate } from "./components/notifications/time_manager";
+import { unixDateWithoutTime, getRelativeDaysBetween, formatDate, getStreakValue } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
@@ -105,7 +105,7 @@ $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
                     <a href="#">Dodaj</a>
                 </li>`
             );
-            sh.type == 3 ? hSuggestedHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', (evt) => {$(evt.target).parents('li').last().find('.dict-list').toggleClass('hide')}) : null;
+            sh.type == 3 ? hSuggestedHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', (evt) => { $(evt.target).parents('li').last().find('.dict-list').toggleClass('hide') }) : null;
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
         };
 
@@ -246,6 +246,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
     hdAdditionDate.textContent = `Data dodania zwyczaju: ${formatDate(storeHabit.date)}`;
 
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
+
     if (storeHabit.type == 0) {
         hdDoughnutCharts.classList.remove('hide');
         const dataset = getDatasetForDoughnutChartsType0(storeHabit.days, relativeDaysCount + 1);
@@ -259,7 +260,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
         twoWeeksChart = createDoughnutChart(hdChartTwoWeeks, dataset.last2Weeks.aboveOrEqualOptimal, dataset.last2Weeks.failed, dataset.last2Weeks.belowOptimal);
 
         const lineChartDataset = getDatasetForLineChart(storeHabit.days, relativeDaysCount, +storeHabit.date);
-        console.log(lineChartDataset);
+        // console.log(lineChartDataset);
 
         areaChart = createLineChart(hdChartArea, storeHabit.optimal, lineChartDataset[0], lineChartDataset[1]);
     } else if (storeHabit.type == 3) {
@@ -276,6 +277,7 @@ const answerValue = document.getElementById('realization-answer-value');
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
+        const lastLogged = new Date();
         setAccountInfo(user.displayName, user.email, user.photoURL);
 
         $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
@@ -291,14 +293,21 @@ notifyAuthStateChanged(function (user) {
                     // console.log('Lista zwyczajów', habits);
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
-                        // console.log(i, el);
+
+                        let streak = null;
+                        if (el.type == 0 || el.type == 1) {
+                            const relativeDaysCount = getRelativeDaysBetween(+el.date, unixDateWithoutTime(+lastLogged));
+                            streak = getStreakValue(el.days, relativeDaysCount);
+                            console.log(streak);
+                        }
+
                         $(hHabitsList).append(
                             `<li>
                                 <a href="#">
                                     <h2>${el.name}</h2>
                                     <p>${el.desc}${el.type == 1 ? ` <span class="opt">[minimum ${el.optimal}]</span>` : ''}${el.type == 2 && el.author != '' ? ` <span class="author">~ ${el.author}</span>` : ''}</p>
                                     ${el.type == 3 ? `<p>(${el.dict.length} słówek)</p>` : ''}
-                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span></p>
+                                    <p><span class="db-type db-t${el.type}">${habitTypesNames[el.type]}</span> ${streak != null && streak > 0 ? `<span class="streak"><i class="fas fa-burn"></i> ${streak}</span>` : ''}</p>
                                 </a>
                                 <a href="#">Usuń</a>
                             </li>`
@@ -315,7 +324,6 @@ notifyAuthStateChanged(function (user) {
             });
         });
 
-        const lastLogged = new Date();
         firebase.database().ref(`users/${user.uid}`).update({
             lastLogged: unixDateWithoutTime(lastLogged)
         });
@@ -328,7 +336,7 @@ notifyAuthStateChanged(function (user) {
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
             const lnExist = ss && typeof ss.lastNotification !== 'undefined';
 
-            hShowNotifications.val(snExist ? '1' : '0').flipswitch('refresh');
+            hShowNotifications.val(snExist ? '1' : '0');
             hNotificationsTime.val(ntExist ? ss.notificationsTime : '21:00');
 
             hShowNotifications.on('change', function () {

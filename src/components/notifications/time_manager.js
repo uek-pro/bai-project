@@ -24,4 +24,23 @@ const formatDate = (unixDate) => {
     return `${day} ${month} ${year}`;
 }
 
-export { unixDateWithoutTime, getRelativeDaysBetween, formatDate };
+const getStreakValue = (days, relativeDaysCount) => {
+
+    let streak = 0;
+    if (days != null) {
+
+        let pointer = relativeDaysCount;
+        const keys = Object.keys(days);
+
+        for (let i = keys.length - 1; i >= 0; i--) {
+            
+            if (+keys[i] == pointer) {
+                pointer--;
+                streak++;
+            } else break; 
+        }
+    }
+    return streak;
+}
+
+export { unixDateWithoutTime, getRelativeDaysBetween, formatDate, getStreakValue };
