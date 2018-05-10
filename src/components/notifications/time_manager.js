@@ -11,4 +11,17 @@ const getRelativeDaysBetween = (earlierUnixDate, laterUnixDate) => {
     return Math.ceil(diff / 86400000);
 }
 
-export { unixDateWithoutTime, getRelativeDaysBetween };
+const formatDate = (unixDate) => {
+    
+    const date = new Date(unixDate);
+
+    const monthNames = ['Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru'];
+
+    const day = date.getDate();
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    
+    return `${day} ${month} ${year}`;
+}
+
+export { unixDateWithoutTime, getRelativeDaysBetween, formatDate };

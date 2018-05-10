@@ -10,7 +10,7 @@ import { logIn, createAccount } from './components/firebase/authentication/tradi
 import socialMediaLogIn from './components/firebase/authentication/social_media/auth.js';
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
-import { unixDateWithoutTime, getRelativeDaysBetween } from "./components/notifications/time_manager";
+import { unixDateWithoutTime, getRelativeDaysBetween, formatDate } from "./components/notifications/time_manager";
 import { createDoughnutChart, createLineChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
@@ -212,6 +212,7 @@ document.getElementById('del-word').addEventListener('click', () => delLastWord(
 
 // PAGE: STRONA WIDOKU POJEDYNCZEGO ZADANIA
 const hdMain = document.getElementById('hdMain');
+const hdAdditionDate = document.getElementById('hdAdditionDate');
 const hdDoughnutCharts = document.getElementById('hdDoughnutCharts');
 const hdChartOnly1 = document.getElementById('hdChartOnly1');
 const hdDict = document.getElementById('hdDict');
@@ -241,6 +242,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
 
     console.log(storeHabit);
     hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
+    hdAdditionDate.textContent = `Data dodania zwyczaju: ${formatDate(storeHabit.date)}`;
 
     const relativeDaysCount = getRelativeDaysBetween(+storeHabit.date, unixDateWithoutTime());
     if (storeHabit.type == 0) {
