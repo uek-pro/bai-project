@@ -14,7 +14,7 @@ const createDoughnutChart = (element, pass, fail, belowOptimal = null) => {
         ],
         labels: labels
     };
-    
+
     return new Chart(element, {
         type: 'doughnut',
         data: data,
@@ -75,4 +75,46 @@ const createLineChart = (element, optimal, days, values) => {
     });
 }
 
-export { createDoughnutChart, createLineChart };
+const createRadarChart = (element, habitsTitles, values) => {
+
+    return new Chart(element, {
+        type: 'radar',
+        data: {
+            labels: habitsTitles,
+            datasets: [{
+                label: '% skuteczności',
+                pointBackgroundColor: "rgba(140,200,60,1)",
+                backgroundColor: "rgba(140,200,60,0.33)",
+                borderColor: "rgba(140,200,60,0.67)",
+                data: values,
+            }],
+        },
+        options: {
+            events: false,
+            scale: {
+                ticks: {
+                    min: 0,
+                    stepSize: 25,
+                    max: 100,
+                    callback: function (value) {
+                        return value + "%"
+                    }
+                },
+                pointLabels: {
+                    fontSize: 16
+                }
+            },
+            legend: {
+                position: 'bottom'
+            },
+            title: {
+                display: true,
+                position: 'bottom',
+                fontSize: 16,
+                text: 'Skuteczność realizacji zadań w ostatnich 2 tygodniach'
+            }
+        }
+    });
+}
+
+export { createDoughnutChart, createLineChart, createRadarChart };

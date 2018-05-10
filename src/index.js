@@ -11,7 +11,7 @@ import socialMediaLogIn from './components/firebase/authentication/social_media/
 import { logOut, checkAuth, notifyAuthStateChanged } from './components/firebase/authentication/common_auth.js';
 import { addHabit, deleteHabit } from "./components/firebase/appdata/habits_manager";
 import { unixDateWithoutTime, getRelativeDaysBetween, formatDate, getStreakValue } from "./components/notifications/time_manager";
-import { createDoughnutChart, createLineChart } from './components/chart/charts';
+import { createDoughnutChart, createLineChart, createRadarChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
 
@@ -40,7 +40,7 @@ const hHabitsList = document.getElementById('habitsList');
 
 // PAGE: STRONA GLOBALNEGO PODSUMOWANIA [PODSTRONA]
 const hSummary = document.getElementById('summary');
-// const hRadarChart = document.getElementById('radar-preview').getContext('2d');
+const hRadarChart = document.getElementById('radar-preview').getContext('2d');
 
 // PAGE: STRONA USTAWIEŃ [PODSTRONA]
 document.querySelector('#btnLogOut').addEventListener('click', logOut);
@@ -275,6 +275,8 @@ const btnSuccess = document.getElementById('success');
 const btnFailure = document.getElementById('failure');
 const answerValue = document.getElementById('realization-answer-value');
 
+let radarChart;
+
 notifyAuthStateChanged(function (user) {
     if (user) {
         console.log(`Logged in. Greetings ${user.email}!`, user);
@@ -299,7 +301,15 @@ notifyAuthStateChanged(function (user) {
                         type3: 0,
                         withStreak: 0,
                         noStreak: 0
-                    }
+                    };
+
+                    const habitsDataForRadarChart = {
+                        titles: [],
+                        values: []
+                    };
+
+                    radarChart ? radarChart.destroy() : null;
+                    let habitsForRadarCounter = 0;
 
                     for (let i = 0; i < keys.length; i++) {
                         const el = habits[keys[i]];
@@ -311,6 +321,15 @@ notifyAuthStateChanged(function (user) {
                             // console.log(streak);
                             if (streak > 0) habitsCounter.withStreak++;
                             else habitsCounter.noStreak++;
+
+                            // dane do radar chart
+                            const data = getDatasetForDoughnutChartsType0(el.days, relativeDaysCount);
+                            
+                            habitsDataForRadarChart.titles.push(el.name);
+                            const v = Math.floor((data.last2Weeks.success/(relativeDaysCount+1))*100);
+                            habitsDataForRadarChart.values.push(v);
+
+                            habitsForRadarCounter++;
                         }
 
                         $(hHabitsList).append(
@@ -345,6 +364,12 @@ notifyAuthStateChanged(function (user) {
                         <p>Liczba zwyczajów z aktywną passą: ${habitsCounter.withStreak}</p>
                         <p>Liczba zwyczajów nierealizowanych: ${habitsCounter.noStreak}</p>`
                     );
+
+                    console.log(habitsDataForRadarChart);
+
+                    if (habitsForRadarCounter > 2) {
+                        radarChart = createRadarChart(hRadarChart, habitsDataForRadarChart.titles, habitsDataForRadarChart.values);
+                    }
                 }
                 else {
                     $(hHabitsList).append('<p class="empty">Brak zwyczajów</p>');
@@ -472,7 +497,7 @@ notifyAuthStateChanged(function (user) {
         $(hSuggestedHabitsList).empty();
         $(hSummary).empty();
         setAccountInfo();
-        window.location.hash = '';
+        $.mobile.changePage('#logonPage');
         console.log('Signed off.');
     }
 });
