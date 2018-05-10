@@ -100,11 +100,12 @@ $(document).on('pagebeforeshow', '#suggestPage', function (event, data) {
                         <h2>${sh.name}</h2>
                         <p>${sh.desc}${sh.type == 1 ? ` <span class="opt">[minimum ${sh.optimal}]</span>` : ''}${sh.type == 2 && sh.author != null ? ` <span class="author">~ ${sh.author}</span>` : ''}</p>
                         <p><span class="db-type db-t${sh.type}">${habitTypesNames[sh.type]}</span> <span class="db-type db-default">${sh.category}</span></p>
-                        ${sh.type == 3 ? generateDictList(sh.dict) : ''}
+                        ${sh.type == 3 ? `<p>Kliknij, aby pokazać/ukryć listę słówek</p><div class="dict-list hide">${generateDictList(sh.dict)}</div>` : ''}
                     </a>
                     <a href="#">Dodaj</a>
                 </li>`
             );
+            sh.type == 3 ? hSuggestedHabitsList.querySelectorAll('li:last-child a')[0].addEventListener('click', (evt) => {$(evt.target).parents('li').last().find('.dict-list').toggleClass('hide')}) : null;
             hSuggestedHabitsList.querySelectorAll('li:last-child a')[1].addEventListener('click', () => addHabit(sh));
         };
 
