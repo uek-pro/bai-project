@@ -13,6 +13,7 @@ bld/
 simulation/
 *.user
 /plugins/*/
+AppPackages/
 
 ## project
 www/

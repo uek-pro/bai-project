@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myappf8c632" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="pl-PL" windows-packageVersion="0.1.0.0">
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myappf8c632" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="pl-PL" windows-packageVersion="0.1.0.1">
   <name>Practice Control</name>
   <description>Aplikacja do utrwalania oraz wygaszania zwyczajów</description>
   <author href="http://cordova.io" email="dev@cordova.apache.org">DDMM</author>
@@ -107,4 +107,5 @@
     <vs:platformSpecificWidget platformName="windows" version="0.1.0.0" />
   </vs:platformSpecificValues>
   <preference name="WindowsStoreDisplayName" value="Practice Control" />
+  <plugin name="cordova-plugin-dialogs" spec="~2.0.1" />
 </widget>
