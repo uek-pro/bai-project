@@ -14,9 +14,13 @@
 
 ## TL;DR
 
-* Prototyp: [link](https://8h4b8u.axshare.com)
-* Zarządzanie projektem: [link](https://app.zenhub.com/workspace/o/uek-pro/bai-project/) ew. [link](https://github.com/uek-pro/bai-project/issues?page=1&q=-label%3Aduplicate&utf8=%E2%9C%93)
-* Raport prac: [link](#raport-prac)
+* Aplikacja
+  * Android ([download apk](https://github.com/uek-pro/bai-project/raw/dist/build/PracticeControl.android.apk))
+  * Windows 10 i Mobile ([download appxbundle](https://github.com/uek-pro/bai-project/raw/dist/build/PracticeControl.Windows10_0.1.0.1_x86_x64_arm.appxbundle))
+  * Web ([link](http://danb.pl/practice-control/))
+* Prototyp ([link](https://8h4b8u.axshare.com))
+* Zarządzanie projektem ([ZenHub](https://app.zenhub.com/workspace/o/uek-pro/bai-project/)) ew. ([lista zadań](https://github.com/uek-pro/bai-project/issues?page=1&q=-label%3Aduplicate&utf8=%E2%9C%93))
+* Raport prac ([goto](#raport-prac))
 
 ## Opis projektu
 
@@ -28,6 +32,8 @@ Typy czynności możliwe do dodania i śledzenia znajdują się poniżej.
 * Z odpowiedzią np. 30min nauki dziennie, gdzie należy podać wartość liczbową co oznacza, że czynność można wykonać cząstkowo
 * Informacja np. jakiś ładny cytat, pełni rolę przypominajki
 * Mini słownik np. słówka polsko-angielskie dotyczące ekonomii
+
+**[Przejdź do aplikacji](http://danb.pl/practice-control/) 👉**
 
 ## Organizacja pracy
 
