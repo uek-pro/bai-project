@@ -128,10 +128,37 @@ Prototyp aplikacji dostępny jest pod adresem [https://8h4b8u.axshare.com](https
 
 | Zadanie | Daniel | Daniel (k) | Mateusz | Michał |
 | ---------------- | -: | -: | -: | -: |
-| Zadanie 1        |  2 |  3 |  2 |  1 |
-| Zadanie 2        |  2 |  1 |  1 |  1 |
-| Zadanie 3        |  1 |  1 |  1 |  2 |
-| Zadanie 4        |  1 |  2 |  3 |  2 |
-| **Podsumowanie** |**6**|**7**|**7**|**6**|
+| Stworzenie szablonu projektowego | 1 | 1 |  |  | 
+| Stworzenie prototypu aplikacji | 16 | 2 | 0.5 | 2 | 
+| Konfiguracja środowiska deweloperskiego |  | 1 | 12 |  | 
+| Konfiguracja firebase'a |  | 1 | 1 |  | 
+| Przygotowanie formularzy dla logowania i rejestracji |  |  | 1 | 1 | 
+| Logowanie przez portale społecznościowe |  | 2 |  |  | 
+| Logowanie tradycyjne za pomocą email i hasła |  |  | 5 | 2 | 
+| Walidacja formularzy |  |  | 3 | 1,5 | 
+| Wybór nazwy aplikacji | 1 |  | 0.5 | 1 | 
+| Przygotowywanie zadań do wykonania zespołowi |  | 1 |  |  | 
+| Opracowanie struktury bazy danych oraz struktury pojedynczego zwyczaju |  | 2 |  |  | 
+| Stworzenie grafik aplikacji | 10 |  |  | 10 | 
+| Obróbka grafik oraz dodanie ikon i splashscreena do aplikacji |  | 1,5 |  |  | 
+| Przygotowanie szablonu dokumentacji |  | 0,5 |  | 0,5 | 
+| Przygotowanie dokumentacji |  | 3 |  | 2 | 
+| Przygotowanie szkieletu (UI) aplikacji |  | 2 | 1 | 1 | 
+| Strona ustawień aplikacji |  | 0,5 |  | 2 | 
+| Przygotowanie wykresów |  | 5 |  | 3 | 
+| Funkcjonalność dodawania nowego zwyczaju |  | 3 |  |  | 
+| Przygotowanie listy sugerowanych zwyczajów |  | 1 |  | 2,5 | 
+| Funkcjonalność wyświetlania sugerowanych zwyczajów |  | 1,5 |  |  | 
+| Stworzenie i oprogramowanie podstrony dodawania nowego zwyczaju |  | 2,5 |  |  | 
+| Dodanie funkcjonalności wywołania realizacji zadań o określonej porze |  | 3 |  |  | 
+| Dodanie funkcjonalności realizacji zadań |  | 2 |  |  | 
+| Stworzenie i oprogramowanie podstrony szczegółów wybranego zwyczaju |  | 2 |  |  | 
+| Dodanie do aplikacji obsługi zadań typu mini-słownik |  | 3 | 2,5 | 2 | 
+| Przygotowanie estetycznych przycisków social mediów |  |  | 1 |  | 
+| Funkcjonalność usuwania zwyczaju |  |  | 3 |  | 
+| Stylowanie aplikacji logowanie / rejestracja, globalne zmiany UI |  |  | 3 |  | 
+| Filtrowanie nawyków |  |  | 1,5 |  | 
+| **Podsumowanie** |**28**|**40,5**|**34**|**30,5**|
+| **Udział** |**21,05%**|**30,45%**|**25,56%**|**22,93%**|
 
 ![Practice Control](https://raw.githubusercontent.com/uek-pro/bai-project/master/src/img/logo.svg?sanitize=true)
