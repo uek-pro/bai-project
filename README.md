@@ -7,9 +7,6 @@
     - [Obsługa Git'a dla mniej wtajemniczonych](#obsługa-gita-dla-mniej-wtajemniczonych)
 - [Prototyp aplikacji](#prototyp-aplikacji)
     - [Struktura aplikacji](#struktura-aplikacji)
-- [Dokumentacja aplikacji](#dokumentacja-aplikacji)
-    - [Wykorzystane narzędzia i technologie](#wykorzystane-narzędzia-i-technologie)
-    - [Instalacja](#instalacja)
 - [Skład zespołu projektowego](#skład-zespołu-projektowego)
 - [Raport prac](#raport-prac)
 
@@ -76,12 +73,6 @@ Prototyp aplikacji dostępny jest pod adresem [https://8h4b8u.axshare.com](https
 
 ![Struktura aplikacji](assets\img\application-usage-schema.png)
 
-## Dokumentacja aplikacji
-
-### Wykorzystane narzędzia i technologie
-
-### Instalacja
-
 ## Skład zespołu projektowego
 
 <table class="authors" style="text-align:center">
@@ -91,28 +82,44 @@ Prototyp aplikacji dostępny jest pod adresem [https://8h4b8u.axshare.com](https
             <img width="120" height="120"
         src="https://avatars1.githubusercontent.com/u/23094478?v=4">
         </a>
-        <p>Daniel</p>
+        <p>
+            Daniel<br>
+            185757<br>
+            KrDUIs1012
+        </p>
       </td>
       <td>
         <a href="https://github.com/danbraj">
             <img width="120" height="120"
         src="https://avatars3.githubusercontent.com/u/19363013?v=4">
         </a>
-        <p>Daniel <span>(kierownik)</span></p>
+        <p>
+            Daniel <span>(kierownik)</span><br>
+            185777<br>
+            KrDUIs1011
+        </p>
       </td>
       <td>
         <a href="https://github.com/insomnia1337">
             <img width="120" height="120"
         src="https://avatars1.githubusercontent.com/u/23103157?v=4">
         </a>
-        <p>Mateusz</p>
+        <p>
+            Mateusz<br>
+            185868<br>
+            KrDUIs1011
+        </p>
       </td>
       <td>
         <a href="https://github.com/EmSiii">
             <img width="120" height="120"
         src="https://avatars1.githubusercontent.com/u/22874596?v=4">
         </a>
-        <p>Michał</p>
+        <p>
+            Michał<br>
+            186049<br>
+            KrDUIs1011
+        </p>
       </td>
     </tr>
 </table>
