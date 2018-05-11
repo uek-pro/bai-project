@@ -1,6 +1,7 @@
 {
   "name": "bai-project",
   "version": "0.1.0",
+  "private": true,
   "description": "Aplikacja do utrwalania oraz wygaszania zwyczajow",
   "scripts": {
     "build": "webpack --mode production",

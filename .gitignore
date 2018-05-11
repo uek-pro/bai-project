@@ -1,2 +1,19 @@
-node_modules
+# .gitignore
+[Pp]lugins/android.json
+[Pp]lugins/windows.json
+[Pp]lugins/wp8.json
+[Pp]lugins/remote_ios.json
+/[Pp]latforms/
+
+## danbraj
+.vs/
+.vscode/
+bin/
+bld/
+simulation/
+*.user
+/plugins/*/
+
+## project
 www/
+node_modules/
