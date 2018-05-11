@@ -4,7 +4,7 @@
 
 `bogate aplikacje internetowe :: Aplikacja do utrwalania oraz wygaszania zwyczajów`
 
-Przejdź do [witryny projektu](https://uek-pro.github.io/bai-project/). ([źródło](https://github.com/uek-pro/bai-project/tree/gh-pages))
+Przejdź do [witryny projektu](https://uek-pro.github.io/bai-project/) 👉
 
 ---
 

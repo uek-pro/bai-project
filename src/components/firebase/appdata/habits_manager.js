@@ -5,7 +5,7 @@ import { unixDateWithoutTime } from '../../notifications/time_manager';
 const addHabit = (habit) => {
 
     habit.date = unixDateWithoutTime();
-    console.log(habit);
+    // console.log(habit);
 
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).push().set(habit);
 };

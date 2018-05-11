@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import notify from '../../../notifications/notification';
 
 const logIn = (userEmail, userPass) => {
 
@@ -7,7 +8,7 @@ const logIn = (userEmail, userPass) => {
         
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log("Error: " + errorMessage);
+        notify('E-mail lub hasło niepoprawne');
     });
 }
 
@@ -15,14 +16,14 @@ const logIn = (userEmail, userPass) => {
 const createAccount = (userEmail, userPass, userPass2) => {
 
     if (userPass !== userPass2) {
-        console.log('Hasła nie zgadzają się');
+        notify('Hasła nie zgadzają się');
         return false;
     }
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPass).catch(function (error) {
         let errorCode = error.code;
         let errorMessage = error.message;
-        console.log("Error: " + errorMessage);
+        notify("Error: " + errorMessage);
         return false;
     });
     // sendVerification(); NOTE: zakomentowane, żeby nie spamować ;)
