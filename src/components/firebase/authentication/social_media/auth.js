@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import notify from '../../../notifications/notification';
 
 const chooseSocialMediaProvider = (media) => {
 
@@ -20,10 +21,15 @@ const logIn = (media) => {
         // var token = result.credential.accessToken;
         // var user = result.user;
     }).catch(function (error) {
-        // var errorCode = error.code;
-        // var errorMessage = error.message;
+        notify('Rejestracja za pomocą konta społecznościowego niemożliwa.');
+        var errorCode = error.code;
+        var errorMessage = error.message;
         // var email = error.email;
         // var credential = error.credential;
+        notify(
+`Kod błędu: ${errorCode}
+Treść błędu: ${errorMessage}`
+        );
     });
 };
 

@@ -14,11 +14,12 @@ import { unixDateWithoutTime, getRelativeDaysBetween, formatDate, getStreakValue
 import { createDoughnutChart, createLineChart, createRadarChart } from './components/chart/charts';
 import { getDatasetForDoughnutChartsType0, getDatasetForDoughnutChartsType1, getDatasetForLineChart } from "./components/chart/datasets";
 import { generateDictList, generateDictTable, generateDictHTML } from "./components/dict/dict";
+import notify from './components/notifications/notification';
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-
+    
 const habitTypesNames = ['Tak / Nie', 'Z odpowiedzią', 'Informacja', 'Mini-słownik'];
 
 // PAGE: LOGOWANIE (STRONA GŁÓWNA)
@@ -131,7 +132,7 @@ const mhType = document.getElementById('manageHabit-type');
 
 $('.habit-type').on('tap', function () {
     if (!$(this).hasClass('ui-btn-active')) {
-        console.log(this.attributes['data-habit'].textContent);
+        // console.log(this.attributes['data-habit'].textContent);
         mhType.value = this.attributes['data-habit'].value;
     }
 });
@@ -172,7 +173,7 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
 
             // nie dodawaj zwyczaju, jeżeli brak słówek
             if (habit.dict.length == 0) {
-                console.log('Dodaj przynajmniej jedno słówko');
+                notify('Dodaj przynajmniej jedno słówko');
                 return;
             }
             // $(mhDict).empty();
@@ -187,7 +188,7 @@ document.getElementById('manageHabit-add-btn').addEventListener('click', () => {
         mhOptimalValue.value = '';
         mhAuthor.value = '';
     } else {
-        console.log('Należy uzupełnić pole tytułu oraz wybrać typ zadania');
+        notify('Należy uzupełnić pole tytułu oraz wybrać typ zadania');
     }
 });
 
@@ -242,7 +243,7 @@ $(document).on('pagebeforeshow', '#habitDetailsPage', function (event, data) {
     twoWeeksChart ? twoWeeksChart.destroy() : null;
     areaChart ? areaChart.destroy() : null;
 
-    console.log(storeHabit);
+    // console.log(storeHabit);
     hdMain.textContent = storeHabit.desc ? storeHabit.desc : storeHabit.name;
     hdAdditionDate.textContent = `Data dodania zwyczaju: ${formatDate(storeHabit.date)}`;
 
@@ -324,9 +325,9 @@ notifyAuthStateChanged(function (user) {
 
                             // dane do radar chart
                             const data = getDatasetForDoughnutChartsType0(el.days, relativeDaysCount);
-                            
+
                             habitsDataForRadarChart.titles.push(el.name);
-                            const v = Math.floor((data.last2Weeks.success/(relativeDaysCount+1))*100);
+                            const v = Math.floor((data.last2Weeks.success / (relativeDaysCount + 1)) * 100);
                             habitsDataForRadarChart.values.push(v);
 
                             habitsForRadarCounter++;
@@ -365,8 +366,6 @@ notifyAuthStateChanged(function (user) {
                         <p>Liczba zwyczajów nierealizowanych: ${habitsCounter.noStreak}</p>`
                     );
 
-                    console.log(habitsDataForRadarChart);
-
                     if (habitsForRadarCounter > 2) {
                         radarChart = createRadarChart(hRadarChart, habitsDataForRadarChart.titles, habitsDataForRadarChart.values);
                     }
@@ -384,7 +383,7 @@ notifyAuthStateChanged(function (user) {
         firebase.database().ref(`users/${user.uid}/settings`).once('value').then(function (snapshot) {
 
             const ss = snapshot.val();
-            console.log('Settings: ', ss);
+            // console.log('Settings: ', ss);
             const snExist = ss && typeof ss.showNotifications !== 'undefined';
             const ntExist = ss && typeof ss.notificationsTime !== 'undefined';
             const lnExist = ss && typeof ss.lastNotification !== 'undefined';
@@ -394,15 +393,17 @@ notifyAuthStateChanged(function (user) {
 
             hShowNotifications.on('change', function () {
 
+                const switchValue = this.value == 1 ? true : false;
                 hShowNotifications.flipswitch('disable');
-                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ showNotifications: this.value == 1 ? true : false });
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ showNotifications: switchValue });
 
                 setTimeout(() => { hShowNotifications.flipswitch('enable'); }, 3000);
             });
 
             hNotificationsTime.on('blur', function () {
 
-                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: this.value != null ? this.value : '00:00' });
+                const time = this.value != null ? this.value : '00:00';
+                firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ notificationsTime: time });
             });
 
             if (snExist && ss.showNotifications == true && ntExist && ss.notificationsTime <= lastLogged.toLocaleString('pl-PL', { hour: '2-digit', minute: '2-digit' })) {
@@ -418,7 +419,7 @@ notifyAuthStateChanged(function (user) {
 
                             firebase.database().ref(`users/${firebase.auth().currentUser.uid}/settings`).update({ lastNotification: unixLastLoggedDay });
 
-                            console.log('Powiadomienie!!11oneone');
+                            // console.log('Powiadomienie!!11oneone');
                             $.mobile.changePage('#habitRealizationPage');
 
                             const keys = Object.keys(habits);
@@ -434,12 +435,7 @@ notifyAuthStateChanged(function (user) {
 
                             const doHabitRealization = function (isSucceed) {
 
-                                console.log([
-                                    unixLastLoggedDay,
-                                    +habits[keys[i]].date
-                                ]);
-
-                                //console.log(+answerValue.value);
+                                // console.log([unixLastLoggedDay, +habits[keys[i]].date]);
 
                                 if (habits[keys[i]].type == 0 || habits[keys[i]].type == 1) {
                                     const relativeDayNumber = getRelativeDaysBetween(+habits[keys[i]].date, unixLastLoggedDay);
