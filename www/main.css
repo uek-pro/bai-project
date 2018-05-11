@@ -1,0 +1,427 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext);
+#startPage .ui-content {
+  padding: 0; }
+
+#startPage img {
+  margin: 0 auto;
+  display: block;
+  padding: 5vh 0; }
+  #startPage img.logo {
+    max-height: 60vh; }
+  #startPage img.spinner {
+    height: 20vh; }
+
+@media screen and (max-width: 800px) {
+  #startPage img.logo {
+    max-width: 100%; } }
+
+#logonPage .container {
+  margin: 0 auto;
+  width: 600px; }
+
+#logonPage h1, #logonPage img {
+  margin: 0;
+  display: block;
+  width: 100%; }
+
+#logonPage #btnGoogleLogIn {
+  background: linear-gradient(to right, #DD4B39, rgba(243, 81, 60, 0.911));
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #logonPage #btnGoogleLogIn:hover {
+    background: #E74B37; }
+
+#logonPage #btnFacebookLogIn {
+  background: linear-gradient(to right, #4B77BE, #1F4788);
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #logonPage #btnFacebookLogIn:hover {
+    background: #275cb1; }
+
+#logonPage #btnGitHubLogIn {
+  background: linear-gradient(to right, #4d4b4a, #7a7173);
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #logonPage #btnGitHubLogIn:hover {
+    background: linear-gradient(to right, #615e5d, #8d8989); }
+
+#logonPage #btnLogin {
+  float: right;
+  margin-right: 0;
+  box-shadow: 0px 3px 21px rgba(166, 255, 0, 0.7);
+  background: linear-gradient(to right, #40f95f, #1d8114);
+  color: white;
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #logonPage #btnLogin:hover {
+    background: linear-gradient(to right, #208d17, #40f95f); }
+
+#logonPage #registerButton {
+  box-shadow: 0px 3px 21px rgba(255, 100, 0, 0.7);
+  background: linear-gradient(to right, #c2967d, #eb8498);
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #logonPage #registerButton:hover {
+    background: linear-gradient(to right, #a77f68, #d6667c); }
+
+#logonPage .fab {
+  font-size: 19px;
+  position: absolute;
+  left: 19px; }
+
+#logonPage .login-form {
+  margin: 0 auto;
+  width: 400px; }
+
+#logonPage .inputs-inline {
+  margin-bottom: 50px; }
+  #logonPage .inputs-inline a {
+    width: 120px; }
+
+@media screen and (max-width: 660px) {
+  #logonPage .container {
+    margin: 0;
+    width: 100%; } }
+
+@media screen and (max-width: 330px) {
+  #logonPage .fab {
+    display: none; } }
+
+@media screen and (min-width: 660px) {
+  #logonPage .container {
+    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1); } }
+
+@media screen and (max-width: 440px) {
+  #logonPage .login-form {
+    margin: 0;
+    width: 100%; } }
+
+@media screen and (max-width: 400px) {
+  #logonPage .inputs-inline {
+    text-align: center; }
+  #logonPage #btnLogin {
+    float: none; }
+  #logonPage #registerButton {
+    margin-right: 0; } }
+
+.inputs {
+  padding-bottom: 25px; }
+
+#registerPage .register-form {
+  padding: 1em; }
+
+#registerPage .inputs {
+  margin-top: 30px;
+  text-align: center; }
+
+#registerPage #btnCreateAccount {
+  box-shadow: 0px 3px 21px rgba(255, 100, 0, 0.7);
+  background: linear-gradient(to right, #c2967d, #eb8498);
+  background-size: 100%;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: white; }
+  #registerPage #btnCreateAccount:hover {
+    background: linear-gradient(to right, #a77f68, #d6667c); }
+
+#account-info {
+  position: absolute;
+  top: 30px;
+  right: 30px; }
+  #account-info .personal-data {
+    text-align: right;
+    vertical-align: middle;
+    display: inline-block; }
+    #account-info .personal-data p {
+      margin: 2px 20px 2px 0px; }
+    #account-info .personal-data p:first-child {
+      font-weight: bold; }
+  #account-info .photo {
+    vertical-align: middle;
+    display: inline-block; }
+    #account-info .photo img#account-photo {
+      width: 100px;
+      height: 100px; }
+  @media screen and (max-width: 450px) {
+    #account-info .personal-data {
+      display: none; } }
+
+#type3 {
+  margin-bottom: 120px;
+  text-align: center; }
+
+#type3 table {
+  margin: 0 auto; }
+
+#habitsList a, #suggested-habits-list a {
+  padding: 10px 20px; }
+
+#manageHabit-add-btn {
+  margin: 0; }
+
+.empty {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.4em;
+  text-transform: uppercase;
+  color: orange; }
+
+.hide {
+  display: none; }
+
+.streak {
+  font-size: 1.2em;
+  margin: 0 16px;
+  height: 18px;
+  line-height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: bold;
+  color: seagreen; }
+
+.db-type {
+  display: inline-block;
+  padding: 0 10px;
+  line-height: 1.5;
+  font-size: 12px;
+  color: #fff;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-radius: 4px;
+  text-transform: uppercase; }
+  .db-type.db-t0 {
+    background-color: #ad5aff; }
+  .db-type.db-t1 {
+    background-color: #3fa9cc; }
+  .db-type.db-t2 {
+    background-color: #d69c32; }
+  .db-type.db-t3 {
+    background-color: #ff3a74; }
+  .db-type.db-default {
+    color: #000;
+    background-color: #fff; }
+
+.db-relative-container {
+  position: relative; }
+
+.db-chart-block, .db-chart-radar {
+  padding: 20px; }
+
+@media screen and (min-width: 680px) {
+  .db-chart-radar {
+    width: 600px;
+    margin: 0 auto; } }
+
+.db-footer {
+  bottom: 0;
+  position: fixed; }
+
+#habitDetailsPage {
+  text-align: center; }
+  #habitDetailsPage .db-back {
+    position: absolute;
+    top: 0;
+    right: 0; }
+  #habitDetailsPage #hdMain {
+    margin-top: 50px;
+    font-weight: 300; }
+  #habitDetailsPage #hdAdditionDate {
+    color: gray;
+    text-align: center;
+    margin: 0;
+    padding: 32px 0; }
+  #habitDetailsPage #hdChartOnly1 p {
+    text-transform: uppercase; }
+  #habitDetailsPage #hdDict {
+    margin: 30px 0; }
+
+.db-dict-row {
+  margin-top: 30px;
+  font-size: 1.2em; }
+
+.db-dict-left, .db-dict-right {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 5%;
+  width: 39%; }
+
+.db-dict-left {
+  text-align: right; }
+
+.db-dict-right {
+  text-align: left; }
+
+#habitRealizationPage #habit-realization {
+  text-align: center; }
+  #habitRealizationPage #habit-realization p {
+    color: grey;
+    font-weight: 300;
+    font-size: 1.2em; }
+  #habitRealizationPage #habit-realization .main {
+    padding: 40px 0; }
+  #habitRealizationPage #habit-realization h1, #habitRealizationPage #habit-realization h2 {
+    margin: 0;
+    font-weight: 300; }
+  #habitRealizationPage #habit-realization h2 {
+    color: grey;
+    font-size: 1em; }
+  #habitRealizationPage #habit-realization h1 {
+    color: #000; }
+  #habitRealizationPage #habit-realization #realization-answer-value {
+    width: 200px; }
+
+#habitRealizationPage .ui-content {
+  margin-bottom: 180px; }
+
+#habitRealizationPage #success {
+  width: 120px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  line-height: 120px;
+  margin: .625em; }
+
+#habitRealizationPage #failure {
+  width: 120px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  line-height: 120px;
+  margin: .625em; }
+
+@media screen and (min-width: 768px) {
+  #habitDetailsPage .db-back {
+    top: 30px;
+    right: 30px; }
+  #habitDetailsPage #hdMain {
+    text-align: left; }
+  #habitDetailsPage .db-dict-row {
+    font-size: 1.5em;
+    margin-top: 50px; } }
+
+#summaryPage #summary p {
+  font-size: 1.2em; }
+  #summaryPage #summary p:first-child {
+    font-weight: bold; }
+
+body, input, select, textarea, button, .ui-btn {
+  font-family: 'Roboto', sans-serif !important; }
+
+.ui-bar-a,
+.ui-page-theme-a .ui-bar-inherit,
+html .ui-bar-a .ui-bar-inherit,
+html .ui-body-a .ui-bar-inherit,
+html body .ui-group-theme-a .ui-bar-inherit {
+  background-color: #8cc63f;
+  border-color: #4d6c22;
+  color: #ffffff;
+  text-shadow: 0 1px 0 #444444;
+  font-weight: bold; }
+
+.ui-page-theme-a .ui-slider-track .ui-btn-active,
+html .ui-bar-a .ui-slider-track .ui-btn-active,
+html .ui-body-a .ui-slider-track .ui-btn-active,
+html body .ui-group-theme-a .ui-slider-track .ui-btn-active,
+html body div.ui-slider-track.ui-body-a .ui-btn-active {
+  background-color: #8cc63f;
+  border-color: #8cc63f;
+  color: #ffffff;
+  text-shadow: 0 1px 0 #4d6c22; }
+
+.ui-page-theme-a .ui-radio-on:after,
+html .ui-bar-a .ui-radio-on:after,
+html .ui-body-a .ui-radio-on:after,
+html body .ui-group-theme-a .ui-radio-on:after,
+.ui-btn.ui-radio-on.ui-btn-a:after {
+  border-color: #8cc63f; }
+
+.ui-page-theme-a .ui-focus,
+html .ui-bar-a .ui-focus,
+html .ui-body-a .ui-focus,
+html body .ui-group-theme-a .ui-focus,
+html head + body .ui-btn-a.ui-focus,
+html head + body .ui-body-a.ui-focus {
+  -webkit-box-shadow: 0 0 12px #8cc63f;
+  -moz-box-shadow: 0 0 12px #8cc63f;
+  box-shadow: 0 0 12px #8cc63f; }
+
+.ui-page-theme-a .ui-btn.ui-btn-active,
+html .ui-bar-a .ui-btn.ui-btn-active,
+html .ui-body-a .ui-btn.ui-btn-active,
+html body .ui-group-theme-a .ui-btn.ui-btn-active,
+html head + body .ui-btn.ui-btn-a.ui-btn-active,
+.ui-page-theme-a .ui-checkbox-on:after,
+html .ui-bar-a .ui-checkbox-on:after,
+html .ui-body-a .ui-checkbox-on:after,
+html body .ui-group-theme-a .ui-checkbox-on:after,
+.ui-btn.ui-checkbox-on.ui-btn-a:after,
+.ui-page-theme-a .ui-flipswitch-active,
+html .ui-bar-a .ui-flipswitch-active,
+html .ui-body-a .ui-flipswitch-active,
+html body .ui-group-theme-a .ui-flipswitch-active,
+html body .ui-flipswitch.ui-bar-a.ui-flipswitch-active,
+.ui-page-theme-a .ui-slider-track .ui-btn-active,
+html .ui-bar-a .ui-slider-track .ui-btn-active,
+html .ui-body-a .ui-slider-track .ui-btn-active,
+html body .ui-group-theme-a .ui-slider-track .ui-btn-active,
+html body div.ui-slider-track.ui-body-a .ui-btn-active {
+  background-color: #8cc63f;
+  border-color: #8cc63f;
+  color: #fff;
+  text-shadow: 0 1px 0 #75a734; }
+
+.ui-page-theme-a .ui-btn:focus, html .ui-bar-a .ui-btn:focus, html .ui-body-a .ui-btn:focus, html body .ui-group-theme-a .ui-btn:focus, html head + body .ui-btn.ui-btn-a:focus, .ui-page-theme-a .ui-focus, html .ui-bar-a .ui-focus, html .ui-body-a .ui-focus, html body .ui-group-theme-a .ui-focus, html head + body .ui-btn-a.ui-focus, html head + body .ui-body-a.ui-focus {
+  -webkit-box-shadow: 0 0 12px #628d29;
+  -moz-box-shadow: 0 0 12px #628d29;
+  box-shadow: 0 0 12px #628d29; }
+
+.ui-page-theme-b .ui-btn, html .ui-bar-b .ui-btn, html .ui-body-b .ui-btn, html body .ui-group-theme-b .ui-btn, html head + body .ui-btn.ui-btn-b, .ui-page-theme-b .ui-btn:visited, html .ui-bar-b .ui-btn:visited, html .ui-body-b .ui-btn:visited, html body .ui-group-theme-b .ui-btn:visited, html head + body .ui-btn.ui-btn-b:visited {
+  background-color: #333;
+  border-color: #1f1f1f;
+  color: #fff;
+  text-shadow: 0 1px 0 #111; }
+
+.ui-btn-icon-left:after, .ui-btn-icon-right:after, .ui-btn-icon-top:after, .ui-btn-icon-bottom:after, .ui-btn-icon-notext:after {
+  background-color: #666;
+  background-color: #004B40;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-border-radius: 1em;
+  border-radius: 1em; }
+
+.ui-page-theme-b .ui-btn:hover, html .ui-bar-b .ui-btn:hover, html .ui-body-b .ui-btn:hover, html body .ui-group-theme-b .ui-btn:hover, html head + body .ui-btn.ui-btn-b:hover {
+  background-color: #01836f;
+  border-color: #666;
+  color: #fff;
+  text-shadow: 0 1px 0 #111; }
+
+.ui-page-theme-b .ui-btn, html .ui-bar-b .ui-btn, html .ui-body-b .ui-btn, html body .ui-group-theme-b .ui-btn, html head + body .ui-btn.ui-btn-b, .ui-page-theme-b .ui-btn:visited, html .ui-bar-b .ui-btn:visited, html .ui-body-b .ui-btn:visited, html body .ui-group-theme-b .ui-btn:visited, html head + body .ui-btn.ui-btn-b:visited {
+  background-color: #004B40;
+  border-color: #666;
+  color: #fff;
+  text-shadow: 0 1px 0 #111; }
+
+.ui-page-theme-b .ui-btn:focus, html .ui-bar-b .ui-btn:focus, html .ui-body-b .ui-btn:focus, html body .ui-group-theme-b .ui-btn:focus, html head + body .ui-btn.ui-btn-b:focus, .ui-page-theme-b .ui-focus, html .ui-bar-b .ui-focus, html .ui-body-b .ui-focus, html body .ui-group-theme-b .ui-focus, html head + body .ui-btn-b.ui-focus, html head + body .ui-body-b.ui-focus {
+  box-shadow: 0 0 12px #6b9b2c; }
+
+.ui-flipswitch.ui-bar-inherit {
+  background-color: red;
+  border-color: #990000; }
+
+.ui-flipswitch.ui-bar-inherit.ui-flipswitch-active {
+  background-color: #8cc63f;
+  border-color: #4d6c22; }
+
+.ui-listview > li p {
+  white-space: pre-wrap; }
+

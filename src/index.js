@@ -285,7 +285,7 @@ notifyAuthStateChanged(function (user) {
         setAccountInfo(user.displayName, user.email, user.photoURL);
 
         $(document).on('pagebeforeshow', '#habitsListPage', function (event, data) {
-            // nasłuchiwanie na zmiany w liście zwyczajów; FIXME: tutaj?
+            // nasłuchiwanie na zmiany w liście zwyczajów;
             firebase.database().ref(`users/${firebase.auth().currentUser.uid}/practices`).on('value', function (snapshot) {
 
                 const habits = snapshot.val();
