@@ -2,10 +2,24 @@
 ---
 
 @import "{{ site.theme }}";
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,700&subset=latin-ext');
 
 // my overrides styles :)
 $btn-color: #ffcc00;
 $content-width: 900px;
+
+body {
+	font: 16px/1.5 'Roboto' sans-serif !important;
+}
+
+strong {
+	font-family: 'Roboto' sans-serif !important;
+    font-weight: bold;
+}
+
+a {
+	font-weight: inherit;
+}
 
 #header nav,
 .wrapper,
@@ -14,6 +28,7 @@ section {
 }
 
 #header nav li a {
+	font-weight: bold;
 	padding: 10px 20px;
     border-color: darken($btn-color, 30%);
     background-color: $btn-color;

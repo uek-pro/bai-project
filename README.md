@@ -6,9 +6,7 @@
     - [Gałęzie projektu](#gałęzie-projektu)
     - [Obsługa Git'a dla mniej wtajemniczonych](#obsługa-gita-dla-mniej-wtajemniczonych)
 - [Prototyp aplikacji](#prototyp-aplikacji)
-    - [Schemat działania aplikacji](#schemat-działania-aplikacji)
     - [Struktura aplikacji](#struktura-aplikacji)
-    - [Struktura bazy danych](#struktura-bazy-danych)
 - [Dokumentacja aplikacji](#dokumentacja-aplikacji)
     - [Wykorzystane narzędzia i technologie](#wykorzystane-narzędzia-i-technologie)
     - [Instalacja](#instalacja)
@@ -16,6 +14,12 @@
 - [Raport prac](#raport-prac)
 
 <!-- /TOC -->
+
+## TL;DR
+
+* Prototyp: [link](https://8h4b8u.axshare.com)
+* Zarządzanie projektem: [link](https://app.zenhub.com/workspace/o/uek-pro/bai-project/) ew. [link](https://github.com/uek-pro/bai-project/issues?page=1&q=-label%3Aduplicate&utf8=%E2%9C%93)
+* Raport prac: [link](#raport-prac)
 
 ## Opis projektu
 
@@ -68,11 +72,9 @@ git pull origin master
 
 Prototyp aplikacji dostępny jest pod adresem [https://8h4b8u.axshare.com](https://8h4b8u.axshare.com)
 
-### Schemat działania aplikacji
-
 ### Struktura aplikacji
 
-### Struktura bazy danych
+![Struktura aplikacji](assets\img\application-usage-schema.png)
 
 ## Dokumentacja aplikacji
 
